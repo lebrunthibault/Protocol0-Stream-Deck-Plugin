@@ -20,7 +20,7 @@ var $localizedStrings = $localizedStrings || {},
     }),
     // eslint-disable-next-line no-unused-vars
     isQT = navigator.appVersion.includes('QtWebEngine'),
-    debug = debug || false,
+    debug = debug || true,
     debugLog = function () {},
     MIMAGECACHE = MIMAGECACHE || {};
 
@@ -869,11 +869,11 @@ const StreamDeck = (function () {
             }
 
             const lang = Utils.getProp(inApplicationInfo,'application.language', false);
-            if (lang) {
-                loadLocalization(lang, inMessageType === 'registerPropertyInspector' ? '../' : './', function() {
-                    events.emit('localizationLoaded', {language:lang});
-                });
-            }
+            // if (lang) {
+            //     loadLocalization(lang, inMessageType === 'registerPropertyInspector' ? '../' : './', function() {
+            //         events.emit('localizationLoaded', {language:lang});
+            //     });
+            // }
 
             /** restrict the API to what's possible
              * within Plugin or Property Inspector

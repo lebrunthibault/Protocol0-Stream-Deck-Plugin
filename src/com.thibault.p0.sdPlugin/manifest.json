@@ -1,0 +1,90 @@
+{
+  "Actions": [
+    {
+      "Icon": "img/play_pause/action_white",
+      "Name": "Play / pause",
+      "States": [
+        {
+          "Title": "Play",
+          "Image": "img/play_pause/state"
+        }
+      ],
+      "Tooltip": "Play / pause song",
+      "UUID": "com.thibault.p0.play"
+    },
+    {
+      "Icon": "img/play_pause/action_white",
+      "Name": "Drums",
+      "States": [
+        {
+          "Title": "Drums",
+          "Image": "img/play_pause/state"
+        }
+      ],
+      "Tooltip": "Toggle drums",
+      "UUID": "com.thibault.p0.drums"
+    },
+    {
+      "Icon": "img/play_pause/action_white",
+      "Name": "Kick",
+      "States": [
+        {
+          "Title": "Kick",
+          "Image": "img/play_pause/state"
+        },
+        {
+          "Title": "Kick",
+          "Image": "img/disabled/state"
+        }
+      ],
+      "Tooltip": "Toggle kick",
+      "UUID": "com.thibault.p0.kick"
+    },
+    {
+      "Icon": "img/play_pause/action_white",
+      "Name": "Snare",
+      "States": [
+        {
+          "Title": "Snare",
+          "Image": "img/play_pause/state"
+        }
+      ],
+      "Tooltip": "Toggle snare",
+      "UUID": "com.thibault.p0.snare"
+    },
+    {
+      "Icon": "img/play_pause/action_white",
+      "Name": "Hat",
+      "States": [
+        {
+          "Title": "Hat",
+          "Image": "img/play_pause/state"
+        }
+      ],
+      "Tooltip": "Toggle hat",
+      "UUID": "com.thibault.p0.hat"
+    }
+  ],
+  "SDKVersion": 2,
+  "Author": "Thibault Lebrun",
+  "CodePath": "index.html",
+  "PropertyInspectorPath": "propertyinspector/index.html",
+  "Description": "Protocol0 Stream Deck Plugin",
+  "Name": "P0",
+  "Icon": "img/template/action",
+  "URL": "https://github.com/lebrunthibault/Protocol-0-Surface-Script",
+  "Version": "0.1",
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "10.11"
+    },
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": {
+    "MinimumVersion": "4.1"
+  }
+}

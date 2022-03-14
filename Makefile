@@ -1,8 +1,6 @@
 #!make
 
-.PHONY: build
+.PHONY: log
 
-build:
-	rm -f Release/com.thibault.p0.streamDeckPlugin
-	DistributionTool.exe -b -i Sources/com.thibault.p0.sdPlugin -o Release
-	start Release/com.thibault.p0.streamDeckPlugin
+log:
+	tail -f C:\Users\thiba\AppData\Roaming\Elgato\StreamDeck\logs\StreamDeck0.log
