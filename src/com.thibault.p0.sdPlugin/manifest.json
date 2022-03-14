@@ -31,10 +31,6 @@
         {
           "Title": "Kick",
           "Image": "img/play_pause/state"
-        },
-        {
-          "Title": "Kick",
-          "Image": "img/disabled/state"
         }
       ],
       "Tooltip": "Toggle kick",
