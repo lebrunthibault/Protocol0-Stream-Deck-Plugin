@@ -19,6 +19,7 @@ class Action {
         this.name = name;
         this.func = func;
         this.context = null;
+        this.enabled = true
         console.log("created action " + name)
         $SD.on(`com.thibault.p0.${name}.willAppear`, (event) => this.onWillAppear(event));
         $SD.on(`com.thibault.p0.${name}.keyUp`, (event) => this.onKeyUp(event));
@@ -71,14 +72,20 @@ class Action {
     onKeyUp(event) {
         console.log("on key up")
         console.log(event)
-        this.func()
+        if (this.enabled) {
+            this.func()
+        } else {
+            this.showAlert()
+        }
     }
 
     enable() {
+        this.enabled = true
         this.setImage(Images.playPause)
     }
 
     disable() {
+        this.enabled = false
         this.setImage(Images.disabled)
     }
 
@@ -88,5 +95,9 @@ class Action {
 
     setImage(image) {
         $SD.api.setImage(this.context, image)
+    }
+
+    showAlert() {
+        $SD.api.showAlert(this.context)
     }
 }
