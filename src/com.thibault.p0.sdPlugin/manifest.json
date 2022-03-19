@@ -2,6 +2,30 @@
   "Actions": [
     {
       "Icon": "img/play_pause/action_white",
+      "Name": "Toggle track",
+      "States": [
+        {
+          "Title": "",
+          "Image": "img/play_pause/state"
+        }
+      ],
+      "Tooltip": "Play / pause drum track",
+      "UUID": "com.thibault.p0.toggle-track"
+    },
+    {
+      "Icon": "img/wave/action",
+      "Name": "Load drum track",
+      "States": [
+        {
+          "Title": "",
+          "Image": "img/wave/state"
+        }
+      ],
+      "Tooltip": "Load drum track",
+      "UUID": "com.thibault.p0.load-drum-track"
+    },
+    {
+      "Icon": "img/play_pause/action_white",
       "Name": "Play / pause",
       "States": [
         {
@@ -23,42 +47,6 @@
       ],
       "Tooltip": "Toggle drums",
       "UUID": "com.thibault.p0.drums"
-    },
-    {
-      "Icon": "img/play_pause/action_white",
-      "Name": "Kick",
-      "States": [
-        {
-          "Title": "Kick",
-          "Image": "img/play_pause/state"
-        }
-      ],
-      "Tooltip": "Toggle kick",
-      "UUID": "com.thibault.p0.kick"
-    },
-    {
-      "Icon": "img/play_pause/action_white",
-      "Name": "Snare",
-      "States": [
-        {
-          "Title": "Snare",
-          "Image": "img/play_pause/state"
-        }
-      ],
-      "Tooltip": "Toggle snare",
-      "UUID": "com.thibault.p0.snare"
-    },
-    {
-      "Icon": "img/play_pause/action_white",
-      "Name": "Hat",
-      "States": [
-        {
-          "Title": "Hat",
-          "Image": "img/play_pause/state"
-        }
-      ],
-      "Tooltip": "Toggle hat",
-      "UUID": "com.thibault.p0.hat"
     }
   ],
   "SDKVersion": 2,

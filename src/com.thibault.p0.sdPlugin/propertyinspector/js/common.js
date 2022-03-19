@@ -20,7 +20,7 @@ var $localizedStrings = $localizedStrings || {},
     }),
     // eslint-disable-next-line no-unused-vars
     isQT = navigator.appVersion.includes('QtWebEngine'),
-    debug = debug || true,
+    debug = debug || false,
     debugLog = function () {},
     MIMAGECACHE = MIMAGECACHE || {};
 
