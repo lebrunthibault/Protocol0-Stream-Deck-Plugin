@@ -1,0 +1,72 @@
+{
+  "name": "protocol0_stream_deck",
+  "version": "1.0.0",
+  "description": "The `Stream Deck Plugin Template` is a boilerplate template to let you get started quickly when writing a Javascript plugin for [Stream Deck](https://developer.elgato.com/documentation/stream-deck/).",
+  "main": "test.js",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@jest/reporters": "^27.5.1",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@rollup/plugin-typescript": "^8.3.1",
+    "@types/jest": "^27.4.1",
+    "@types/jsdom-global": "^3.0.2",
+    "@types/lodash": "^4.14.180",
+    "@types/lodash-es": "^4.17.6",
+    "babel-jest": "^27.5.1",
+    "chalk": "^5.0.1",
+    "jest": "^27.5.1",
+    "jsdom": "19.0.0",
+    "jsdom-global": "3.0.2",
+    "node-notifier": "^10.0.1",
+    "npm-run-all": "^4.1.5",
+    "nyc": "^15.1.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.70.1",
+    "rollup-plugin-cjs-es": "^1.0.1",
+    "source-map-support": "^0.5.21",
+    "ts-jest": "^27.1.4",
+    "ts-node": "^10.7.0",
+    "tslib": "^2.3.1",
+    "typescript": "^4.6.3",
+    "uglify-es": "^3.3.9"
+  },
+  "type": "module",
+  "scripts": {
+    "watch": "rollup -c --watch",
+    "test": "jest",
+    "coverage": "nyc npm run test"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "isolatedModules": true
+      }
+    },
+    "moduleFileExtensions": ["ts", "js"],
+    "maxWorkers": 1,
+    "preset": "ts-jest",
+    "testEnvironment": "jsdom",
+    "reporters": [
+      "./test/custom_reporter.js"
+    ],
+    "setupFiles": ["./test/setup.ts"]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lebrunthibault/p0_stream_deck_plugin.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lebrunthibault/p0_stream_deck_plugin/issues"
+  },
+  "homepage": "https://github.com/lebrunthibault/p0_stream_deck_plugin#readme"
+}
