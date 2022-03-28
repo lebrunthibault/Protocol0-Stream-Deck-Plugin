@@ -17,7 +17,7 @@ class ActionGroup<A extends Action> {
         this.actionClass = actionClass
         this.isIndexGroup = isIndexGroup
 
-        this.emitGroupAppearedEvent = _.debounce(() => EventBus.emit(new ActionGroupAppearedEvent()), 1000, {leading: false});
+        this.emitGroupAppearedEvent = _.debounce(() => EventBus.emit(new ActionGroupAppearedEvent()), 10, {leading: false});
 
         $SD.on(`com.thibault.p0.${groupName}.willAppear`, (event: SDEvent) => this.onWillAppear(event));
     }
