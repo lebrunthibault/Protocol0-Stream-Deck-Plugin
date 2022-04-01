@@ -5,7 +5,8 @@
   "main": "test.js",
   "dependencies": {
     "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "zod": "^3.14.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
@@ -49,14 +50,22 @@
         "isolatedModules": true
       }
     },
-    "moduleFileExtensions": ["ts", "js"],
+    "moduleNameMapper": {
+      "^lodash-es$": "lodash"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
     "maxWorkers": 1,
     "preset": "ts-jest",
     "testEnvironment": "jsdom",
     "reporters": [
       "./test/custom_reporter.js"
     ],
-    "setupFiles": ["./test/setup.ts"]
+    "setupFiles": [
+      "./test/setup.ts"
+    ]
   },
   "repository": {
     "type": "git",

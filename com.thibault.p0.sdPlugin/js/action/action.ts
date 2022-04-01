@@ -55,6 +55,4 @@ class Action {
     }
 }
 
-// type ActionClass<A extends Action> = {new(..._: any): A};
-
 export {Action}

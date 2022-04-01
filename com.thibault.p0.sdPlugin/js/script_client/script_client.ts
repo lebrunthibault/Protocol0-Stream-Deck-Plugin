@@ -1,10 +1,11 @@
 import Config from "../config";
-import SongState from "./song_state";
 import EventBus from "../event_bus";
 import ActionGroupAppearedEvent from "../action/action_group/action_group_appeared_event";
 import DrumTrackNamesUpdatedEvent from "./drum_track_names_updated_event";
 import DrumCategoriesUpdatedEvent from "./drum_categories_updated_event";
 import _ from "lodash-es";
+import FavoriteDeviceNamesUpdatedEvent from "./favorite_device_names_updated_event";
+import {SongState, SongStateSchema} from "./song_state";
 
 class ScriptClient {
     private songState: SongState|null = null
@@ -35,7 +36,7 @@ class ScriptClient {
 
     private onSongState(data: any) {
         console.log("received song state from websocket");
-        const songState = SongState.createFromPayload(data)
+        const songState = SongStateSchema.parse(data)
         if (!songState) {
             return
         }
@@ -45,6 +46,9 @@ class ScriptClient {
         }
         if (!this.songState || !_.isEqual(this.songState.drum_categories, songState.drum_categories)) {
             EventBus.emit(new DrumCategoriesUpdatedEvent(songState.drum_categories))
+        }
+        if (!this.songState || !_.isEqual(this.songState.favorite_device_names, songState.favorite_device_names)) {
+            EventBus.emit(new FavoriteDeviceNamesUpdatedEvent(songState.favorite_device_names))
         }
         this.songState = songState
     }

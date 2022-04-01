@@ -1,15 +1,16 @@
 import API from "../../api";
 import {Action} from "../action";
 
-class ToggleTrackAction extends Action {
-    private drumName: string;
+class LoadDrumTrackAction extends Action {
+    private deviceName: string;
     private index: any;
 
     constructor(event: SDEvent) {
-        super("toggle-track", () => null)
+        super("load-drum-track", () => null)
         this.context = event.context
         this.disable()
-        this.drumName = ""
+        this.deviceName = ""
+        // noinspection JSUnresolvedVariable
         this.index = event.payload.coordinates.row * 5 + event.payload.coordinates.column
     }
 
@@ -17,18 +18,18 @@ class ToggleTrackAction extends Action {
         // we already have the context
     }
 
-    setDrumName(drumName: string) {
-        this.drumName = drumName
-        this.setTitle(drumName.replace(" ", "\n"))
+    setDeviceName(deviceName: string) {
+        this.deviceName = deviceName
+        this.setTitle(deviceName.replace(" ", "\n"))
         this.enable()
     }
 
     onKeyUp(event: SDEvent) {
         if (this.enabled && event.context === this.context) {
-            console.log("toggle drum " + this.drumName)
-            API.toggleTrack(this.drumName)
+            console.log("load drum " + this.deviceName)
+            API.loadDrumTrack(this.deviceName)
         }
     }
 }
 
-export default ToggleTrackAction
+export default LoadDrumTrackAction
