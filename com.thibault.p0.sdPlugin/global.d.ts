@@ -24,3 +24,6 @@ interface Class extends Function {
 declare module '_'
 
 declare var $SD: SD;
+
+type DynamicActionFunction = (parameter: string) => void;
+

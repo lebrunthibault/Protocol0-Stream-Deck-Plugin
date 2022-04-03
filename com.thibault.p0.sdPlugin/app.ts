@@ -11,5 +11,3 @@ async function initApplication() {
     container.actionFactory.createActions()
     await container.scriptClient.connect()
 }
-
-export default initApplication

@@ -1,8 +1,5 @@
-class FavoriteDeviceNamesUpdatedEvent {
-    public readonly favorite_device_names: string[]
-    constructor(favorite_device_names: string[]) {
-        this.favorite_device_names = favorite_device_names
-    }
-}
+import SongStatePropertyUpdatedEvent from "./song_state_property_updated_event";
+
+class FavoriteDeviceNamesUpdatedEvent extends SongStatePropertyUpdatedEvent {}
 
 export default FavoriteDeviceNamesUpdatedEvent

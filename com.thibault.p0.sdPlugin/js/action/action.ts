@@ -1,22 +1,17 @@
-import Images from "../img";
-
 class Action {
-    private readonly name: string;
-    private readonly func: Function;
-    public context: string;
-    protected enabled: boolean;
+    public readonly name: string;
+    protected readonly actionFunction: Function;
+    public context: string = "";
 
     constructor(name: string, func: Function) {
         this.name = name;
-        this.func = func;
-        this.context = "";
-        this.enabled = true
+        this.actionFunction = func;
         $SD.on(`com.thibault.p0.${name}.willAppear`, (event: SDEvent) => this.onWillAppear(event));
         $SD.on(`com.thibault.p0.${name}.keyUp`, (event: SDEvent) => this.onKeyUp(event));
     }
 
     toString() {
-        return `name: ${this.name}, context: ${this.context}, enabled: ${this.enabled}`
+        return `name: "${this.name}", context: "${this.context}"`
     }
 
     onWillAppear(event: SDEvent) {
@@ -24,34 +19,7 @@ class Action {
     }
 
     onKeyUp(_: SDEvent) {
-        if (this.enabled) {
-            this.func()
-        } else {
-            this.showAlert()
-        }
-    }
-
-    enable() {
-        this.enabled = true
-        this.setImage(Images.playPause)
-    }
-
-    disable() {
-        this.enabled = false
-        this.setTitle("")
-        this.setImage(Images.disabled)
-    }
-
-    setTitle(title: string) {
-        $SD.api.setTitle(this.context, title)
-    }
-
-    setImage(image: string) {
-        $SD.api.setImage(this.context, image)
-    }
-
-    showAlert() {
-        $SD.api.showAlert(this.context)
+        this.actionFunction()
     }
 }
 

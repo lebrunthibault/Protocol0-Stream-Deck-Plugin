@@ -1,8 +1,5 @@
-class DrumCategoriesUpdatedEvent {
-    public readonly drumCategories: string[]
-    constructor(drumCategories: string[]) {
-        this.drumCategories = drumCategories
-    }
-}
+import SongStatePropertyUpdatedEvent from "./song_state_property_updated_event";
+
+class DrumCategoriesUpdatedEvent extends SongStatePropertyUpdatedEvent {}
 
 export default DrumCategoriesUpdatedEvent

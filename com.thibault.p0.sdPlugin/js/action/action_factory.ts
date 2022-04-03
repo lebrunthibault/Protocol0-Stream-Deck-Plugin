@@ -1,8 +1,11 @@
 import ActionRepository from "./action_repository";
-import LoadDrumTrackGroup from "./load_drum_track/load_drum_track_group";
-import ToggleTrackGroup from "./toggle_track/toggle_track_group";
 import {Action} from "./action";
 import API from "../api";
+import ActionGroup from "./action_group/action_group";
+import DrumCategoriesUpdatedEvent from "../script_client/drum_categories_updated_event";
+import DrumTrackNamesUpdatedEvent from "../script_client/drum_track_names_updated_event";
+import FavoriteDeviceNamesUpdatedEvent from "../script_client/favorite_device_names_updated_event";
+import Icons from "../icons";
 
 class ActionFactory {
     private readonly actionRepository: any;
@@ -14,8 +17,27 @@ class ActionFactory {
      createActions() {
          this.actionRepository.save(new Action("play", API.playPause))
          this.actionRepository.save(new Action("drums", API.toggleDrums))
-         new LoadDrumTrackGroup(this.actionRepository)
-         new ToggleTrackGroup(this.actionRepository)
+         new ActionGroup(
+             this.actionRepository,
+             "toggle-track",
+             Icons.playPause,
+             DrumTrackNamesUpdatedEvent,
+             API.toggleTrack
+         )
+         new ActionGroup(
+             this.actionRepository,
+             "load-drum-track",
+             Icons.newTrack,
+             DrumCategoriesUpdatedEvent,
+             API.loadDrumTrack
+         )
+         new ActionGroup(
+             this.actionRepository,
+             "add-device",
+             Icons.addDevice,
+             FavoriteDeviceNamesUpdatedEvent,
+             API.loadDevice
+         )
     }
 }
 

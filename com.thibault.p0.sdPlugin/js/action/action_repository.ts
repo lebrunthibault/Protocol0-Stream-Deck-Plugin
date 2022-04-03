@@ -1,8 +1,7 @@
 import DB from "../db";
-import ToggleTrackAction from "./toggle_track/toggle_track_action";
 import {Action} from "./action";
-import LoadDrumTrackAction from "./load_drum_track/load_drum_track_action";
 import {ActionClass} from "./action_class";
+import DynamicAction from "./dynamic_action";
 
 class ActionRepository {
     private readonly db: DB;
@@ -16,12 +15,13 @@ class ActionRepository {
     }
 
     getActionsByClass<A extends Action>(cls: ActionClass<Action>): A[] {
-        let actions = <A[]>this.db.actions.filter((a: Action) => a instanceof cls)
+        return <A[]>this.db.actions.filter((a: Action) => a instanceof cls)
+    }
 
-        if (cls === ToggleTrackAction || cls === LoadDrumTrackAction) {
-            actions = actions.sort((a: any, b: any) => a.index - b.index)
-        }
-        return actions
+    getDynamicActionByName(name: string): DynamicAction[] {
+        return this
+            .getActionsByClass<DynamicAction>(DynamicAction).filter((a: Action) => a.name === name)
+            .sort((a: DynamicAction, b: DynamicAction) => a.index - b.index)
     }
 
     getActionByContext(context: string): Action|undefined {

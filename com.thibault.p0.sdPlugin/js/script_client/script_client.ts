@@ -3,9 +3,8 @@ import EventBus from "../event_bus";
 import ActionGroupAppearedEvent from "../action/action_group/action_group_appeared_event";
 import DrumTrackNamesUpdatedEvent from "./drum_track_names_updated_event";
 import DrumCategoriesUpdatedEvent from "./drum_categories_updated_event";
-import _ from "lodash-es";
-import FavoriteDeviceNamesUpdatedEvent from "./favorite_device_names_updated_event";
 import {SongState, SongStateSchema} from "./song_state";
+import FavoriteDeviceNamesUpdatedEvent from "./favorite_device_names_updated_event";
 
 class ScriptClient {
     private songState: SongState|null = null
@@ -37,29 +36,28 @@ class ScriptClient {
     private onSongState(data: any) {
         console.log("received song state from websocket");
         const songState = SongStateSchema.parse(data)
+        console.log(songState)
         if (!songState) {
             return
         }
 
-        if (!this.songState || !_.isEqual(this.songState.drum_track_names, songState.drum_track_names)) {
-            EventBus.emit(new DrumTrackNamesUpdatedEvent(songState.drum_track_names))
-        }
-        if (!this.songState || !_.isEqual(this.songState.drum_categories, songState.drum_categories)) {
-            EventBus.emit(new DrumCategoriesUpdatedEvent(songState.drum_categories))
-        }
-        if (!this.songState || !_.isEqual(this.songState.favorite_device_names, songState.favorite_device_names)) {
-            EventBus.emit(new FavoriteDeviceNamesUpdatedEvent(songState.favorite_device_names))
-        }
         this.songState = songState
+        ScriptClient.emitSongState(this.songState)
     }
 
     private onActionGroupAppearedEvent() {
+        console.log("onActionGroupAppearedEvent")
         if (!this.songState) {
             console.warn("cannot emit null songState")
             return
         }
-        EventBus.emit(new DrumTrackNamesUpdatedEvent(this.songState.drum_track_names))
-        EventBus.emit(new DrumCategoriesUpdatedEvent(this.songState.drum_categories))
+        ScriptClient.emitSongState(this.songState)
+    }
+
+    private static emitSongState(songState: SongState) {
+        EventBus.emit(new DrumTrackNamesUpdatedEvent(songState.drum_track_names))
+        EventBus.emit(new DrumCategoriesUpdatedEvent(songState.drum_categories))
+        EventBus.emit(new FavoriteDeviceNamesUpdatedEvent(songState.favorite_device_names))
     }
 }
 

@@ -1,31 +1,43 @@
 {
   "Actions": [
     {
-      "Icon": "img/play_pause/action_white",
+      "Icon": "img/p0_action/action",
       "Name": "Toggle track",
       "States": [
         {
           "Title": "",
-          "Image": "img/play_pause/state"
+          "Image": "img/p0_action/state"
         }
       ],
       "Tooltip": "Play / pause drum track",
       "UUID": "com.thibault.p0.toggle-track"
     },
     {
-      "Icon": "img/wave/action",
+      "Icon": "img/p0_action/action",
       "Name": "Load drum track",
       "States": [
         {
           "Title": "",
-          "Image": "img/wave/state"
+          "Image": "img/p0_action/state"
         }
       ],
       "Tooltip": "Load drum track",
       "UUID": "com.thibault.p0.load-drum-track"
     },
     {
-      "Icon": "img/play_pause/action_white",
+      "Icon": "img/p0_action/action",
+      "Name": "Add device",
+      "States": [
+        {
+          "Title": "",
+          "Image": "img/p0_action/state"
+        }
+      ],
+      "Tooltip": "Add new device on selected track",
+      "UUID": "com.thibault.p0.add-device"
+    },
+    {
+      "Icon": "img/play_pause/action",
       "Name": "Play / pause",
       "States": [
         {
@@ -37,7 +49,7 @@
       "UUID": "com.thibault.p0.play"
     },
     {
-      "Icon": "img/play_pause/action_white",
+      "Icon": "img/play_pause/action",
       "Name": "Drums",
       "States": [
         {
@@ -55,7 +67,7 @@
   "PropertyInspectorPath": "propertyinspector/index.html",
   "Description": "Protocol0 Stream Deck Plugin",
   "Name": "P0",
-  "Icon": "img/template/action",
+  "Icon": "img/p0_action/action",
   "URL": "https://github.com/lebrunthibault/Protocol-0-Surface-Script",
   "Version": "0.1",
   "OS": [
