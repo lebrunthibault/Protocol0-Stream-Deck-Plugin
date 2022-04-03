@@ -3,11 +3,11 @@ import {Action} from "./action";
 import {ActionClass} from "./action_class";
 import DynamicAction from "./dynamic_action";
 
-import { Service } from 'typedi';
+import {inject, injectable } from "tsyringe";
 
-@Service()
+@injectable()
 class ActionRepository {
-    constructor(private readonly db: DB) {}
+    constructor(@inject(DB) private readonly db: DB) {}
 
     save(action: Action) {
         this.db.actions.push(action)

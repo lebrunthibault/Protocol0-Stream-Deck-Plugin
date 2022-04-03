@@ -6,14 +6,11 @@ import DrumCategoriesUpdatedEvent from "../script_client/drum_categories_updated
 import DrumTrackNamesUpdatedEvent from "../script_client/drum_track_names_updated_event";
 import FavoriteDeviceNamesUpdatedEvent from "../script_client/favorite_device_names_updated_event";
 import Icons from "../services/icons";
+import {inject, injectable } from "tsyringe";
 
-import {Service} from 'typedi';
-
-@Service()
+@injectable()
 class ActionFactory {
-    constructor(private actionRepository: ActionRepository) {
-        console.log(actionRepository)
-    }
+    constructor(@inject(ActionRepository) private actionRepository: ActionRepository) {}
 
      createActions() {
          this.actionRepository.save(new Action("play", API.playPause))

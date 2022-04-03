@@ -41,7 +41,6 @@ class ActionGroup {
 
         this.emitGroupAppearedEvent = _.debounce(() => EventBus.emit(new ActionGroupAppearedEvent()), 10, {leading: false});
 
-        console.log(`com.thibault.p0.${groupName}.willAppear`)
         $SD.on(`com.thibault.p0.${groupName}.willAppear`, (event: SDEvent) => this.onWillAppear(event));
 
         EventBus.subscribe(updateEvent, (event: SongStatePropertyUpdatedEvent) => this.onUpdateEvent(event))
@@ -58,12 +57,9 @@ class ActionGroup {
      */
     private onWillAppear(event: SDEvent) {
         // there are duplicate calls to this ..
-        console.log("on will appear")
-        console.log(event)
         if (this.actionRepository.getActionByContext(event.context)) {
             return
         }
-        console.log("ok")
 
         this.actionRepository.save(new DynamicAction(event, this.groupName, this.icon, this.actionFunc))
 
@@ -81,12 +77,14 @@ class ActionGroup {
         if (this.actions.length === 0) {
             return
         }
-        if (this.parametersItems === event.items) {
+        if (_.isEqual(this.parametersItems, event.items)) {
             return
         }
+
         this.parametersItems = event.items;
-        console.log(this.parametersItems)
+
         this.actions.forEach(a => a.disable())
+
         event.items.slice(0, this.actions.length).forEach((name: string, i: number) => {
             this.actions[i].setParameter(name)
         })

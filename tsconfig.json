@@ -11,7 +11,7 @@
     "moduleResolution": "node",
     /* Type Checking */
     "strict": true,
-    /* For TypeDI */
+    /* For TSyringe */
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
   }

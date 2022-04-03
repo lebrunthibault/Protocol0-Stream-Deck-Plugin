@@ -281,13 +281,13 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         if (ownKeys.length <= 0)
           return parentKeys;
         var set = new _Set();
-        var keys = [];
+        var keys2 = [];
         for (var _i = 0, ownKeys_1 = ownKeys; _i < ownKeys_1.length; _i++) {
           var key = ownKeys_1[_i];
           var hasKey = set.has(key);
           if (!hasKey) {
             set.add(key);
-            keys.push(key);
+            keys2.push(key);
           }
         }
         for (var _a = 0, parentKeys_1 = parentKeys; _a < parentKeys_1.length; _a++) {
@@ -295,28 +295,28 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           var hasKey = set.has(key);
           if (!hasKey) {
             set.add(key);
-            keys.push(key);
+            keys2.push(key);
           }
         }
-        return keys;
+        return keys2;
       }
       function OrdinaryOwnMetadataKeys(O, P) {
-        var keys = [];
+        var keys2 = [];
         var metadataMap = GetOrCreateMetadataMap(O, P, false);
         if (IsUndefined(metadataMap))
-          return keys;
+          return keys2;
         var keysObj = metadataMap.keys();
         var iterator = GetIterator(keysObj);
         var k = 0;
         while (true) {
           var next = IteratorStep(iterator);
           if (!next) {
-            keys.length = k;
-            return keys;
+            keys2.length = k;
+            return keys2;
           }
           var nextValue = IteratorValue(next);
           try {
-            keys[k] = nextValue;
+            keys2[k] = nextValue;
           } catch (e) {
             try {
               IteratorClose(iterator);
@@ -495,9 +495,9 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         var cacheSentinel = {};
         var arraySentinel = [];
         var MapIterator = function() {
-          function MapIterator2(keys, values, selector) {
+          function MapIterator2(keys2, values, selector) {
             this._index = 0;
-            this._keys = keys;
+            this._keys = keys2;
             this._values = values;
             this._selector = selector;
           }
@@ -594,7 +594,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
             return new MapIterator(this._keys, this._values, getKey);
           };
           Map2.prototype.values = function() {
-            return new MapIterator(this._keys, this._values, getValue);
+            return new MapIterator(this._keys, this._values, getValue2);
           };
           Map2.prototype.entries = function() {
             return new MapIterator(this._keys, this._values, getEntry);
@@ -621,7 +621,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
         function getKey(key, _) {
           return key;
         }
-        function getValue(_, value) {
+        function getValue2(_, value) {
           return value;
         }
         function getEntry(key, value) {
@@ -672,7 +672,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       }
       function CreateWeakMapPolyfill() {
         var UUID_SIZE = 16;
-        var keys = HashMap.create();
+        var keys2 = HashMap.create();
         var rootKey = CreateUniqueKey();
         return function() {
           function WeakMap2() {
@@ -704,8 +704,8 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
           var key;
           do
             key = "@@WeakMap@@" + CreateUUID();
-          while (HashMap.has(keys, key));
-          keys[key] = true;
+          while (HashMap.has(keys2, key));
+          keys2[key] = true;
           return key;
         }
         function GetOrCreateWeakMapTable(target, create) {
@@ -754,429 +754,629 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       }
     });
   })(Reflect$1 || (Reflect$1 = {}));
-  var Token = function() {
-    function Token2(name) {
-      this.name = name;
-    }
-    return Token2;
-  }();
-  var __extends$1 = globalThis && globalThis.__extends || function() {
-    var extendStatics = function(d, b) {
-      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
-        d2.__proto__ = b2;
-      } || function(d2, b2) {
-        for (var p in b2)
-          if (Object.prototype.hasOwnProperty.call(b2, p))
-            d2[p] = b2[p];
-      };
-      return extendStatics(d, b);
+  var Lifecycle;
+  (function(Lifecycle2) {
+    Lifecycle2[Lifecycle2["Transient"] = 0] = "Transient";
+    Lifecycle2[Lifecycle2["Singleton"] = 1] = "Singleton";
+    Lifecycle2[Lifecycle2["ResolutionScoped"] = 2] = "ResolutionScoped";
+    Lifecycle2[Lifecycle2["ContainerScoped"] = 3] = "ContainerScoped";
+  })(Lifecycle || (Lifecycle = {}));
+  var Lifecycle$1 = Lifecycle;
+  /*! *****************************************************************************
+  	Copyright (c) Microsoft Corporation.
+  
+  	Permission to use, copy, modify, and/or distribute this software for any
+  	purpose with or without fee is hereby granted.
+  
+  	THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+  	REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+  	AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+  	INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+  	LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+  	OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  	PERFORMANCE OF THIS SOFTWARE.
+  	***************************************************************************** */
+  var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+      d2.__proto__ = b2;
+    } || function(d2, b2) {
+      for (var p in b2)
+        if (b2.hasOwnProperty(p))
+          d2[p] = b2[p];
     };
-    return function(d, b) {
-      extendStatics(d, b);
-      function __() {
-        this.constructor = d;
-      }
-      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-  }();
-  var ServiceNotFoundError = function(_super) {
-    __extends$1(ServiceNotFoundError2, _super);
-    function ServiceNotFoundError2(identifier) {
-      var _a, _b;
-      var _this = _super.call(this) || this;
-      _this.name = "ServiceNotFoundError";
-      _this.normalizedIdentifier = "<UNKNOWN_IDENTIFIER>";
-      if (typeof identifier === "string") {
-        _this.normalizedIdentifier = identifier;
-      } else if (identifier instanceof Token) {
-        _this.normalizedIdentifier = "Token<" + (identifier.name || "UNSET_NAME") + ">";
-      } else if (identifier && (identifier.name || ((_a = identifier.prototype) === null || _a === void 0 ? void 0 : _a.name))) {
-        _this.normalizedIdentifier = "MaybeConstructable<" + identifier.name + ">" || "MaybeConstructable<" + ((_b = identifier.prototype) === null || _b === void 0 ? void 0 : _b.name) + ">";
-      }
-      return _this;
-    }
-    Object.defineProperty(ServiceNotFoundError2.prototype, "message", {
-      get: function() {
-        return 'Service with "' + this.normalizedIdentifier + '" identifier was not found in the container. Register it before usage via explicitly calling the "Container.set" function or using the "@Service()" decorator.';
-      },
-      enumerable: false,
-      configurable: true
-    });
-    return ServiceNotFoundError2;
-  }(Error);
-  var __extends = globalThis && globalThis.__extends || function() {
-    var extendStatics = function(d, b) {
-      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
-        d2.__proto__ = b2;
-      } || function(d2, b2) {
-        for (var p in b2)
-          if (Object.prototype.hasOwnProperty.call(b2, p))
-            d2[p] = b2[p];
-      };
-      return extendStatics(d, b);
-    };
-    return function(d, b) {
-      extendStatics(d, b);
-      function __() {
-        this.constructor = d;
-      }
-      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-  }();
-  var CannotInstantiateValueError = function(_super) {
-    __extends(CannotInstantiateValueError2, _super);
-    function CannotInstantiateValueError2(identifier) {
-      var _a, _b;
-      var _this = _super.call(this) || this;
-      _this.name = "CannotInstantiateValueError";
-      _this.normalizedIdentifier = "<UNKNOWN_IDENTIFIER>";
-      if (typeof identifier === "string") {
-        _this.normalizedIdentifier = identifier;
-      } else if (identifier instanceof Token) {
-        _this.normalizedIdentifier = "Token<" + (identifier.name || "UNSET_NAME") + ">";
-      } else if (identifier && (identifier.name || ((_a = identifier.prototype) === null || _a === void 0 ? void 0 : _a.name))) {
-        _this.normalizedIdentifier = "MaybeConstructable<" + identifier.name + ">" || "MaybeConstructable<" + ((_b = identifier.prototype) === null || _b === void 0 ? void 0 : _b.name) + ">";
-      }
-      return _this;
-    }
-    Object.defineProperty(CannotInstantiateValueError2.prototype, "message", {
-      get: function() {
-        return 'Cannot instantiate the requested value for the "' + this.normalizedIdentifier + `" identifier. The related metadata doesn't contain a factory or a type to instantiate.`;
-      },
-      enumerable: false,
-      configurable: true
-    });
-    return CannotInstantiateValueError2;
-  }(Error);
-  var EMPTY_VALUE = Symbol("EMPTY_VALUE");
-  var __assign = globalThis && globalThis.__assign || function() {
-    __assign = Object.assign || function(t) {
-      for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s)
-          if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-      }
-      return t;
-    };
-    return __assign.apply(this, arguments);
+    return extendStatics(d, b);
   };
-  var __spreadArrays = globalThis && globalThis.__spreadArrays || function() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++)
-      s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-      for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-        r[k] = a[j];
-    return r;
-  };
-  var ContainerInstance = function() {
-    function ContainerInstance2(id) {
-      this.services = [];
-      this.id = id;
+  function __extends(d, b) {
+    extendStatics(d, b);
+    function __() {
+      this.constructor = d;
     }
-    ContainerInstance2.prototype.has = function(identifier) {
-      return !!this.findService(identifier);
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  }
+  function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m)
+      return m.call(o);
+    if (o && typeof o.length === "number")
+      return {
+        next: function() {
+          if (o && i >= o.length)
+            o = void 0;
+          return { value: o && o[i++], done: !o };
+        }
+      };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+  }
+  function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m)
+      return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+      while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
+        ar.push(r.value);
+    } catch (error) {
+      e = { error };
+    } finally {
+      try {
+        if (r && !r.done && (m = i["return"]))
+          m.call(i);
+      } finally {
+        if (e)
+          throw e.error;
+      }
+    }
+    return ar;
+  }
+  function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+      ar = ar.concat(__read(arguments[i]));
+    return ar;
+  }
+  var INJECTION_TOKEN_METADATA_KEY = "injectionTokens";
+  function getParamInfo(target) {
+    var params = Reflect.getMetadata("design:paramtypes", target) || [];
+    var injectionTokens = Reflect.getOwnMetadata(INJECTION_TOKEN_METADATA_KEY, target) || {};
+    Object.keys(injectionTokens).forEach(function(key) {
+      params[+key] = injectionTokens[key];
+    });
+    return params;
+  }
+  function defineInjectionTokenMetadata(data, transform) {
+    return function(target, _propertyKey, parameterIndex) {
+      var descriptors = Reflect.getOwnMetadata(INJECTION_TOKEN_METADATA_KEY, target) || {};
+      descriptors[parameterIndex] = transform ? {
+        token: data,
+        transform: transform.transformToken,
+        transformArgs: transform.args || []
+      } : data;
+      Reflect.defineMetadata(INJECTION_TOKEN_METADATA_KEY, descriptors, target);
     };
-    ContainerInstance2.prototype.get = function(identifier) {
-      var globalContainer = Container.of(void 0);
-      var globalService = globalContainer.findService(identifier);
-      var scopedService = this.findService(identifier);
-      if (globalService && globalService.global === true)
-        return this.getServiceValue(globalService);
-      if (scopedService)
-        return this.getServiceValue(scopedService);
-      if (globalService && this !== globalContainer) {
-        var clonedService = __assign({}, globalService);
-        clonedService.value = EMPTY_VALUE;
-        this.set(clonedService);
-        var value = this.getServiceValue(clonedService);
-        this.set(__assign(__assign({}, clonedService), { value }));
+  }
+  function isClassProvider(provider) {
+    return !!provider.useClass;
+  }
+  function isFactoryProvider(provider) {
+    return !!provider.useFactory;
+  }
+  var DelayedConstructor = function() {
+    function DelayedConstructor2(wrap) {
+      this.wrap = wrap;
+      this.reflectMethods = [
+        "get",
+        "getPrototypeOf",
+        "setPrototypeOf",
+        "getOwnPropertyDescriptor",
+        "defineProperty",
+        "has",
+        "set",
+        "deleteProperty",
+        "apply",
+        "construct",
+        "ownKeys"
+      ];
+    }
+    DelayedConstructor2.prototype.createProxy = function(createObject) {
+      var _this = this;
+      var target = {};
+      var init = false;
+      var value;
+      var delayedObject = function() {
+        if (!init) {
+          value = createObject(_this.wrap());
+          init = true;
+        }
         return value;
-      }
-      if (globalService)
-        return this.getServiceValue(globalService);
-      throw new ServiceNotFoundError(identifier);
-    };
-    ContainerInstance2.prototype.getMany = function(identifier) {
-      var _this = this;
-      return this.findAllServices(identifier).map(function(service) {
-        return _this.getServiceValue(service);
-      });
-    };
-    ContainerInstance2.prototype.set = function(identifierOrServiceMetadata, value) {
-      var _this = this;
-      if (identifierOrServiceMetadata instanceof Array) {
-        identifierOrServiceMetadata.forEach(function(data) {
-          return _this.set(data);
-        });
-        return this;
-      }
-      if (typeof identifierOrServiceMetadata === "string" || identifierOrServiceMetadata instanceof Token) {
-        return this.set({
-          id: identifierOrServiceMetadata,
-          type: null,
-          value,
-          factory: void 0,
-          global: false,
-          multiple: false,
-          eager: false,
-          transient: false
-        });
-      }
-      if (typeof identifierOrServiceMetadata === "function") {
-        return this.set({
-          id: identifierOrServiceMetadata,
-          type: identifierOrServiceMetadata,
-          value,
-          factory: void 0,
-          global: false,
-          multiple: false,
-          eager: false,
-          transient: false
-        });
-      }
-      var newService = __assign({ id: new Token("UNREACHABLE"), type: null, factory: void 0, value: EMPTY_VALUE, global: false, multiple: false, eager: false, transient: false }, identifierOrServiceMetadata);
-      var service = this.findService(newService.id);
-      if (service && service.multiple !== true) {
-        Object.assign(service, newService);
-      } else {
-        this.services.push(newService);
-      }
-      if (newService.eager) {
-        this.get(newService.id);
-      }
-      return this;
-    };
-    ContainerInstance2.prototype.remove = function(identifierOrIdentifierArray) {
-      var _this = this;
-      if (Array.isArray(identifierOrIdentifierArray)) {
-        identifierOrIdentifierArray.forEach(function(id) {
-          return _this.remove(id);
-        });
-      } else {
-        this.services = this.services.filter(function(service) {
-          if (service.id === identifierOrIdentifierArray) {
-            _this.destroyServiceInstance(service);
-            return false;
-          }
-          return true;
-        });
-      }
-      return this;
-    };
-    ContainerInstance2.prototype.reset = function(options) {
-      var _this = this;
-      if (options === void 0) {
-        options = { strategy: "resetValue" };
-      }
-      switch (options.strategy) {
-        case "resetValue":
-          this.services.forEach(function(service) {
-            return _this.destroyServiceInstance(service);
-          });
-          break;
-        case "resetServices":
-          this.services.forEach(function(service) {
-            return _this.destroyServiceInstance(service);
-          });
-          this.services = [];
-          break;
-        default:
-          throw new Error("Received invalid reset strategy.");
-      }
-      return this;
-    };
-    ContainerInstance2.prototype.findAllServices = function(identifier) {
-      return this.services.filter(function(service) {
-        return service.id === identifier;
-      });
-    };
-    ContainerInstance2.prototype.findService = function(identifier) {
-      return this.services.find(function(service) {
-        return service.id === identifier;
-      });
-    };
-    ContainerInstance2.prototype.getServiceValue = function(serviceMetadata) {
-      var _a;
-      var value = EMPTY_VALUE;
-      if (serviceMetadata.value !== EMPTY_VALUE) {
-        return serviceMetadata.value;
-      }
-      if (!serviceMetadata.factory && !serviceMetadata.type) {
-        throw new CannotInstantiateValueError(serviceMetadata.id);
-      }
-      if (serviceMetadata.factory) {
-        if (serviceMetadata.factory instanceof Array) {
-          var factoryInstance = void 0;
-          try {
-            factoryInstance = this.get(serviceMetadata.factory[0]);
-          } catch (error) {
-            if (error instanceof ServiceNotFoundError) {
-              factoryInstance = new serviceMetadata.factory[0]();
-            } else {
-              throw error;
-            }
-          }
-          value = factoryInstance[serviceMetadata.factory[1]](this, serviceMetadata.id);
-        } else {
-          value = serviceMetadata.factory(this, serviceMetadata.id);
-        }
-      }
-      if (!serviceMetadata.factory && serviceMetadata.type) {
-        var constructableTargetType = serviceMetadata.type;
-        var paramTypes = ((_a = Reflect) === null || _a === void 0 ? void 0 : _a.getMetadata("design:paramtypes", constructableTargetType)) || [];
-        var params = this.initializeParams(constructableTargetType, paramTypes);
-        params.push(this);
-        value = new (constructableTargetType.bind.apply(constructableTargetType, __spreadArrays([void 0], params)))();
-      }
-      if (!serviceMetadata.transient && value !== EMPTY_VALUE) {
-        serviceMetadata.value = value;
-      }
-      if (value === EMPTY_VALUE) {
-        throw new CannotInstantiateValueError(serviceMetadata.id);
-      }
-      if (serviceMetadata.type) {
-        this.applyPropertyHandlers(serviceMetadata.type, value);
-      }
-      return value;
-    };
-    ContainerInstance2.prototype.initializeParams = function(target, paramTypes) {
-      var _this = this;
-      return paramTypes.map(function(paramType, index) {
-        var paramHandler = Container.handlers.find(function(handler) {
-          return (handler.object === target || handler.object === Object.getPrototypeOf(target)) && handler.index === index;
-        });
-        if (paramHandler)
-          return paramHandler.value(_this);
-        if (paramType && paramType.name && !_this.isPrimitiveParamType(paramType.name)) {
-          return _this.get(paramType);
-        }
-        return void 0;
-      });
-    };
-    ContainerInstance2.prototype.isPrimitiveParamType = function(paramTypeName) {
-      return ["string", "boolean", "number", "object"].includes(paramTypeName.toLowerCase());
-    };
-    ContainerInstance2.prototype.applyPropertyHandlers = function(target, instance) {
-      var _this = this;
-      Container.handlers.forEach(function(handler) {
-        if (typeof handler.index === "number")
-          return;
-        if (handler.object.constructor !== target && !(target.prototype instanceof handler.object.constructor))
-          return;
-        if (handler.propertyName) {
-          instance[handler.propertyName] = handler.value(_this);
-        }
-      });
-    };
-    ContainerInstance2.prototype.destroyServiceInstance = function(serviceMetadata, force) {
-      if (force === void 0) {
-        force = false;
-      }
-      var shouldResetValue = force || !!serviceMetadata.type || !!serviceMetadata.factory;
-      if (shouldResetValue) {
-        if (typeof (serviceMetadata === null || serviceMetadata === void 0 ? void 0 : serviceMetadata.value)["destroy"] === "function") {
-          try {
-            serviceMetadata.value.destroy();
-          } catch (error) {
-          }
-        }
-        serviceMetadata.value = EMPTY_VALUE;
-      }
-    };
-    return ContainerInstance2;
-  }();
-  var Container = function() {
-    function Container2() {
-    }
-    Container2.of = function(containerId) {
-      if (containerId === void 0) {
-        containerId = "default";
-      }
-      if (containerId === "default")
-        return this.globalInstance;
-      var container = this.instances.find(function(instance) {
-        return instance.id === containerId;
-      });
-      if (!container) {
-        container = new ContainerInstance(containerId);
-        this.instances.push(container);
-      }
-      return container;
-    };
-    Container2.has = function(identifier) {
-      return this.globalInstance.has(identifier);
-    };
-    Container2.get = function(identifier) {
-      return this.globalInstance.get(identifier);
-    };
-    Container2.getMany = function(id) {
-      return this.globalInstance.getMany(id);
-    };
-    Container2.set = function(identifierOrServiceMetadata, value) {
-      this.globalInstance.set(identifierOrServiceMetadata, value);
-      return this;
-    };
-    Container2.remove = function(identifierOrIdentifierArray) {
-      this.globalInstance.remove(identifierOrIdentifierArray);
-      return this;
-    };
-    Container2.reset = function(containerId) {
-      if (containerId === void 0) {
-        containerId = "default";
-      }
-      if (containerId == "default") {
-        this.globalInstance.reset();
-        this.instances.forEach(function(instance2) {
-          return instance2.reset();
-        });
-      } else {
-        var instance = this.instances.find(function(instance2) {
-          return instance2.id === containerId;
-        });
-        if (instance) {
-          instance.reset();
-          this.instances.splice(this.instances.indexOf(instance), 1);
-        }
-      }
-      return this;
-    };
-    Container2.registerHandler = function(handler) {
-      this.handlers.push(handler);
-      return this;
-    };
-    Container2.import = function(services) {
-      return this;
-    };
-    Container2.handlers = [];
-    Container2.globalInstance = new ContainerInstance("default");
-    Container2.instances = [];
-    return Container2;
-  }();
-  function Service(optionsOrServiceIdentifier) {
-    return function(targetConstructor) {
-      var serviceMetadata = {
-        id: targetConstructor,
-        type: targetConstructor,
-        factory: void 0,
-        multiple: false,
-        global: false,
-        eager: false,
-        transient: false,
-        value: EMPTY_VALUE
       };
-      if (optionsOrServiceIdentifier instanceof Token || typeof optionsOrServiceIdentifier === "string") {
-        serviceMetadata.id = optionsOrServiceIdentifier;
-      } else if (optionsOrServiceIdentifier) {
-        serviceMetadata.id = optionsOrServiceIdentifier.id || targetConstructor;
-        serviceMetadata.factory = optionsOrServiceIdentifier.factory || void 0;
-        serviceMetadata.multiple = optionsOrServiceIdentifier.multiple || false;
-        serviceMetadata.global = optionsOrServiceIdentifier.global || false;
-        serviceMetadata.eager = optionsOrServiceIdentifier.eager || false;
-        serviceMetadata.transient = optionsOrServiceIdentifier.transient || false;
-      }
-      Container.set(serviceMetadata);
+      return new Proxy(target, this.createHandler(delayedObject));
     };
+    DelayedConstructor2.prototype.createHandler = function(delayedObject) {
+      var handler = {};
+      var install = function(name) {
+        handler[name] = function() {
+          var args = [];
+          for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+          }
+          args[0] = delayedObject();
+          var method = Reflect[name];
+          return method.apply(void 0, __spread(args));
+        };
+      };
+      this.reflectMethods.forEach(install);
+      return handler;
+    };
+    return DelayedConstructor2;
+  }();
+  function isNormalToken(token) {
+    return typeof token === "string" || typeof token === "symbol";
+  }
+  function isTokenDescriptor(descriptor) {
+    return typeof descriptor === "object" && "token" in descriptor && "multiple" in descriptor;
+  }
+  function isTransformDescriptor(descriptor) {
+    return typeof descriptor === "object" && "token" in descriptor && "transform" in descriptor;
+  }
+  function isConstructorToken(token) {
+    return typeof token === "function" || token instanceof DelayedConstructor;
+  }
+  function isTokenProvider(provider) {
+    return !!provider.useToken;
+  }
+  function isValueProvider(provider) {
+    return provider.useValue != void 0;
+  }
+  function isProvider(provider) {
+    return isClassProvider(provider) || isValueProvider(provider) || isTokenProvider(provider) || isFactoryProvider(provider);
+  }
+  var RegistryBase = function() {
+    function RegistryBase2() {
+      this._registryMap = /* @__PURE__ */ new Map();
+    }
+    RegistryBase2.prototype.entries = function() {
+      return this._registryMap.entries();
+    };
+    RegistryBase2.prototype.getAll = function(key) {
+      this.ensure(key);
+      return this._registryMap.get(key);
+    };
+    RegistryBase2.prototype.get = function(key) {
+      this.ensure(key);
+      var value = this._registryMap.get(key);
+      return value[value.length - 1] || null;
+    };
+    RegistryBase2.prototype.set = function(key, value) {
+      this.ensure(key);
+      this._registryMap.get(key).push(value);
+    };
+    RegistryBase2.prototype.setAll = function(key, value) {
+      this._registryMap.set(key, value);
+    };
+    RegistryBase2.prototype.has = function(key) {
+      this.ensure(key);
+      return this._registryMap.get(key).length > 0;
+    };
+    RegistryBase2.prototype.clear = function() {
+      this._registryMap.clear();
+    };
+    RegistryBase2.prototype.ensure = function(key) {
+      if (!this._registryMap.has(key)) {
+        this._registryMap.set(key, []);
+      }
+    };
+    return RegistryBase2;
+  }();
+  var Registry$1 = function(_super) {
+    __extends(Registry2, _super);
+    function Registry2() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return Registry2;
+  }(RegistryBase);
+  var ResolutionContext = function() {
+    function ResolutionContext2() {
+      this.scopedResolutions = /* @__PURE__ */ new Map();
+    }
+    return ResolutionContext2;
+  }();
+  function formatDependency(params, idx) {
+    if (params === null) {
+      return "at position #" + idx;
+    }
+    var argName = params.split(",")[idx].trim();
+    return '"' + argName + '" at position #' + idx;
+  }
+  function composeErrorMessage(msg, e, indent) {
+    if (indent === void 0) {
+      indent = "    ";
+    }
+    return __spread([msg], e.message.split("\n").map(function(l) {
+      return indent + l;
+    })).join("\n");
+  }
+  function formatErrorCtor(ctor, paramIdx, error) {
+    var _a = __read(ctor.toString().match(/constructor\(([\w, ]+)\)/) || [], 2), _b = _a[1], params = _b === void 0 ? null : _b;
+    var dep = formatDependency(params, paramIdx);
+    return composeErrorMessage("Cannot inject the dependency " + dep + ' of "' + ctor.name + '" constructor. Reason:', error);
+  }
+  var PreResolutionInterceptors = function(_super) {
+    __extends(PreResolutionInterceptors2, _super);
+    function PreResolutionInterceptors2() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return PreResolutionInterceptors2;
+  }(RegistryBase);
+  var PostResolutionInterceptors = function(_super) {
+    __extends(PostResolutionInterceptors2, _super);
+    function PostResolutionInterceptors2() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return PostResolutionInterceptors2;
+  }(RegistryBase);
+  var Interceptors = function() {
+    function Interceptors2() {
+      this.preResolution = new PreResolutionInterceptors();
+      this.postResolution = new PostResolutionInterceptors();
+    }
+    return Interceptors2;
+  }();
+  var typeInfo = /* @__PURE__ */ new Map();
+  var InternalDependencyContainer = function() {
+    function InternalDependencyContainer2(parent) {
+      this.parent = parent;
+      this._registry = new Registry$1();
+      this.interceptors = new Interceptors();
+    }
+    InternalDependencyContainer2.prototype.register = function(token, providerOrConstructor, options) {
+      if (options === void 0) {
+        options = { lifecycle: Lifecycle$1.Transient };
+      }
+      var provider;
+      if (!isProvider(providerOrConstructor)) {
+        provider = { useClass: providerOrConstructor };
+      } else {
+        provider = providerOrConstructor;
+      }
+      if (isTokenProvider(provider)) {
+        var path = [token];
+        var tokenProvider = provider;
+        while (tokenProvider != null) {
+          var currentToken = tokenProvider.useToken;
+          if (path.includes(currentToken)) {
+            throw new Error("Token registration cycle detected! " + __spread(path, [currentToken]).join(" -> "));
+          }
+          path.push(currentToken);
+          var registration = this._registry.get(currentToken);
+          if (registration && isTokenProvider(registration.provider)) {
+            tokenProvider = registration.provider;
+          } else {
+            tokenProvider = null;
+          }
+        }
+      }
+      if (options.lifecycle === Lifecycle$1.Singleton || options.lifecycle == Lifecycle$1.ContainerScoped || options.lifecycle == Lifecycle$1.ResolutionScoped) {
+        if (isValueProvider(provider) || isFactoryProvider(provider)) {
+          throw new Error('Cannot use lifecycle "' + Lifecycle$1[options.lifecycle] + '" with ValueProviders or FactoryProviders');
+        }
+      }
+      this._registry.set(token, { provider, options });
+      return this;
+    };
+    InternalDependencyContainer2.prototype.registerType = function(from, to) {
+      if (isNormalToken(to)) {
+        return this.register(from, {
+          useToken: to
+        });
+      }
+      return this.register(from, {
+        useClass: to
+      });
+    };
+    InternalDependencyContainer2.prototype.registerInstance = function(token, instance2) {
+      return this.register(token, {
+        useValue: instance2
+      });
+    };
+    InternalDependencyContainer2.prototype.registerSingleton = function(from, to) {
+      if (isNormalToken(from)) {
+        if (isNormalToken(to)) {
+          return this.register(from, {
+            useToken: to
+          }, { lifecycle: Lifecycle$1.Singleton });
+        } else if (to) {
+          return this.register(from, {
+            useClass: to
+          }, { lifecycle: Lifecycle$1.Singleton });
+        }
+        throw new Error('Cannot register a type name as a singleton without a "to" token');
+      }
+      var useClass = from;
+      if (to && !isNormalToken(to)) {
+        useClass = to;
+      }
+      return this.register(from, {
+        useClass
+      }, { lifecycle: Lifecycle$1.Singleton });
+    };
+    InternalDependencyContainer2.prototype.resolve = function(token, context) {
+      if (context === void 0) {
+        context = new ResolutionContext();
+      }
+      var registration = this.getRegistration(token);
+      if (!registration && isNormalToken(token)) {
+        throw new Error('Attempted to resolve unregistered dependency token: "' + token.toString() + '"');
+      }
+      this.executePreResolutionInterceptor(token, "Single");
+      if (registration) {
+        var result = this.resolveRegistration(registration, context);
+        this.executePostResolutionInterceptor(token, result, "Single");
+        return result;
+      }
+      if (isConstructorToken(token)) {
+        var result = this.construct(token, context);
+        this.executePostResolutionInterceptor(token, result, "Single");
+        return result;
+      }
+      throw new Error("Attempted to construct an undefined constructor. Could mean a circular dependency problem. Try using `delay` function.");
+    };
+    InternalDependencyContainer2.prototype.executePreResolutionInterceptor = function(token, resolutionType) {
+      var e_1, _a;
+      if (this.interceptors.preResolution.has(token)) {
+        var remainingInterceptors = [];
+        try {
+          for (var _b = __values(this.interceptors.preResolution.getAll(token)), _c = _b.next(); !_c.done; _c = _b.next()) {
+            var interceptor = _c.value;
+            if (interceptor.options.frequency != "Once") {
+              remainingInterceptors.push(interceptor);
+            }
+            interceptor.callback(token, resolutionType);
+          }
+        } catch (e_1_1) {
+          e_1 = { error: e_1_1 };
+        } finally {
+          try {
+            if (_c && !_c.done && (_a = _b.return))
+              _a.call(_b);
+          } finally {
+            if (e_1)
+              throw e_1.error;
+          }
+        }
+        this.interceptors.preResolution.setAll(token, remainingInterceptors);
+      }
+    };
+    InternalDependencyContainer2.prototype.executePostResolutionInterceptor = function(token, result, resolutionType) {
+      var e_2, _a;
+      if (this.interceptors.postResolution.has(token)) {
+        var remainingInterceptors = [];
+        try {
+          for (var _b = __values(this.interceptors.postResolution.getAll(token)), _c = _b.next(); !_c.done; _c = _b.next()) {
+            var interceptor = _c.value;
+            if (interceptor.options.frequency != "Once") {
+              remainingInterceptors.push(interceptor);
+            }
+            interceptor.callback(token, result, resolutionType);
+          }
+        } catch (e_2_1) {
+          e_2 = { error: e_2_1 };
+        } finally {
+          try {
+            if (_c && !_c.done && (_a = _b.return))
+              _a.call(_b);
+          } finally {
+            if (e_2)
+              throw e_2.error;
+          }
+        }
+        this.interceptors.postResolution.setAll(token, remainingInterceptors);
+      }
+    };
+    InternalDependencyContainer2.prototype.resolveRegistration = function(registration, context) {
+      if (registration.options.lifecycle === Lifecycle$1.ResolutionScoped && context.scopedResolutions.has(registration)) {
+        return context.scopedResolutions.get(registration);
+      }
+      var isSingleton = registration.options.lifecycle === Lifecycle$1.Singleton;
+      var isContainerScoped = registration.options.lifecycle === Lifecycle$1.ContainerScoped;
+      var returnInstance = isSingleton || isContainerScoped;
+      var resolved;
+      if (isValueProvider(registration.provider)) {
+        resolved = registration.provider.useValue;
+      } else if (isTokenProvider(registration.provider)) {
+        resolved = returnInstance ? registration.instance || (registration.instance = this.resolve(registration.provider.useToken, context)) : this.resolve(registration.provider.useToken, context);
+      } else if (isClassProvider(registration.provider)) {
+        resolved = returnInstance ? registration.instance || (registration.instance = this.construct(registration.provider.useClass, context)) : this.construct(registration.provider.useClass, context);
+      } else if (isFactoryProvider(registration.provider)) {
+        resolved = registration.provider.useFactory(this);
+      } else {
+        resolved = this.construct(registration.provider, context);
+      }
+      if (registration.options.lifecycle === Lifecycle$1.ResolutionScoped) {
+        context.scopedResolutions.set(registration, resolved);
+      }
+      return resolved;
+    };
+    InternalDependencyContainer2.prototype.resolveAll = function(token, context) {
+      var _this = this;
+      if (context === void 0) {
+        context = new ResolutionContext();
+      }
+      var registrations = this.getAllRegistrations(token);
+      if (!registrations && isNormalToken(token)) {
+        throw new Error('Attempted to resolve unregistered dependency token: "' + token.toString() + '"');
+      }
+      this.executePreResolutionInterceptor(token, "All");
+      if (registrations) {
+        var result_1 = registrations.map(function(item) {
+          return _this.resolveRegistration(item, context);
+        });
+        this.executePostResolutionInterceptor(token, result_1, "All");
+        return result_1;
+      }
+      var result = [this.construct(token, context)];
+      this.executePostResolutionInterceptor(token, result, "All");
+      return result;
+    };
+    InternalDependencyContainer2.prototype.isRegistered = function(token, recursive) {
+      if (recursive === void 0) {
+        recursive = false;
+      }
+      return this._registry.has(token) || recursive && (this.parent || false) && this.parent.isRegistered(token, true);
+    };
+    InternalDependencyContainer2.prototype.reset = function() {
+      this._registry.clear();
+      this.interceptors.preResolution.clear();
+      this.interceptors.postResolution.clear();
+    };
+    InternalDependencyContainer2.prototype.clearInstances = function() {
+      var e_3, _a;
+      try {
+        for (var _b = __values(this._registry.entries()), _c = _b.next(); !_c.done; _c = _b.next()) {
+          var _d = __read(_c.value, 2), token = _d[0], registrations = _d[1];
+          this._registry.setAll(token, registrations.filter(function(registration) {
+            return !isValueProvider(registration.provider);
+          }).map(function(registration) {
+            registration.instance = void 0;
+            return registration;
+          }));
+        }
+      } catch (e_3_1) {
+        e_3 = { error: e_3_1 };
+      } finally {
+        try {
+          if (_c && !_c.done && (_a = _b.return))
+            _a.call(_b);
+        } finally {
+          if (e_3)
+            throw e_3.error;
+        }
+      }
+    };
+    InternalDependencyContainer2.prototype.createChildContainer = function() {
+      var e_4, _a;
+      var childContainer = new InternalDependencyContainer2(this);
+      try {
+        for (var _b = __values(this._registry.entries()), _c = _b.next(); !_c.done; _c = _b.next()) {
+          var _d = __read(_c.value, 2), token = _d[0], registrations = _d[1];
+          if (registrations.some(function(_a2) {
+            var options = _a2.options;
+            return options.lifecycle === Lifecycle$1.ContainerScoped;
+          })) {
+            childContainer._registry.setAll(token, registrations.map(function(registration) {
+              if (registration.options.lifecycle === Lifecycle$1.ContainerScoped) {
+                return {
+                  provider: registration.provider,
+                  options: registration.options
+                };
+              }
+              return registration;
+            }));
+          }
+        }
+      } catch (e_4_1) {
+        e_4 = { error: e_4_1 };
+      } finally {
+        try {
+          if (_c && !_c.done && (_a = _b.return))
+            _a.call(_b);
+        } finally {
+          if (e_4)
+            throw e_4.error;
+        }
+      }
+      return childContainer;
+    };
+    InternalDependencyContainer2.prototype.beforeResolution = function(token, callback, options) {
+      if (options === void 0) {
+        options = { frequency: "Always" };
+      }
+      this.interceptors.preResolution.set(token, {
+        callback,
+        options
+      });
+    };
+    InternalDependencyContainer2.prototype.afterResolution = function(token, callback, options) {
+      if (options === void 0) {
+        options = { frequency: "Always" };
+      }
+      this.interceptors.postResolution.set(token, {
+        callback,
+        options
+      });
+    };
+    InternalDependencyContainer2.prototype.getRegistration = function(token) {
+      if (this.isRegistered(token)) {
+        return this._registry.get(token);
+      }
+      if (this.parent) {
+        return this.parent.getRegistration(token);
+      }
+      return null;
+    };
+    InternalDependencyContainer2.prototype.getAllRegistrations = function(token) {
+      if (this.isRegistered(token)) {
+        return this._registry.getAll(token);
+      }
+      if (this.parent) {
+        return this.parent.getAllRegistrations(token);
+      }
+      return null;
+    };
+    InternalDependencyContainer2.prototype.construct = function(ctor, context) {
+      var _this = this;
+      if (ctor instanceof DelayedConstructor) {
+        return ctor.createProxy(function(target) {
+          return _this.resolve(target, context);
+        });
+      }
+      var paramInfo = typeInfo.get(ctor);
+      if (!paramInfo || paramInfo.length === 0) {
+        if (ctor.length === 0) {
+          return new ctor();
+        } else {
+          throw new Error('TypeInfo not known for "' + ctor.name + '"');
+        }
+      }
+      var params = paramInfo.map(this.resolveParams(context, ctor));
+      return new (ctor.bind.apply(ctor, __spread([void 0], params)))();
+    };
+    InternalDependencyContainer2.prototype.resolveParams = function(context, ctor) {
+      var _this = this;
+      return function(param, idx) {
+        var _a, _b, _c;
+        try {
+          if (isTokenDescriptor(param)) {
+            if (isTransformDescriptor(param)) {
+              return param.multiple ? (_a = _this.resolve(param.transform)).transform.apply(_a, __spread([_this.resolveAll(param.token)], param.transformArgs)) : (_b = _this.resolve(param.transform)).transform.apply(_b, __spread([_this.resolve(param.token, context)], param.transformArgs));
+            } else {
+              return param.multiple ? _this.resolveAll(param.token) : _this.resolve(param.token, context);
+            }
+          } else if (isTransformDescriptor(param)) {
+            return (_c = _this.resolve(param.transform, context)).transform.apply(_c, __spread([_this.resolve(param.token, context)], param.transformArgs));
+          }
+          return _this.resolve(param, context);
+        } catch (e) {
+          throw new Error(formatErrorCtor(ctor, idx, e));
+        }
+      };
+    };
+    return InternalDependencyContainer2;
+  }();
+  var instance = new InternalDependencyContainer();
+  function inject(token) {
+    return defineInjectionTokenMetadata(token);
+  }
+  function injectable() {
+    return function(target) {
+      typeInfo.set(target, getParamInfo(target));
+    };
+  }
+  if (typeof Reflect === "undefined" || !Reflect.getMetadata) {
+    throw new Error(`tsyringe requires a reflect polyfill. Please add 'import "reflect-metadata"' to the top of your entry point.`);
+  }
+  class DB {
+    constructor() {
+      this.actions = [];
+    }
   }
   class Action {
     constructor(name, func) {
@@ -1196,6 +1396,103 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       this.actionFunction();
     }
   }
+  class ActionDisplay {
+    constructor(context) {
+      this.context = context;
+    }
+    setTitle(title) {
+      $SD.api.setTitle(this.context, title);
+    }
+    setImage(image) {
+      $SD.api.setImage(this.context, image);
+    }
+  }
+  const Icons = {
+    disabled: "data:image/png;base64,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",
+    playPause: "data:image/png;base64,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",
+    addDevice: "data:image/png;base64,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",
+    newTrack: "data:image/png;base64,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"
+  };
+  const snakeCaseToSpaceCase = (str) => str.replace(/_/g, " ");
+  function toTitleCase(str) {
+    return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase());
+  }
+  const toStreamDeckTitle = (str) => toTitleCase(snakeCaseToSpaceCase(str)).split(" ").join("\n");
+  class DynamicAction extends Action {
+    constructor(event, name, icon, actionFunction) {
+      super(name, actionFunction);
+      this.enabled = true;
+      this.dynamicParameter = "";
+      this.icon = icon;
+      this.actionFunction = actionFunction;
+      this.context = event.context;
+      this.display = new ActionDisplay(event.context);
+      this.index = event.payload.coordinates.row * 5 + event.payload.coordinates.column;
+      this.disable();
+    }
+    onWillAppear(_) {
+    }
+    setParameter(dynamicParameter) {
+      console.log(`setting parameter for ${this}`);
+      this.dynamicParameter = dynamicParameter;
+      this.display.setTitle(toStreamDeckTitle(dynamicParameter));
+      this.enable();
+    }
+    onKeyUp(sdEvent) {
+      if (this.context != sdEvent.context) {
+        return;
+      }
+      if (this.enabled) {
+        this.actionFunction(this.dynamicParameter);
+      } else {
+        console.log(`action inactive: ${this}`);
+      }
+    }
+    enable() {
+      this.enabled = true;
+      this.display.setImage(this.icon);
+    }
+    disable() {
+      this.enabled = false;
+      this.display.setTitle("");
+      this.display.setImage(Icons.disabled);
+    }
+  }
+  var __defProp$2 = Object.defineProperty;
+  var __getOwnPropDesc$2 = Object.getOwnPropertyDescriptor;
+  var __decorateClass$2 = (decorators, target, key, kind) => {
+    var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc$2(target, key) : target;
+    for (var i = decorators.length - 1, decorator; i >= 0; i--)
+      if (decorator = decorators[i])
+        result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+    if (kind && result)
+      __defProp$2(target, key, result);
+    return result;
+  };
+  var __decorateParam$1 = (index, decorator) => (target, key) => decorator(target, key, index);
+  let ActionRepository = class {
+    constructor(db) {
+      this.db = db;
+    }
+    save(action) {
+      this.db.actions.push(action);
+      console.log(`saved action ${action}`);
+    }
+    getActionsByClass(cls) {
+      return this.db.actions.filter((a) => a instanceof cls);
+    }
+    getDynamicActionByName(name) {
+      return this.getActionsByClass(DynamicAction).filter((a) => a.name === name).sort((a, b) => a.index - b.index);
+    }
+    getActionByContext(context) {
+      return this.db.actions.find((a) => a.context === context);
+    }
+  };
+  ActionRepository = __decorateClass$2([
+    injectable(),
+    __decorateParam$1(0, inject(DB))
+  ], ActionRepository);
+  var ActionRepository$1 = ActionRepository;
   const p0_host = "127.0.0.1:8000";
   const Config = {
     P0_WS_URL: `ws://${p0_host}/song_state`,
@@ -1276,12 +1573,12 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var root$1 = root;
   var Symbol$1 = root$1.Symbol;
   var Symbol$2 = Symbol$1;
-  var objectProto$1 = Object.prototype;
-  var hasOwnProperty = objectProto$1.hasOwnProperty;
-  var nativeObjectToString$1 = objectProto$1.toString;
+  var objectProto$b = Object.prototype;
+  var hasOwnProperty$8 = objectProto$b.hasOwnProperty;
+  var nativeObjectToString$1 = objectProto$b.toString;
   var symToStringTag$1 = Symbol$2 ? Symbol$2.toStringTag : void 0;
   function getRawTag(value) {
-    var isOwn = hasOwnProperty.call(value, symToStringTag$1), tag = value[symToStringTag$1];
+    var isOwn = hasOwnProperty$8.call(value, symToStringTag$1), tag = value[symToStringTag$1];
     try {
       value[symToStringTag$1] = void 0;
       var unmasked = true;
@@ -1297,8 +1594,8 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     }
     return result;
   }
-  var objectProto = Object.prototype;
-  var nativeObjectToString = objectProto.toString;
+  var objectProto$a = Object.prototype;
+  var nativeObjectToString = objectProto$a.toString;
   function objectToString(value) {
     return nativeObjectToString.call(value);
   }
@@ -1313,10 +1610,12 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   function isObjectLike(value) {
     return value != null && typeof value == "object";
   }
-  var symbolTag = "[object Symbol]";
+  var symbolTag$1 = "[object Symbol]";
   function isSymbol(value) {
-    return typeof value == "symbol" || isObjectLike(value) && baseGetTag(value) == symbolTag;
+    return typeof value == "symbol" || isObjectLike(value) && baseGetTag(value) == symbolTag$1;
   }
+  var isArray = Array.isArray;
+  var isArray$1 = isArray;
   var reWhitespace = /\s/;
   function trimmedEndIndex(string) {
     var index = string.length;
@@ -1354,6 +1653,672 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     value = baseTrim(value);
     var isBinary = reIsBinary.test(value);
     return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? NAN : +value;
+  }
+  var asyncTag = "[object AsyncFunction]", funcTag$1 = "[object Function]", genTag = "[object GeneratorFunction]", proxyTag = "[object Proxy]";
+  function isFunction(value) {
+    if (!isObject(value)) {
+      return false;
+    }
+    var tag = baseGetTag(value);
+    return tag == funcTag$1 || tag == genTag || tag == asyncTag || tag == proxyTag;
+  }
+  var coreJsData = root$1["__core-js_shared__"];
+  var coreJsData$1 = coreJsData;
+  var maskSrcKey = function() {
+    var uid = /[^.]+$/.exec(coreJsData$1 && coreJsData$1.keys && coreJsData$1.keys.IE_PROTO || "");
+    return uid ? "Symbol(src)_1." + uid : "";
+  }();
+  function isMasked(func) {
+    return !!maskSrcKey && maskSrcKey in func;
+  }
+  var funcProto$1 = Function.prototype;
+  var funcToString$1 = funcProto$1.toString;
+  function toSource(func) {
+    if (func != null) {
+      try {
+        return funcToString$1.call(func);
+      } catch (e) {
+      }
+      try {
+        return func + "";
+      } catch (e) {
+      }
+    }
+    return "";
+  }
+  var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+  var reIsHostCtor = /^\[object .+?Constructor\]$/;
+  var funcProto = Function.prototype, objectProto$9 = Object.prototype;
+  var funcToString = funcProto.toString;
+  var hasOwnProperty$7 = objectProto$9.hasOwnProperty;
+  var reIsNative = RegExp("^" + funcToString.call(hasOwnProperty$7).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$");
+  function baseIsNative(value) {
+    if (!isObject(value) || isMasked(value)) {
+      return false;
+    }
+    var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+    return pattern.test(toSource(value));
+  }
+  function getValue(object, key) {
+    return object == null ? void 0 : object[key];
+  }
+  function getNative(object, key) {
+    var value = getValue(object, key);
+    return baseIsNative(value) ? value : void 0;
+  }
+  var WeakMap$1 = getNative(root$1, "WeakMap");
+  var WeakMap$2 = WeakMap$1;
+  var MAX_SAFE_INTEGER$1 = 9007199254740991;
+  var reIsUint = /^(?:0|[1-9]\d*)$/;
+  function isIndex(value, length) {
+    var type = typeof value;
+    length = length == null ? MAX_SAFE_INTEGER$1 : length;
+    return !!length && (type == "number" || type != "symbol" && reIsUint.test(value)) && (value > -1 && value % 1 == 0 && value < length);
+  }
+  function eq(value, other) {
+    return value === other || value !== value && other !== other;
+  }
+  var MAX_SAFE_INTEGER = 9007199254740991;
+  function isLength(value) {
+    return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+  }
+  function isArrayLike(value) {
+    return value != null && isLength(value.length) && !isFunction(value);
+  }
+  var objectProto$8 = Object.prototype;
+  function isPrototype(value) {
+    var Ctor = value && value.constructor, proto = typeof Ctor == "function" && Ctor.prototype || objectProto$8;
+    return value === proto;
+  }
+  function baseTimes(n, iteratee) {
+    var index = -1, result = Array(n);
+    while (++index < n) {
+      result[index] = iteratee(index);
+    }
+    return result;
+  }
+  var argsTag$2 = "[object Arguments]";
+  function baseIsArguments(value) {
+    return isObjectLike(value) && baseGetTag(value) == argsTag$2;
+  }
+  var objectProto$7 = Object.prototype;
+  var hasOwnProperty$6 = objectProto$7.hasOwnProperty;
+  var propertyIsEnumerable$1 = objectProto$7.propertyIsEnumerable;
+  var isArguments = baseIsArguments(function() {
+    return arguments;
+  }()) ? baseIsArguments : function(value) {
+    return isObjectLike(value) && hasOwnProperty$6.call(value, "callee") && !propertyIsEnumerable$1.call(value, "callee");
+  };
+  var isArguments$1 = isArguments;
+  function stubFalse() {
+    return false;
+  }
+  var freeExports$1 = typeof exports == "object" && exports && !exports.nodeType && exports;
+  var freeModule$1 = freeExports$1 && typeof module == "object" && module && !module.nodeType && module;
+  var moduleExports$1 = freeModule$1 && freeModule$1.exports === freeExports$1;
+  var Buffer2 = moduleExports$1 ? root$1.Buffer : void 0;
+  var nativeIsBuffer = Buffer2 ? Buffer2.isBuffer : void 0;
+  var isBuffer = nativeIsBuffer || stubFalse;
+  var isBuffer$1 = isBuffer;
+  var argsTag$1 = "[object Arguments]", arrayTag$1 = "[object Array]", boolTag$1 = "[object Boolean]", dateTag$1 = "[object Date]", errorTag$1 = "[object Error]", funcTag = "[object Function]", mapTag$2 = "[object Map]", numberTag$1 = "[object Number]", objectTag$2 = "[object Object]", regexpTag$1 = "[object RegExp]", setTag$2 = "[object Set]", stringTag$1 = "[object String]", weakMapTag$1 = "[object WeakMap]";
+  var arrayBufferTag$1 = "[object ArrayBuffer]", dataViewTag$2 = "[object DataView]", float32Tag = "[object Float32Array]", float64Tag = "[object Float64Array]", int8Tag = "[object Int8Array]", int16Tag = "[object Int16Array]", int32Tag = "[object Int32Array]", uint8Tag = "[object Uint8Array]", uint8ClampedTag = "[object Uint8ClampedArray]", uint16Tag = "[object Uint16Array]", uint32Tag = "[object Uint32Array]";
+  var typedArrayTags = {};
+  typedArrayTags[float32Tag] = typedArrayTags[float64Tag] = typedArrayTags[int8Tag] = typedArrayTags[int16Tag] = typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] = typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] = typedArrayTags[uint32Tag] = true;
+  typedArrayTags[argsTag$1] = typedArrayTags[arrayTag$1] = typedArrayTags[arrayBufferTag$1] = typedArrayTags[boolTag$1] = typedArrayTags[dataViewTag$2] = typedArrayTags[dateTag$1] = typedArrayTags[errorTag$1] = typedArrayTags[funcTag] = typedArrayTags[mapTag$2] = typedArrayTags[numberTag$1] = typedArrayTags[objectTag$2] = typedArrayTags[regexpTag$1] = typedArrayTags[setTag$2] = typedArrayTags[stringTag$1] = typedArrayTags[weakMapTag$1] = false;
+  function baseIsTypedArray(value) {
+    return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
+  }
+  function baseUnary(func) {
+    return function(value) {
+      return func(value);
+    };
+  }
+  var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
+  var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
+  var moduleExports = freeModule && freeModule.exports === freeExports;
+  var freeProcess = moduleExports && freeGlobal$1.process;
+  var nodeUtil = function() {
+    try {
+      var types = freeModule && freeModule.require && freeModule.require("util").types;
+      if (types) {
+        return types;
+      }
+      return freeProcess && freeProcess.binding && freeProcess.binding("util");
+    } catch (e) {
+    }
+  }();
+  var nodeUtil$1 = nodeUtil;
+  var nodeIsTypedArray = nodeUtil$1 && nodeUtil$1.isTypedArray;
+  var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
+  var isTypedArray$1 = isTypedArray;
+  var objectProto$6 = Object.prototype;
+  var hasOwnProperty$5 = objectProto$6.hasOwnProperty;
+  function arrayLikeKeys(value, inherited) {
+    var isArr = isArray$1(value), isArg = !isArr && isArguments$1(value), isBuff = !isArr && !isArg && isBuffer$1(value), isType = !isArr && !isArg && !isBuff && isTypedArray$1(value), skipIndexes = isArr || isArg || isBuff || isType, result = skipIndexes ? baseTimes(value.length, String) : [], length = result.length;
+    for (var key in value) {
+      if ((inherited || hasOwnProperty$5.call(value, key)) && !(skipIndexes && (key == "length" || isBuff && (key == "offset" || key == "parent") || isType && (key == "buffer" || key == "byteLength" || key == "byteOffset") || isIndex(key, length)))) {
+        result.push(key);
+      }
+    }
+    return result;
+  }
+  function overArg(func, transform) {
+    return function(arg) {
+      return func(transform(arg));
+    };
+  }
+  var nativeKeys = overArg(Object.keys, Object);
+  var nativeKeys$1 = nativeKeys;
+  var objectProto$5 = Object.prototype;
+  var hasOwnProperty$4 = objectProto$5.hasOwnProperty;
+  function baseKeys(object) {
+    if (!isPrototype(object)) {
+      return nativeKeys$1(object);
+    }
+    var result = [];
+    for (var key in Object(object)) {
+      if (hasOwnProperty$4.call(object, key) && key != "constructor") {
+        result.push(key);
+      }
+    }
+    return result;
+  }
+  function keys(object) {
+    return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
+  }
+  var nativeCreate = getNative(Object, "create");
+  var nativeCreate$1 = nativeCreate;
+  function hashClear() {
+    this.__data__ = nativeCreate$1 ? nativeCreate$1(null) : {};
+    this.size = 0;
+  }
+  function hashDelete(key) {
+    var result = this.has(key) && delete this.__data__[key];
+    this.size -= result ? 1 : 0;
+    return result;
+  }
+  var HASH_UNDEFINED$2 = "__lodash_hash_undefined__";
+  var objectProto$4 = Object.prototype;
+  var hasOwnProperty$3 = objectProto$4.hasOwnProperty;
+  function hashGet(key) {
+    var data = this.__data__;
+    if (nativeCreate$1) {
+      var result = data[key];
+      return result === HASH_UNDEFINED$2 ? void 0 : result;
+    }
+    return hasOwnProperty$3.call(data, key) ? data[key] : void 0;
+  }
+  var objectProto$3 = Object.prototype;
+  var hasOwnProperty$2 = objectProto$3.hasOwnProperty;
+  function hashHas(key) {
+    var data = this.__data__;
+    return nativeCreate$1 ? data[key] !== void 0 : hasOwnProperty$2.call(data, key);
+  }
+  var HASH_UNDEFINED$1 = "__lodash_hash_undefined__";
+  function hashSet(key, value) {
+    var data = this.__data__;
+    this.size += this.has(key) ? 0 : 1;
+    data[key] = nativeCreate$1 && value === void 0 ? HASH_UNDEFINED$1 : value;
+    return this;
+  }
+  function Hash(entries) {
+    var index = -1, length = entries == null ? 0 : entries.length;
+    this.clear();
+    while (++index < length) {
+      var entry = entries[index];
+      this.set(entry[0], entry[1]);
+    }
+  }
+  Hash.prototype.clear = hashClear;
+  Hash.prototype["delete"] = hashDelete;
+  Hash.prototype.get = hashGet;
+  Hash.prototype.has = hashHas;
+  Hash.prototype.set = hashSet;
+  function listCacheClear() {
+    this.__data__ = [];
+    this.size = 0;
+  }
+  function assocIndexOf(array, key) {
+    var length = array.length;
+    while (length--) {
+      if (eq(array[length][0], key)) {
+        return length;
+      }
+    }
+    return -1;
+  }
+  var arrayProto = Array.prototype;
+  var splice = arrayProto.splice;
+  function listCacheDelete(key) {
+    var data = this.__data__, index = assocIndexOf(data, key);
+    if (index < 0) {
+      return false;
+    }
+    var lastIndex = data.length - 1;
+    if (index == lastIndex) {
+      data.pop();
+    } else {
+      splice.call(data, index, 1);
+    }
+    --this.size;
+    return true;
+  }
+  function listCacheGet(key) {
+    var data = this.__data__, index = assocIndexOf(data, key);
+    return index < 0 ? void 0 : data[index][1];
+  }
+  function listCacheHas(key) {
+    return assocIndexOf(this.__data__, key) > -1;
+  }
+  function listCacheSet(key, value) {
+    var data = this.__data__, index = assocIndexOf(data, key);
+    if (index < 0) {
+      ++this.size;
+      data.push([key, value]);
+    } else {
+      data[index][1] = value;
+    }
+    return this;
+  }
+  function ListCache(entries) {
+    var index = -1, length = entries == null ? 0 : entries.length;
+    this.clear();
+    while (++index < length) {
+      var entry = entries[index];
+      this.set(entry[0], entry[1]);
+    }
+  }
+  ListCache.prototype.clear = listCacheClear;
+  ListCache.prototype["delete"] = listCacheDelete;
+  ListCache.prototype.get = listCacheGet;
+  ListCache.prototype.has = listCacheHas;
+  ListCache.prototype.set = listCacheSet;
+  var Map$1 = getNative(root$1, "Map");
+  var Map$2 = Map$1;
+  function mapCacheClear() {
+    this.size = 0;
+    this.__data__ = {
+      "hash": new Hash(),
+      "map": new (Map$2 || ListCache)(),
+      "string": new Hash()
+    };
+  }
+  function isKeyable(value) {
+    var type = typeof value;
+    return type == "string" || type == "number" || type == "symbol" || type == "boolean" ? value !== "__proto__" : value === null;
+  }
+  function getMapData(map, key) {
+    var data = map.__data__;
+    return isKeyable(key) ? data[typeof key == "string" ? "string" : "hash"] : data.map;
+  }
+  function mapCacheDelete(key) {
+    var result = getMapData(this, key)["delete"](key);
+    this.size -= result ? 1 : 0;
+    return result;
+  }
+  function mapCacheGet(key) {
+    return getMapData(this, key).get(key);
+  }
+  function mapCacheHas(key) {
+    return getMapData(this, key).has(key);
+  }
+  function mapCacheSet(key, value) {
+    var data = getMapData(this, key), size = data.size;
+    data.set(key, value);
+    this.size += data.size == size ? 0 : 1;
+    return this;
+  }
+  function MapCache(entries) {
+    var index = -1, length = entries == null ? 0 : entries.length;
+    this.clear();
+    while (++index < length) {
+      var entry = entries[index];
+      this.set(entry[0], entry[1]);
+    }
+  }
+  MapCache.prototype.clear = mapCacheClear;
+  MapCache.prototype["delete"] = mapCacheDelete;
+  MapCache.prototype.get = mapCacheGet;
+  MapCache.prototype.has = mapCacheHas;
+  MapCache.prototype.set = mapCacheSet;
+  function arrayPush(array, values) {
+    var index = -1, length = values.length, offset = array.length;
+    while (++index < length) {
+      array[offset + index] = values[index];
+    }
+    return array;
+  }
+  function stackClear() {
+    this.__data__ = new ListCache();
+    this.size = 0;
+  }
+  function stackDelete(key) {
+    var data = this.__data__, result = data["delete"](key);
+    this.size = data.size;
+    return result;
+  }
+  function stackGet(key) {
+    return this.__data__.get(key);
+  }
+  function stackHas(key) {
+    return this.__data__.has(key);
+  }
+  var LARGE_ARRAY_SIZE = 200;
+  function stackSet(key, value) {
+    var data = this.__data__;
+    if (data instanceof ListCache) {
+      var pairs = data.__data__;
+      if (!Map$2 || pairs.length < LARGE_ARRAY_SIZE - 1) {
+        pairs.push([key, value]);
+        this.size = ++data.size;
+        return this;
+      }
+      data = this.__data__ = new MapCache(pairs);
+    }
+    data.set(key, value);
+    this.size = data.size;
+    return this;
+  }
+  function Stack(entries) {
+    var data = this.__data__ = new ListCache(entries);
+    this.size = data.size;
+  }
+  Stack.prototype.clear = stackClear;
+  Stack.prototype["delete"] = stackDelete;
+  Stack.prototype.get = stackGet;
+  Stack.prototype.has = stackHas;
+  Stack.prototype.set = stackSet;
+  function arrayFilter(array, predicate) {
+    var index = -1, length = array == null ? 0 : array.length, resIndex = 0, result = [];
+    while (++index < length) {
+      var value = array[index];
+      if (predicate(value, index, array)) {
+        result[resIndex++] = value;
+      }
+    }
+    return result;
+  }
+  function stubArray() {
+    return [];
+  }
+  var objectProto$2 = Object.prototype;
+  var propertyIsEnumerable = objectProto$2.propertyIsEnumerable;
+  var nativeGetSymbols = Object.getOwnPropertySymbols;
+  var getSymbols = !nativeGetSymbols ? stubArray : function(object) {
+    if (object == null) {
+      return [];
+    }
+    object = Object(object);
+    return arrayFilter(nativeGetSymbols(object), function(symbol) {
+      return propertyIsEnumerable.call(object, symbol);
+    });
+  };
+  var getSymbols$1 = getSymbols;
+  function baseGetAllKeys(object, keysFunc, symbolsFunc) {
+    var result = keysFunc(object);
+    return isArray$1(object) ? result : arrayPush(result, symbolsFunc(object));
+  }
+  function getAllKeys(object) {
+    return baseGetAllKeys(object, keys, getSymbols$1);
+  }
+  var DataView = getNative(root$1, "DataView");
+  var DataView$1 = DataView;
+  var Promise$1 = getNative(root$1, "Promise");
+  var Promise$2 = Promise$1;
+  var Set$1 = getNative(root$1, "Set");
+  var Set$2 = Set$1;
+  var mapTag$1 = "[object Map]", objectTag$1 = "[object Object]", promiseTag = "[object Promise]", setTag$1 = "[object Set]", weakMapTag = "[object WeakMap]";
+  var dataViewTag$1 = "[object DataView]";
+  var dataViewCtorString = toSource(DataView$1), mapCtorString = toSource(Map$2), promiseCtorString = toSource(Promise$2), setCtorString = toSource(Set$2), weakMapCtorString = toSource(WeakMap$2);
+  var getTag = baseGetTag;
+  if (DataView$1 && getTag(new DataView$1(new ArrayBuffer(1))) != dataViewTag$1 || Map$2 && getTag(new Map$2()) != mapTag$1 || Promise$2 && getTag(Promise$2.resolve()) != promiseTag || Set$2 && getTag(new Set$2()) != setTag$1 || WeakMap$2 && getTag(new WeakMap$2()) != weakMapTag) {
+    getTag = function(value) {
+      var result = baseGetTag(value), Ctor = result == objectTag$1 ? value.constructor : void 0, ctorString = Ctor ? toSource(Ctor) : "";
+      if (ctorString) {
+        switch (ctorString) {
+          case dataViewCtorString:
+            return dataViewTag$1;
+          case mapCtorString:
+            return mapTag$1;
+          case promiseCtorString:
+            return promiseTag;
+          case setCtorString:
+            return setTag$1;
+          case weakMapCtorString:
+            return weakMapTag;
+        }
+      }
+      return result;
+    };
+  }
+  var getTag$1 = getTag;
+  var Uint8Array$1 = root$1.Uint8Array;
+  var Uint8Array$2 = Uint8Array$1;
+  var HASH_UNDEFINED = "__lodash_hash_undefined__";
+  function setCacheAdd(value) {
+    this.__data__.set(value, HASH_UNDEFINED);
+    return this;
+  }
+  function setCacheHas(value) {
+    return this.__data__.has(value);
+  }
+  function SetCache(values) {
+    var index = -1, length = values == null ? 0 : values.length;
+    this.__data__ = new MapCache();
+    while (++index < length) {
+      this.add(values[index]);
+    }
+  }
+  SetCache.prototype.add = SetCache.prototype.push = setCacheAdd;
+  SetCache.prototype.has = setCacheHas;
+  function arraySome(array, predicate) {
+    var index = -1, length = array == null ? 0 : array.length;
+    while (++index < length) {
+      if (predicate(array[index], index, array)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function cacheHas(cache, key) {
+    return cache.has(key);
+  }
+  var COMPARE_PARTIAL_FLAG$3 = 1, COMPARE_UNORDERED_FLAG$1 = 2;
+  function equalArrays(array, other, bitmask, customizer, equalFunc, stack) {
+    var isPartial = bitmask & COMPARE_PARTIAL_FLAG$3, arrLength = array.length, othLength = other.length;
+    if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
+      return false;
+    }
+    var arrStacked = stack.get(array);
+    var othStacked = stack.get(other);
+    if (arrStacked && othStacked) {
+      return arrStacked == other && othStacked == array;
+    }
+    var index = -1, result = true, seen = bitmask & COMPARE_UNORDERED_FLAG$1 ? new SetCache() : void 0;
+    stack.set(array, other);
+    stack.set(other, array);
+    while (++index < arrLength) {
+      var arrValue = array[index], othValue = other[index];
+      if (customizer) {
+        var compared = isPartial ? customizer(othValue, arrValue, index, other, array, stack) : customizer(arrValue, othValue, index, array, other, stack);
+      }
+      if (compared !== void 0) {
+        if (compared) {
+          continue;
+        }
+        result = false;
+        break;
+      }
+      if (seen) {
+        if (!arraySome(other, function(othValue2, othIndex) {
+          if (!cacheHas(seen, othIndex) && (arrValue === othValue2 || equalFunc(arrValue, othValue2, bitmask, customizer, stack))) {
+            return seen.push(othIndex);
+          }
+        })) {
+          result = false;
+          break;
+        }
+      } else if (!(arrValue === othValue || equalFunc(arrValue, othValue, bitmask, customizer, stack))) {
+        result = false;
+        break;
+      }
+    }
+    stack["delete"](array);
+    stack["delete"](other);
+    return result;
+  }
+  function mapToArray(map) {
+    var index = -1, result = Array(map.size);
+    map.forEach(function(value, key) {
+      result[++index] = [key, value];
+    });
+    return result;
+  }
+  function setToArray(set) {
+    var index = -1, result = Array(set.size);
+    set.forEach(function(value) {
+      result[++index] = value;
+    });
+    return result;
+  }
+  var COMPARE_PARTIAL_FLAG$2 = 1, COMPARE_UNORDERED_FLAG = 2;
+  var boolTag = "[object Boolean]", dateTag = "[object Date]", errorTag = "[object Error]", mapTag = "[object Map]", numberTag = "[object Number]", regexpTag = "[object RegExp]", setTag = "[object Set]", stringTag = "[object String]", symbolTag = "[object Symbol]";
+  var arrayBufferTag = "[object ArrayBuffer]", dataViewTag = "[object DataView]";
+  var symbolProto = Symbol$2 ? Symbol$2.prototype : void 0, symbolValueOf = symbolProto ? symbolProto.valueOf : void 0;
+  function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
+    switch (tag) {
+      case dataViewTag:
+        if (object.byteLength != other.byteLength || object.byteOffset != other.byteOffset) {
+          return false;
+        }
+        object = object.buffer;
+        other = other.buffer;
+      case arrayBufferTag:
+        if (object.byteLength != other.byteLength || !equalFunc(new Uint8Array$2(object), new Uint8Array$2(other))) {
+          return false;
+        }
+        return true;
+      case boolTag:
+      case dateTag:
+      case numberTag:
+        return eq(+object, +other);
+      case errorTag:
+        return object.name == other.name && object.message == other.message;
+      case regexpTag:
+      case stringTag:
+        return object == other + "";
+      case mapTag:
+        var convert = mapToArray;
+      case setTag:
+        var isPartial = bitmask & COMPARE_PARTIAL_FLAG$2;
+        convert || (convert = setToArray);
+        if (object.size != other.size && !isPartial) {
+          return false;
+        }
+        var stacked = stack.get(object);
+        if (stacked) {
+          return stacked == other;
+        }
+        bitmask |= COMPARE_UNORDERED_FLAG;
+        stack.set(object, other);
+        var result = equalArrays(convert(object), convert(other), bitmask, customizer, equalFunc, stack);
+        stack["delete"](object);
+        return result;
+      case symbolTag:
+        if (symbolValueOf) {
+          return symbolValueOf.call(object) == symbolValueOf.call(other);
+        }
+    }
+    return false;
+  }
+  var COMPARE_PARTIAL_FLAG$1 = 1;
+  var objectProto$1 = Object.prototype;
+  var hasOwnProperty$1 = objectProto$1.hasOwnProperty;
+  function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
+    var isPartial = bitmask & COMPARE_PARTIAL_FLAG$1, objProps = getAllKeys(object), objLength = objProps.length, othProps = getAllKeys(other), othLength = othProps.length;
+    if (objLength != othLength && !isPartial) {
+      return false;
+    }
+    var index = objLength;
+    while (index--) {
+      var key = objProps[index];
+      if (!(isPartial ? key in other : hasOwnProperty$1.call(other, key))) {
+        return false;
+      }
+    }
+    var objStacked = stack.get(object);
+    var othStacked = stack.get(other);
+    if (objStacked && othStacked) {
+      return objStacked == other && othStacked == object;
+    }
+    var result = true;
+    stack.set(object, other);
+    stack.set(other, object);
+    var skipCtor = isPartial;
+    while (++index < objLength) {
+      key = objProps[index];
+      var objValue = object[key], othValue = other[key];
+      if (customizer) {
+        var compared = isPartial ? customizer(othValue, objValue, key, other, object, stack) : customizer(objValue, othValue, key, object, other, stack);
+      }
+      if (!(compared === void 0 ? objValue === othValue || equalFunc(objValue, othValue, bitmask, customizer, stack) : compared)) {
+        result = false;
+        break;
+      }
+      skipCtor || (skipCtor = key == "constructor");
+    }
+    if (result && !skipCtor) {
+      var objCtor = object.constructor, othCtor = other.constructor;
+      if (objCtor != othCtor && ("constructor" in object && "constructor" in other) && !(typeof objCtor == "function" && objCtor instanceof objCtor && typeof othCtor == "function" && othCtor instanceof othCtor)) {
+        result = false;
+      }
+    }
+    stack["delete"](object);
+    stack["delete"](other);
+    return result;
+  }
+  var COMPARE_PARTIAL_FLAG = 1;
+  var argsTag = "[object Arguments]", arrayTag = "[object Array]", objectTag = "[object Object]";
+  var objectProto = Object.prototype;
+  var hasOwnProperty = objectProto.hasOwnProperty;
+  function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
+    var objIsArr = isArray$1(object), othIsArr = isArray$1(other), objTag = objIsArr ? arrayTag : getTag$1(object), othTag = othIsArr ? arrayTag : getTag$1(other);
+    objTag = objTag == argsTag ? objectTag : objTag;
+    othTag = othTag == argsTag ? objectTag : othTag;
+    var objIsObj = objTag == objectTag, othIsObj = othTag == objectTag, isSameTag = objTag == othTag;
+    if (isSameTag && isBuffer$1(object)) {
+      if (!isBuffer$1(other)) {
+        return false;
+      }
+      objIsArr = true;
+      objIsObj = false;
+    }
+    if (isSameTag && !objIsObj) {
+      stack || (stack = new Stack());
+      return objIsArr || isTypedArray$1(object) ? equalArrays(object, other, bitmask, customizer, equalFunc, stack) : equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
+    }
+    if (!(bitmask & COMPARE_PARTIAL_FLAG)) {
+      var objIsWrapped = objIsObj && hasOwnProperty.call(object, "__wrapped__"), othIsWrapped = othIsObj && hasOwnProperty.call(other, "__wrapped__");
+      if (objIsWrapped || othIsWrapped) {
+        var objUnwrapped = objIsWrapped ? object.value() : object, othUnwrapped = othIsWrapped ? other.value() : other;
+        stack || (stack = new Stack());
+        return equalFunc(objUnwrapped, othUnwrapped, bitmask, customizer, stack);
+      }
+    }
+    if (!isSameTag) {
+      return false;
+    }
+    stack || (stack = new Stack());
+    return equalObjects(object, other, bitmask, customizer, equalFunc, stack);
+  }
+  function baseIsEqual(value, other, bitmask, customizer, stack) {
+    if (value === other) {
+      return true;
+    }
+    if (value == null || other == null || !isObjectLike(value) && !isObjectLike(other)) {
+      return value !== value && other !== other;
+    }
+    return baseIsEqualDeep(value, other, bitmask, customizer, baseIsEqual, stack);
   }
   var now = function() {
     return root$1.Date.now();
@@ -1442,67 +2407,8 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     debounced.flush = flush;
     return debounced;
   }
-  class ActionDisplay {
-    constructor(context) {
-      this.context = context;
-    }
-    setTitle(title) {
-      $SD.api.setTitle(this.context, title);
-    }
-    setImage(image) {
-      $SD.api.setImage(this.context, image);
-    }
-  }
-  const Icons = {
-    disabled: "data:image/png;base64,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",
-    playPause: "data:image/png;base64,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",
-    addDevice: "data:image/png;base64,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",
-    newTrack: "data:image/png;base64,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"
-  };
-  const snakeCaseToSpaceCase = (str) => str.replace(/_/g, " ");
-  function toTitleCase(str) {
-    return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase());
-  }
-  const toStreamDeckTitle = (str) => toTitleCase(snakeCaseToSpaceCase(str)).split(" ").join("\n");
-  class DynamicAction extends Action {
-    constructor(event, name, icon, actionFunction) {
-      super(name, actionFunction);
-      this.enabled = true;
-      this.dynamicParameter = "";
-      this.icon = icon;
-      this.actionFunction = actionFunction;
-      this.context = event.context;
-      this.display = new ActionDisplay(event.context);
-      this.index = event.payload.coordinates.row * 5 + event.payload.coordinates.column;
-      this.disable();
-    }
-    onWillAppear(_) {
-    }
-    setParameter(dynamicParameter) {
-      console.log(`setting parameter for ${this}`);
-      this.dynamicParameter = dynamicParameter;
-      this.display.setTitle(toStreamDeckTitle(dynamicParameter));
-      this.enable();
-    }
-    onKeyUp(sdEvent) {
-      if (this.context != sdEvent.context) {
-        return;
-      }
-      if (this.enabled) {
-        this.actionFunction(this.dynamicParameter);
-      } else {
-        console.log(`action inactive: ${this}`);
-      }
-    }
-    enable() {
-      this.enabled = true;
-      this.display.setImage(this.icon);
-    }
-    disable() {
-      this.enabled = false;
-      this.display.setTitle("");
-      this.display.setImage(Icons.disabled);
-    }
+  function isEqual(value, other) {
+    return baseIsEqual(value, other);
   }
   class ActionGroup {
     constructor(actionRepository, groupName, icon, updateEvent, actionFunc) {
@@ -1514,7 +2420,6 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       this.updateEvent = updateEvent;
       this.actionFunc = actionFunc;
       this.emitGroupAppearedEvent = debounce(() => EventBus.emit(new ActionGroupAppearedEvent()), 10, { leading: false });
-      console.log(`com.thibault.p0.${groupName}.willAppear`);
       $SD.on(`com.thibault.p0.${groupName}.willAppear`, (event) => this.onWillAppear(event));
       EventBus.subscribe(updateEvent, (event) => this.onUpdateEvent(event));
     }
@@ -1522,12 +2427,9 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       return this.actionRepository.getDynamicActionByName(this.groupName);
     }
     onWillAppear(event) {
-      console.log("on will appear");
-      console.log(event);
       if (this.actionRepository.getActionByContext(event.context)) {
         return;
       }
-      console.log("ok");
       this.actionRepository.save(new DynamicAction(event, this.groupName, this.icon, this.actionFunc));
       if (!this.isIndexGroup) {
         this.emitGroupAppearedEvent();
@@ -1537,11 +2439,10 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       if (this.actions.length === 0) {
         return;
       }
-      if (this.parametersItems === event.items) {
+      if (isEqual(this.parametersItems, event.items)) {
         return;
       }
       this.parametersItems = event.items;
-      console.log(this.parametersItems);
       this.actions.forEach((a) => a.disable());
       event.items.slice(0, this.actions.length).forEach((name, i) => {
         this.actions[i].setParameter(name);
@@ -1570,10 +2471,10 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       __defProp$1(target, key, result);
     return result;
   };
+  var __decorateParam = (index, decorator) => (target, key) => decorator(target, key, index);
   let ActionFactory = class {
     constructor(actionRepository) {
       this.actionRepository = actionRepository;
-      console.log(actionRepository);
     }
     createActions() {
       this.actionRepository.save(new Action("play", API.playPause));
@@ -1584,7 +2485,8 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     }
   };
   ActionFactory = __decorateClass$1([
-    Service()
+    injectable(),
+    __decorateParam(0, inject(ActionRepository$1))
   ], ActionFactory);
   var ActionFactory$1 = ActionFactory;
   var util;
@@ -1614,13 +2516,13 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       });
     };
     util2.objectKeys = typeof Object.keys === "function" ? (obj) => Object.keys(obj) : (object) => {
-      const keys = [];
+      const keys2 = [];
       for (const key in object) {
         if (Object.prototype.hasOwnProperty.call(object, key)) {
-          keys.push(key);
+          keys2.push(key);
         }
       }
-      return keys;
+      return keys2;
     };
     util2.find = (arr, checker) => {
       for (const item of arr) {
@@ -2900,8 +3802,8 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       if (this._cached !== null)
         return this._cached;
       const shape = this._def.shape();
-      const keys = util.objectKeys(shape);
-      return this._cached = { shape, keys };
+      const keys2 = util.objectKeys(shape);
+      return this._cached = { shape, keys: keys2 };
     }
     _parse(input) {
       const parsedType = this._getType(input);
@@ -4284,17 +5186,15 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     }
   };
   ScriptClient = __decorateClass([
-    Service()
+    injectable()
   ], ScriptClient);
   var ScriptClient$1 = ScriptClient;
-  if (window && window.$SD) {
-    $SD.on("connected", async (_) => {
-      await initApplication();
-    });
-  }
+  $SD.on("connected", async (_) => {
+    await initApplication();
+  });
   async function initApplication() {
-    console.log(Container.get(ActionFactory$1));
-    Container.get(ActionFactory$1).createActions();
-    await Container.get(ScriptClient$1).connect();
+    console.log(instance.resolve(ActionFactory$1));
+    instance.resolve(ActionFactory$1).createActions();
+    await instance.resolve(ScriptClient$1).connect();
   }
 })();

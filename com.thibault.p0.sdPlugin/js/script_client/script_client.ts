@@ -5,10 +5,9 @@ import DrumTrackNamesUpdatedEvent from "./drum_track_names_updated_event";
 import DrumCategoriesUpdatedEvent from "./drum_categories_updated_event";
 import {SongState, SongStateSchema} from "./song_state";
 import FavoriteDeviceNamesUpdatedEvent from "./favorite_device_names_updated_event";
+import { injectable } from "tsyringe";
 
-import { Service } from 'typedi';
-
-@Service()
+@injectable()
 class ScriptClient {
     private songState: SongState|null = null
 
