@@ -1,27 +1,18 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
-    /* Language and Environment */
-    "target": "ES2020",
     /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-//    "module": "ES2020",
-    /* Specify what module code is generated. */
-//    "rootDir": "./com.thibault.p0.sdPlugin",
-    /* Specify the root folder within your source files. */
-//    "sourceMap": true,
-    /* Create source map files for emitted JavaScript files. */
-//    "outDir": "./com.thibault.p0.sdPlugin/build",
-    /* Specify an output folder for all emitted files. */
-//    "esModuleInterop": true,
-    /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
-//    "forceConsistentCasingInFileNames": true,
+    "target": "ES2020",
     /* Ensure that casing is correct in imports. */
-    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
     /* Ensure all files are modules */
-//    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
     "moduleResolution": "node",
     /* Type Checking */
-//    "strict": true,
-//    "noResolve": true,
-  },
+    "strict": true,
+    /* For TypeDI */
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+  }
 }

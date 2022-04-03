@@ -6,6 +6,9 @@ import DrumCategoriesUpdatedEvent from "./drum_categories_updated_event";
 import {SongState, SongStateSchema} from "./song_state";
 import FavoriteDeviceNamesUpdatedEvent from "./favorite_device_names_updated_event";
 
+import { Service } from 'typedi';
+
+@Service()
 class ScriptClient {
     private songState: SongState|null = null
 

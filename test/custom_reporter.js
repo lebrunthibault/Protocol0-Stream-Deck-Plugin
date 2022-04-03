@@ -1,4 +1,4 @@
-// noinspection JSUnresolvedVariable,JSUnresolvedFunction,JSUnusedGlobalSymbols
+// noinspection JSUnresolvedFunction,JSUnresolvedVariable
 
 import { DefaultReporter, utils } from '@jest/reporters'
 import chalk from 'chalk';
@@ -25,11 +25,8 @@ const getBufferedLog = (buffer, _config, globalConfig) => {
     return logEntries.trimEnd() + '\n';
 };
 
-class AwesomeReporter extends DefaultReporter {
-    constructor() {
-        super(arguments);
-    }
-
+class FocusedJestReporter extends DefaultReporter {
+    // noinspection JSUnusedGlobalSymbols
     printTestFileHeader(_testPath, config, result) {
         this.log(utils.getResultHeader(result, this._globalConfig, config));
 
@@ -47,4 +44,5 @@ class AwesomeReporter extends DefaultReporter {
     }
 }
 
-export default AwesomeReporter
+// noinspection JSUnusedGlobalSymbols
+export default FocusedJestReporter

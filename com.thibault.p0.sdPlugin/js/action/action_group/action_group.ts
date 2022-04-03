@@ -75,7 +75,7 @@ class ActionGroup {
     /**
      * The updateEvent is the specific songState update event configured
      * Each time we receive it, we update all actions
-     * Action will be enabled or disabled depending on the size of the event.items array
+     * Action will be enabled or disabled depending on the size of the "event.items" array
      */
     private onUpdateEvent(event: SongStatePropertyUpdatedEvent) {
         if (this.actions.length === 0) {

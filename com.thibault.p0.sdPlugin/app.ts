@@ -1,4 +1,7 @@
-import Container from "./js/container";
+import 'reflect-metadata';
+import { Container } from 'typedi';
+import ActionFactory from "./js/action/action_factory";
+import ScriptClient from "./js/script_client/script_client";
 
 if (window && (window as any).$SD) {
     $SD.on('connected', async (_: object) => {
@@ -7,7 +10,7 @@ if (window && (window as any).$SD) {
 }
 
 async function initApplication() {
-    const container = new Container()
-    container.actionFactory.createActions()
-    await container.scriptClient.connect()
+    console.log(Container.get(ActionFactory))
+    Container.get(ActionFactory).createActions();
+    await Container.get(ScriptClient).connect();
 }

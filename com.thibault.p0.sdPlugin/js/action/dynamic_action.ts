@@ -1,7 +1,7 @@
 import {Action} from "./action";
 import ActionDisplay from "./action_display";
-import Icons from "../icons";
-import {toStreamDeckTitle} from "../utils";
+import Icons from "../services/icons";
+import {toStreamDeckTitle} from "../services/utils";
 
 
 class DynamicAction extends Action {

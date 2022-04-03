@@ -1,5 +1,4 @@
 // noinspection JSUnusedGlobalSymbols,JSUnusedLocalSymbols
-
 global.$SD = {
     on: () => null,
     api: {

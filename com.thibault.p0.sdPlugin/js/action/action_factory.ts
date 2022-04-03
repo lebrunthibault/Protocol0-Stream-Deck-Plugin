@@ -1,17 +1,18 @@
 import ActionRepository from "./action_repository";
 import {Action} from "./action";
-import API from "../api";
+import API from "../services/api";
 import ActionGroup from "./action_group/action_group";
 import DrumCategoriesUpdatedEvent from "../script_client/drum_categories_updated_event";
 import DrumTrackNamesUpdatedEvent from "../script_client/drum_track_names_updated_event";
 import FavoriteDeviceNamesUpdatedEvent from "../script_client/favorite_device_names_updated_event";
-import Icons from "../icons";
+import Icons from "../services/icons";
 
+import {Service} from 'typedi';
+
+@Service()
 class ActionFactory {
-    private readonly actionRepository: any;
-
-    constructor(actionRepository: ActionRepository) {
-        this.actionRepository = actionRepository
+    constructor(private actionRepository: ActionRepository) {
+        console.log(actionRepository)
     }
 
      createActions() {

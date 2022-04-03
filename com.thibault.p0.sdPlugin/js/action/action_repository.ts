@@ -1,13 +1,13 @@
-import DB from "../db";
+import DB from "../services/db";
 import {Action} from "./action";
 import {ActionClass} from "./action_class";
 import DynamicAction from "./dynamic_action";
 
+import { Service } from 'typedi';
+
+@Service()
 class ActionRepository {
-    private readonly db: DB;
-    constructor(db: DB) {
-        this.db = db
-    }
+    constructor(private readonly db: DB) {}
 
     save(action: Action) {
         this.db.actions.push(action)
