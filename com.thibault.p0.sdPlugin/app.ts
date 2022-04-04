@@ -3,7 +3,7 @@ import {container} from "tsyringe";
 import ActionFactory from "./js/action/action_factory";
 import ScriptClient from "./js/script_client/script_client";
 
-$SD.on('connsected', async (_: object) => {
+$SD.on('connected', async (_: object) => {
     await initApplication()
 })
 
