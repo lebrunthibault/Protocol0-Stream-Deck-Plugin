@@ -11,7 +11,7 @@ class Action {
     }
 
     toString() {
-        return `name: "${this.name}", context: "${this.context}"`
+        return `Action(name="${this.name}", context="${this.context}")`
     }
 
     onWillAppear(event: SDEvent) {

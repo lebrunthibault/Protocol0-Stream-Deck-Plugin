@@ -25,5 +25,5 @@ declare module '_'
 
 declare var $SD: SD;
 
-type DynamicActionFunction = (parameter: string) => void;
+type ActionSlotFunction = (parameter: string) => void;
 

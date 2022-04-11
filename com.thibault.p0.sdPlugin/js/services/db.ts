@@ -1,8 +1,7 @@
 // in memory database
-import {Action} from "../action/action";
 
 class DB {
-    public readonly actions: Action[];
+    public readonly actions: ActionInterface[];
     constructor() {
         this.actions = []
     }

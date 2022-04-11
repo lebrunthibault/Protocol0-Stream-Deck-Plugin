@@ -1378,24 +1378,6 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       this.actions = [];
     }
   }
-  class Action {
-    constructor(name, func) {
-      this.context = "";
-      this.name = name;
-      this.actionFunction = func;
-      $SD.on(`com.thibault.p0.${name}.willAppear`, (event) => this.onWillAppear(event));
-      $SD.on(`com.thibault.p0.${name}.keyUp`, (event) => this.onKeyUp(event));
-    }
-    toString() {
-      return `name: "${this.name}", context: "${this.context}"`;
-    }
-    onWillAppear(event) {
-      this.context = event.context;
-    }
-    onKeyUp(_) {
-      this.actionFunction();
-    }
-  }
   class ActionDisplay {
     constructor(context) {
       this.context = context;
@@ -1418,42 +1400,57 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase());
   }
   const toStreamDeckTitle = (str) => toTitleCase(snakeCaseToSpaceCase(str)).split(" ").join("\n");
-  class DynamicAction extends Action {
+  class ActionSlot {
     constructor(event, name, icon, actionFunction) {
-      super(name, actionFunction);
       this.enabled = true;
-      this.dynamicParameter = "";
+      this.parameter = "";
+      this.name = name;
       this.icon = icon;
       this.actionFunction = actionFunction;
       this.context = event.context;
       this.display = new ActionDisplay(event.context);
-      this.index = event.payload.coordinates.row * 5 + event.payload.coordinates.column;
+      this.index = event.payload.coordinates.row * 8 + event.payload.coordinates.column;
+      $SD.on(`com.thibault.p0.${name}.keyUp`, (event2) => this.onKeyUp(event2));
+      $SD.on(`com.thibault.p0.${name}.willAppear`, (event2) => this.onWillAppear(event2));
       this.disable();
     }
-    onWillAppear(_) {
+    toString() {
+      return `ActionSlot(name="${this.name}", context=${this.context}, index=${this.index}, parameter="${this.parameter}")`;
     }
-    setParameter(dynamicParameter) {
-      console.log(`setting parameter for ${this}`);
-      this.dynamicParameter = dynamicParameter;
-      this.display.setTitle(toStreamDeckTitle(dynamicParameter));
-      this.enable();
+    onWillAppear(event) {
+      if (this.context != event.context) {
+        return;
+      }
+      if (this.enabled) {
+        this.enable();
+      }
+    }
+    setParameter(parameter) {
+      if (parameter !== this.parameter) {
+        console.log(`setting parameter "${parameter}" for ${this}`);
+        this.parameter = parameter;
+        this.enable();
+      }
     }
     onKeyUp(sdEvent) {
       if (this.context != sdEvent.context) {
         return;
       }
       if (this.enabled) {
-        this.actionFunction(this.dynamicParameter);
+        this.actionFunction(this.parameter);
       } else {
-        console.log(`action inactive: ${this}`);
+        console.warn(`action inactive: ${this}`);
       }
     }
     enable() {
+      console.log(`enabling ${this}`);
       this.enabled = true;
+      this.display.setTitle(toStreamDeckTitle(this.parameter));
       this.display.setImage(this.icon);
     }
     disable() {
       this.enabled = false;
+      this.parameter = "";
       this.display.setTitle("");
       this.display.setImage(Icons.disabled);
     }
@@ -1476,13 +1473,13 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     }
     save(action) {
       this.db.actions.push(action);
-      console.log(`saved action ${action}`);
+      console.log(`saved ${action}`);
     }
     getActionsByClass(cls) {
       return this.db.actions.filter((a) => a instanceof cls);
     }
-    getDynamicActionByName(name) {
-      return this.getActionsByClass(DynamicAction).filter((a) => a.name === name).sort((a, b) => a.index - b.index);
+    getActionSlotByName(name) {
+      return this.getActionsByClass(ActionSlot).filter((a) => a.name === name).sort((a, b) => a.index - b.index);
     }
     getActionByContext(context) {
       return this.db.actions.find((a) => a.context === context);
@@ -1493,6 +1490,24 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     __decorateParam$1(0, inject(DB))
   ], ActionRepository);
   var ActionRepository$1 = ActionRepository;
+  class Action {
+    constructor(name, func) {
+      this.context = "";
+      this.name = name;
+      this.actionFunction = func;
+      $SD.on(`com.thibault.p0.${name}.willAppear`, (event) => this.onWillAppear(event));
+      $SD.on(`com.thibault.p0.${name}.keyUp`, (event) => this.onKeyUp(event));
+    }
+    toString() {
+      return `Action(name="${this.name}", context="${this.context}")`;
+    }
+    onWillAppear(event) {
+      this.context = event.context;
+    }
+    onKeyUp(_) {
+      this.actionFunction();
+    }
+  }
   const p0_host = "127.0.0.1:8000";
   const Config = {
     P0_WS_URL: `ws://${p0_host}/song_state`,
@@ -1553,11 +1568,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   const registry = new Registry();
   class EventBus {
     static subscribe(eventClass, func) {
-      console.log(`subscribing ${eventClass.name}: func: ${func}`);
+      console.debug(`subscribing ${eventClass.name}: func: ${func}`);
       registry.register(eventClass, func);
     }
     static emit(event) {
-      console.log("emitting event " + event.constructor.name);
+      console.debug("emitting event " + event.constructor.name);
       const subscribers = registry.getSubscribers(event.constructor);
       for (const subscriber of subscribers) {
         subscriber(event);
@@ -2423,29 +2438,30 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       $SD.on(`com.thibault.p0.${groupName}.willAppear`, (event) => this.onWillAppear(event));
       EventBus.subscribe(updateEvent, (event) => this.onUpdateEvent(event));
     }
-    get actions() {
-      return this.actionRepository.getDynamicActionByName(this.groupName);
+    get slots() {
+      return this.actionRepository.getActionSlotByName(this.groupName);
     }
     onWillAppear(event) {
       if (this.actionRepository.getActionByContext(event.context)) {
         return;
       }
-      this.actionRepository.save(new DynamicAction(event, this.groupName, this.icon, this.actionFunc));
+      this.actionRepository.save(new ActionSlot(event, this.groupName, this.icon, this.actionFunc));
       if (!this.isIndexGroup) {
         this.emitGroupAppearedEvent();
       }
     }
     onUpdateEvent(event) {
-      if (this.actions.length === 0) {
+      if (this.slots.length === 0) {
         return;
       }
+      console.log(`on update : ${event}`);
       if (isEqual(this.parametersItems, event.items)) {
         return;
       }
       this.parametersItems = event.items;
-      this.actions.forEach((a) => a.disable());
-      event.items.slice(0, this.actions.length).forEach((name, i) => {
-        this.actions[i].setParameter(name);
+      this.slots.slice(event.items.length, this.slots.length).forEach((a) => a.disable());
+      event.items.slice(0, this.slots.length).forEach((name, i) => {
+        this.slots[i].setParameter(name);
       });
     }
   }
@@ -5145,7 +5161,6 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       EventBus.subscribe(ActionGroupAppearedEvent, (_) => this.onActionGroupAppearedEvent());
     }
     async connect() {
-      console.log("connecting to websocket server");
       try {
         await this._connect();
         console.log("connected to websocket server");
@@ -5162,9 +5177,9 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       p0WebSocket.onclose = (_) => this.connect();
     }
     onSongState(data) {
-      console.log("received song state from websocket");
       const songState = SongStateSchema.parse(data);
-      console.log(songState);
+      console.log("received song state from websocket");
+      console.log(JSON.stringify(songState, null, 4));
       if (!songState) {
         return;
       }
@@ -5172,7 +5187,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       ScriptClient.emitSongState(this.songState);
     }
     onActionGroupAppearedEvent() {
-      console.log("onActionGroupAppearedEvent");
+      console.debug("onActionGroupAppearedEvent");
       if (!this.songState) {
         console.warn("cannot emit null songState");
         return;
@@ -5193,7 +5208,6 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
     await initApplication();
   });
   async function initApplication() {
-    console.log(instance.resolve(ActionFactory$1));
     instance.resolve(ActionFactory$1).createActions();
     await instance.resolve(ScriptClient$1).connect();
   }

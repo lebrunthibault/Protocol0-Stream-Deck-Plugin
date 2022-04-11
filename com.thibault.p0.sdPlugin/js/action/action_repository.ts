@@ -1,31 +1,30 @@
 import DB from "../services/db";
-import {Action} from "./action";
 import {ActionClass} from "./action_class";
-import DynamicAction from "./dynamic_action";
 
-import {inject, injectable } from "tsyringe";
+import {inject, injectable} from "tsyringe";
+import ActionSlot from "./action_group/action_slot";
 
 @injectable()
 class ActionRepository {
     constructor(@inject(DB) private readonly db: DB) {}
 
-    save(action: Action) {
+    save(action: ActionInterface) {
         this.db.actions.push(action)
-        console.log(`saved action ${action}`)
+        console.log(`saved ${action}`)
     }
 
-    getActionsByClass<A extends Action>(cls: ActionClass<Action>): A[] {
-        return <A[]>this.db.actions.filter((a: Action) => a instanceof cls)
+    getActionsByClass<A extends ActionInterface>(cls: ActionClass<ActionInterface>): A[] {
+        return <A[]>this.db.actions.filter((a: ActionInterface) => a instanceof cls)
     }
 
-    getDynamicActionByName(name: string): DynamicAction[] {
+    getActionSlotByName(name: string): ActionSlot[] {
         return this
-            .getActionsByClass<DynamicAction>(DynamicAction).filter((a: Action) => a.name === name)
-            .sort((a: DynamicAction, b: DynamicAction) => a.index - b.index)
+            .getActionsByClass<ActionSlot>(ActionSlot).filter((a: ActionSlot) => a.name === name)
+            .sort((a: ActionSlot, b: ActionSlot) => a.index - b.index)
     }
 
-    getActionByContext(context: string): Action|undefined {
-        return this.db.actions.find((a: Action) => a.context === context)
+    getActionByContext(context: string): ActionInterface|undefined {
+        return this.db.actions.find((a: ActionInterface) => a.context === context)
     }
 }
 

@@ -3,9 +3,9 @@ import EventBus from "../../event_bus";
 import ActionGroupAppearedEvent from "./action_group_appeared_event";
 
 import * as _ from "lodash-es";
-import DynamicAction from "../dynamic_action";
 import Config from "../../config";
 import SongStatePropertyUpdatedEvent from "../../script_client/song_state_property_updated_event";
+import ActionSlot from "./action_slot";
 
 /**
  * CLass representing handling the creation and update of list of correlated dynamic actions
@@ -21,7 +21,7 @@ class ActionGroup {
     protected readonly groupName: string;
     protected readonly icon: string;
     private readonly updateEvent: typeof SongStatePropertyUpdatedEvent;
-    private readonly actionFunc: DynamicActionFunction;
+    private readonly actionFunc: ActionSlotFunction;
     // noinspection JSMismatchedCollectionQueryUpdate
     private parametersItems: string[] = [];
 
@@ -30,7 +30,7 @@ class ActionGroup {
         groupName: string,
         icon: string,
         updateEvent: typeof SongStatePropertyUpdatedEvent,
-        actionFunc: DynamicActionFunction
+        actionFunc: ActionSlotFunction
         ) {
         this.actionRepository = actionRepository
         this.isIndexGroup = groupName === Config.INDEX_ACTION
@@ -46,8 +46,8 @@ class ActionGroup {
         EventBus.subscribe(updateEvent, (event: SongStatePropertyUpdatedEvent) => this.onUpdateEvent(event))
     }
 
-    private get actions(): DynamicAction[] {
-        return this.actionRepository.getDynamicActionByName(this.groupName)
+    private get slots(): ActionSlot[] {
+        return this.actionRepository.getActionSlotByName(this.groupName)
     }
 
     /**
@@ -61,7 +61,7 @@ class ActionGroup {
             return
         }
 
-        this.actionRepository.save(new DynamicAction(event, this.groupName, this.icon, this.actionFunc))
+        this.actionRepository.save(new ActionSlot(event, this.groupName, this.icon, this.actionFunc))
 
         if (!this.isIndexGroup) {
             this.emitGroupAppearedEvent()
@@ -74,19 +74,20 @@ class ActionGroup {
      * Action will be enabled or disabled depending on the size of the "event.items" array
      */
     private onUpdateEvent(event: SongStatePropertyUpdatedEvent) {
-        if (this.actions.length === 0) {
+        if (this.slots.length === 0) {
             return
         }
+        console.log(`on update : ${event}`)
         if (_.isEqual(this.parametersItems, event.items)) {
             return
         }
 
         this.parametersItems = event.items;
+        // disable unused action slots
+        this.slots.slice(event.items.length, this.slots.length).forEach(a => a.disable())
 
-        this.actions.forEach(a => a.disable())
-
-        event.items.slice(0, this.actions.length).forEach((name: string, i: number) => {
-            this.actions[i].setParameter(name)
+        event.items.slice(0, this.slots.length).forEach((name: string, i: number) => {
+            this.slots[i].setParameter(name)
         })
     }
 

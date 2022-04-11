@@ -46,12 +46,12 @@ const registry = new Registry()
 class EventBus {
 
     static subscribe(eventClass: Class, func: Function) {
-        console.log(`subscribing ${eventClass.name}: func: ${func}`)
+        console.debug(`subscribing ${eventClass.name}: func: ${func}`)
         registry.register(eventClass, func)
     }
 
     static emit(event: Object) {
-        console.log("emitting event " + event.constructor.name)
+        console.debug("emitting event " + event.constructor.name)
 
         const subscribers = registry.getSubscribers(event.constructor)
 

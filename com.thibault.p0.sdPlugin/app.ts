@@ -8,7 +8,6 @@ $SD.on('connected', async (_: object) => {
 })
 
 async function initApplication() {
-    console.log(container.resolve(ActionFactory))
     container.resolve(ActionFactory).createActions();
     await container.resolve(ScriptClient).connect();
 }

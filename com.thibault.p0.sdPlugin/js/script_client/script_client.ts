@@ -17,7 +17,6 @@ class ScriptClient {
 
 
     async connect() {
-        console.log("connecting to websocket server")
         try {
             await this._connect();
             console.log("connected to websocket server")
@@ -36,9 +35,9 @@ class ScriptClient {
     }
 
     private onSongState(data: any) {
-        console.log("received song state from websocket");
         const songState = SongStateSchema.parse(data)
-        console.log(songState)
+        console.log("received song state from websocket");
+        console.log(JSON.stringify(songState, null, 4))
         if (!songState) {
             return
         }
@@ -48,7 +47,7 @@ class ScriptClient {
     }
 
     private onActionGroupAppearedEvent() {
-        console.log("onActionGroupAppearedEvent")
+        console.debug("onActionGroupAppearedEvent")
         if (!this.songState) {
             console.warn("cannot emit null songState")
             return
