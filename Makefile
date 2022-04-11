@@ -1,15 +1,15 @@
 #!make
 
-.PHONY: log dev test build echo
+.PHONY: log dev lint icons build test
 
 log:
-	tail -f C:\Users\thiba\AppData\Roaming\Elgato\StreamDeck\logs\StreamDeck0.log
+	cls && tail -f C:\Users\thiba\AppData\Roaming\Elgato\StreamDeck\logs\StreamDeck0.log
 
 dev:
-	yarn watch
+	cls && yarn watch
 
 lint:
-	npm run lint
+	cls && npm run lint
 
 icons:
 	cls && powershell ./scripts/make_icons.ps1 $(filter-out $@, $(MAKECMDGOALS))
