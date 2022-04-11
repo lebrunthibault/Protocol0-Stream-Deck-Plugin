@@ -1,7 +1,7 @@
 class SongStatePropertyUpdatedEvent {
     public readonly items: string[]
-    constructor(items: string[]) {
-        this.items = items
+    constructor (items: string[]) {
+      this.items = items
     }
 }
 

@@ -8,6 +8,9 @@ log:
 dev:
 	yarn watch
 
+lint:
+	npm run lint
+
 icons:
 	cls && powershell ./scripts/make_icons.ps1 $(filter-out $@, $(MAKECMDGOALS))
 

@@ -1418,7 +1418,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       return `ActionSlot(name="${this.name}", context=${this.context}, index=${this.index}, parameter="${this.parameter}")`;
     }
     onWillAppear(event) {
-      if (this.context != event.context) {
+      if (this.context !== event.context) {
         return;
       }
       if (this.enabled) {
@@ -1433,7 +1433,7 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       }
     }
     onKeyUp(sdEvent) {
-      if (this.context != sdEvent.context) {
+      if (this.context !== sdEvent.context) {
         return;
       }
       if (this.enabled) {
@@ -1508,10 +1508,10 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       this.actionFunction();
     }
   }
-  const p0_host = "127.0.0.1:8000";
+  const p0Host = "127.0.0.1:8000";
   const Config = {
-    P0_WS_URL: `ws://${p0_host}/song_state`,
-    P0_API_URL: `http://${p0_host}`,
+    P0_WS_URL: `ws://${p0Host}/song_state`,
+    P0_API_URL: `http://${p0Host}`,
     INDEX_ACTION: "toggle-track"
   };
   const API = {
@@ -1548,21 +1548,21 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
       return this.entries;
     }
     register(eventClass, func) {
-      let registry_entry = this.entries.find((entry) => entry.eventClass === eventClass);
-      if (!registry_entry) {
-        registry_entry = new RegistryEntry(eventClass);
-        this.entries.push(registry_entry);
+      let registryEntry = this.entries.find((entry) => entry.eventClass === eventClass);
+      if (!registryEntry) {
+        registryEntry = new RegistryEntry(eventClass);
+        this.entries.push(registryEntry);
       }
-      registry_entry.subscribers.add(func);
+      registryEntry.subscribers.add(func);
     }
     getSubscribers(eventClass) {
-      const registry_entry = this.entries.find((entry) => eventClass === entry.eventClass);
-      if (!registry_entry) {
+      const registryEntry = this.entries.find((entry) => eventClass === entry.eventClass);
+      if (!registryEntry) {
         console.warn(`event emitted without subscriber: ${eventClass}`);
         console.warn(this);
         return [];
       }
-      return Array.from(registry_entry.subscribers);
+      return Array.from(registryEntry.subscribers);
     }
   }
   const registry = new Registry();

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 interface SD {
     api: {
         setTitle: (context: string, title: string) => void,
@@ -23,7 +25,6 @@ interface Class extends Function {
 
 declare module '_'
 
-declare var $SD: SD;
+declare let $SD: SD
 
 type ActionSlotFunction = (parameter: string) => void;
-

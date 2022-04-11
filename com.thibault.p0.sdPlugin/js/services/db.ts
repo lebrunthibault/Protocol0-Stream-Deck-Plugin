@@ -2,8 +2,8 @@
 
 class DB {
     public readonly actions: ActionInterface[];
-    constructor() {
-        this.actions = []
+    constructor () {
+      this.actions = []
     }
 }
 

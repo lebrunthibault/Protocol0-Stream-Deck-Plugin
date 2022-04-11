@@ -30,6 +30,8 @@
   },
   "scripts": {
     "watch": "vite build --watch",
+    "lint": "eslint .\\com.thibault.p0.sdPlugin\\ --ext .ts",
+    "lint-fix": "eslint .\\com.thibault.p0.sdPlugin\\ --ext .ts --fix",
     "test": "jest"
   },
   "repository": "git+https://github.com/lebrunthibault/p0_stream_deck_plugin.git",

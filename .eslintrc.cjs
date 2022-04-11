@@ -14,6 +14,8 @@ module.exports = {
   plugins: [
     '@typescript-eslint'
   ],
+  ignorePatterns: [],
   rules: {
+    "no-undef": "off"
   }
 }
