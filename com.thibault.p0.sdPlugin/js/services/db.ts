@@ -3,7 +3,7 @@
 class DB {
     public readonly actions: ActionInterface[];
     constructor () {
-      this.actions = []
+        this.actions = []
     }
 }
 

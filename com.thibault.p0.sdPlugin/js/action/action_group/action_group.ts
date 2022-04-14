@@ -22,32 +22,35 @@ class ActionGroup {
     protected readonly icon: string;
     private readonly updateEvent: typeof SongStatePropertyUpdatedEvent;
     private readonly actionFunc: ActionSlotFunction;
+    private readonly longPressFunc: ActionSlotFunction|null;
     // noinspection JSMismatchedCollectionQueryUpdate
     private parametersItems: string[] = [];
 
     constructor (
-      actionRepository: ActionRepository,
-      groupName: string,
-      icon: string,
-      updateEvent: typeof SongStatePropertyUpdatedEvent,
-      actionFunc: ActionSlotFunction
+        actionRepository: ActionRepository,
+        groupName: string,
+        icon: string,
+        updateEvent: typeof SongStatePropertyUpdatedEvent,
+        actionFunc: ActionSlotFunction,
+        longPressFunc: ActionSlotFunction|null = null
     ) {
-      this.actionRepository = actionRepository
-      this.isIndexGroup = groupName === Config.INDEX_ACTION
-      this.groupName = groupName
-      this.icon = icon
-      this.updateEvent = updateEvent
-      this.actionFunc = actionFunc
+        this.actionRepository = actionRepository
+        this.isIndexGroup = groupName === Config.INDEX_ACTION
+        this.groupName = groupName
+        this.icon = icon
+        this.updateEvent = updateEvent
+        this.actionFunc = actionFunc
+        this.longPressFunc = longPressFunc
 
-      this.emitGroupAppearedEvent = _.debounce(() => EventBus.emit(new ActionGroupAppearedEvent()), 10, { leading: false })
+        this.emitGroupAppearedEvent = _.debounce(() => EventBus.emit(new ActionGroupAppearedEvent()), 10, { leading: false })
 
-      $SD.on(`com.thibault.p0.${groupName}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
+        $SD.on(`com.thibault.p0.${groupName}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
 
-      EventBus.subscribe(updateEvent, (event: SongStatePropertyUpdatedEvent) => this.onUpdateEvent(event))
+        EventBus.subscribe(updateEvent, (event: SongStatePropertyUpdatedEvent) => this.onUpdateEvent(event))
     }
 
     private get slots (): ActionSlot[] {
-      return this.actionRepository.getActionSlotByName(this.groupName)
+        return this.actionRepository.getActionSlotByName(this.groupName)
     }
 
     /**
@@ -56,16 +59,22 @@ class ActionGroup {
      * is emitted, which will configure each dynamic action with a specific parameter
      */
     private onWillAppear (event: SDEvent) {
-      // there are duplicate calls to this ..
-      if (this.actionRepository.getActionByContext(event.context)) {
-        return
-      }
+        // there are duplicate calls to this ..
+        if (this.actionRepository.getActionByContext(event.context)) {
+            return
+        }
 
-      this.actionRepository.save(new ActionSlot(event, this.groupName, this.icon, this.actionFunc))
+        this.actionRepository.save(new ActionSlot(
+            event,
+            this.groupName,
+            this.icon,
+            this.actionFunc,
+            this.longPressFunc
+        ))
 
-      if (!this.isIndexGroup) {
-        this.emitGroupAppearedEvent()
-      }
+        if (!this.isIndexGroup) {
+            this.emitGroupAppearedEvent()
+        }
     }
 
     /**
@@ -74,21 +83,23 @@ class ActionGroup {
      * Action will be enabled or disabled depending on the size of the "event.items" array
      */
     private onUpdateEvent (event: SongStatePropertyUpdatedEvent) {
-      if (this.slots.length === 0) {
-        return
-      }
-      console.log(`on update : ${event}`)
-      if (_.isEqual(this.parametersItems, event.items)) {
-        return
-      }
+        if (this.slots.length === 0) {
+            return
+        }
+        console.log(`on update : ${event}`)
+        if (_.isEqual(this.parametersItems, event.items)) {
+            return
+        }
 
-      this.parametersItems = event.items
-      // disable unused action slots
-      this.slots.slice(event.items.length, this.slots.length).forEach(a => a.disable())
+        this.parametersItems = event.items
+        // disable unused action slots
+        this.slots.slice(event.items.length, this.slots.length).forEach(a => a.disable())
 
-      event.items.slice(0, this.slots.length).forEach((name: string, i: number) => {
-        this.slots[i].setParameter(name)
-      })
+        const parameters = event.items.slice(0, this.slots.length)
+
+        parameters.forEach((name: string, i: number) => {
+            this.slots[i].setParameter(name)
+        })
     }
 }
 

@@ -12,34 +12,36 @@ import { inject, injectable } from 'tsyringe'
 
 @injectable()
 class ActionFactory {
-  /* eslint-disable no-useless-constructor */
-  constructor (@inject(ActionRepository) private actionRepository: ActionRepository) {}
+    /* eslint-disable no-useless-constructor */
+    constructor (@inject(ActionRepository) private actionRepository: ActionRepository) {
+    }
 
-  createActions () {
-    this.actionRepository.save(new Action('play', API.playPause))
-    this.actionRepository.save(new Action('drums', API.toggleDrums))
-    new ActionGroup(
-      this.actionRepository,
-      'toggle-track',
-      Icons.playPause,
-      DrumTrackNamesUpdatedEvent,
-      API.toggleTrack
-    )
-    new ActionGroup(
-      this.actionRepository,
-      'load-drum-track',
-      Icons.newTrack,
-      DrumCategoriesUpdatedEvent,
-      API.loadDrumTrack
-    )
-    new ActionGroup(
-      this.actionRepository,
-      'add-device',
-      Icons.addDevice,
-      FavoriteDeviceNamesUpdatedEvent,
-      API.loadDevice
-    )
-  }
+    createActions () {
+        this.actionRepository.save(new Action('play', API.playPause))
+        this.actionRepository.save(new Action('drums', API.toggleDrums))
+        new ActionGroup(
+            this.actionRepository,
+            'toggle-track',
+            Icons.playPause,
+            DrumTrackNamesUpdatedEvent,
+            API.toggleTrack
+        )
+        new ActionGroup(
+            this.actionRepository,
+            'load-drum-track',
+            Icons.newTrack,
+            DrumCategoriesUpdatedEvent,
+            API.loadDrumTrack
+        )
+        new ActionGroup(
+            this.actionRepository,
+            'device',
+            Icons.device,
+            FavoriteDeviceNamesUpdatedEvent,
+            API.selectOrLoadDevice,
+            API.loadDevice
+        )
+    }
 }
 
 export default ActionFactory

@@ -1,12 +1,12 @@
 {
   "Actions": [
     {
-      "Icon": "img/p0_action/action",
-      "Name": "Toggle track",
+      "Icon": "img/play_pause/action",
+      "Name": "Toggle drum track",
       "States": [
         {
           "Title": "",
-          "Image": "img/p0_action/state"
+          "Image": "img/play_pause/state"
         }
       ],
       "Tooltip": "Play / pause drum track",
@@ -26,15 +26,15 @@
     },
     {
       "Icon": "img/p0_action/action",
-      "Name": "Add device",
+      "Name": "Select or add device",
       "States": [
         {
           "Title": "",
           "Image": "img/p0_action/state"
         }
       ],
-      "Tooltip": "Add new device on selected track",
-      "UUID": "com.thibault.p0.add-device"
+      "Tooltip": "Select or add a chosen device on the selected track",
+      "UUID": "com.thibault.p0.device"
     },
     {
       "Icon": "img/play_pause/action",

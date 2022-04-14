@@ -4,22 +4,22 @@ class Action {
     public context: string = '';
 
     constructor (name: string, func: Function) {
-      this.name = name
-      this.actionFunction = func
-      $SD.on(`com.thibault.p0.${name}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
-      $SD.on(`com.thibault.p0.${name}.keyUp`, (event: SDEvent) => this.onKeyUp(event))
+        this.name = name
+        this.actionFunction = func
+        $SD.on(`com.thibault.p0.${name}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
+        $SD.on(`com.thibault.p0.${name}.keyUp`, (event: SDEvent) => this.onKeyUp(event))
     }
 
     toString () {
-      return `Action(name="${this.name}", context="${this.context}")`
+        return `Action(name="${this.name}", context="${this.context}")`
     }
 
-    onWillAppear (event: SDEvent) {
-      this.context = event.context
+    private onWillAppear (event: SDEvent) {
+        this.context = event.context
     }
 
-    onKeyUp (_: SDEvent) {
-      this.actionFunction()
+    private onKeyUp (_: SDEvent) {
+        this.actionFunction()
     }
 }
 
