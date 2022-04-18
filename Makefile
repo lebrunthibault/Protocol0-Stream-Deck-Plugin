@@ -9,13 +9,10 @@ dev:
 	cls && yarn watch
 
 lint:
-	cls && npm run lint
-
-lint-fix:
 	cls && npm run lint-fix
 
-icons:
-	cls && powershell ./scripts/make_icons.ps1 $(filter-out $@, $(MAKECMDGOALS))
+icon:
+	cls && powershell ./scripts/make_icon.ps1 $(filter-out $@, $(MAKECMDGOALS))
 
 check:
 	cls

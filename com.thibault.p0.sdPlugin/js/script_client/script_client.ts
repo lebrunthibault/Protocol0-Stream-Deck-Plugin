@@ -6,6 +6,7 @@ import DrumCategoriesUpdatedEvent from './drum_categories_updated_event'
 import { SongState, SongStateSchema } from './song_state'
 import FavoriteDeviceNamesUpdatedEvent from './favorite_device_names_updated_event'
 import { injectable } from 'tsyringe'
+import DrumRackVisibleUpdatedEvent from './drum_rack_visible_updated_event'
 
 @injectable()
 class ScriptClient {
@@ -36,7 +37,7 @@ class ScriptClient {
     private onSongState (data: any) {
         const songState = SongStateSchema.parse(data)
         console.log('received song state from websocket')
-        console.log(JSON.stringify(songState, null, 4))
+        // console.log(JSON.stringify(songState, null, 4))
         if (!songState) {
             return
         }
@@ -58,6 +59,7 @@ class ScriptClient {
         EventBus.emit(new DrumTrackNamesUpdatedEvent(songState.drum_track_names))
         EventBus.emit(new DrumCategoriesUpdatedEvent(songState.drum_categories))
         EventBus.emit(new FavoriteDeviceNamesUpdatedEvent(songState.favorite_device_names))
+        EventBus.emit(new DrumRackVisibleUpdatedEvent(songState.drum_rack_visible))
     }
 }
 

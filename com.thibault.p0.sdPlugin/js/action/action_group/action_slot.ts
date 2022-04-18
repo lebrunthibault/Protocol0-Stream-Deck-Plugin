@@ -9,7 +9,7 @@ class ActionSlot {
     private enabled: boolean = true;
     private parameter: string = 'not-set';
     public readonly index: number
-    private readonly display: ActionDisplay
+    public readonly display: ActionDisplay
     private pressedAt: number|null = null;
 
     constructor (
@@ -81,7 +81,6 @@ class ActionSlot {
             return
         }
 
-        console.log(performance.now() - this.pressedAt)
         const longPress = (performance.now() - this.pressedAt) > Config.LONG_PRESS_THRESHOLD
         this.pressedAt = null
 
@@ -93,12 +92,10 @@ class ActionSlot {
     }
 
     protected onPress () {
-        console.log(`onPress: ${this}`)
         this.actionFunc(this.parameter)
     }
 
     protected onLongPress () {
-        console.log(`onLongPress: ${this}`)
         if (this.longPressFunc) {
             this.longPressFunc(this.parameter)
         } else {

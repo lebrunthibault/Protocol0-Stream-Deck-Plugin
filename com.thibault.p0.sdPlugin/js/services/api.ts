@@ -13,6 +13,12 @@ const API = {
     loadDrumTrack (name: string) {
         fetch(`${Config.P0_API_URL}/load_drum_track/${name}`).then(() => null)
     },
+    loadDrumRack (name: string) {
+        fetch(`${Config.P0_API_URL}/load_drum_rack/${name}`).then(() => null)
+    },
+    drumRackToSimpler () {
+        fetch(`${Config.P0_API_URL}/drum_rack_to_simpler`).then(() => null)
+    },
     loadDevice (name: string) {
         fetch(`${Config.P0_API_URL}/load_device/${name}`).then(() => null)
     },

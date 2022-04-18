@@ -2,16 +2,16 @@ import { toStreamDeckTitle } from '../services/utils'
 import Icons from '../services/icons'
 
 class ActionDisplay {
-    private readonly context: string
-    private readonly icon: string
-
-    constructor (context: string, icon: string) {
-        this.context = context
-        this.icon = icon
+    /* eslint-disable no-useless-constructor */
+    constructor (
+        private readonly context: string,
+        private readonly icon: string,
+        private readonly title: string = ''
+    ) {
     }
 
-    enable (title: string) {
-        this.setTitle(toStreamDeckTitle(title))
+    enable (title: string|null = null) {
+        this.setTitle(toStreamDeckTitle(title || this.title))
         this.setImage(this.icon)
     }
 

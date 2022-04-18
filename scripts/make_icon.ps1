@@ -5,16 +5,16 @@ if (-Not $path -or -Not (Test-Path $path)) {
     exit
 }
 
-$img_dir = "com.thibault.p0.sdPlugin/img"
+$icon_dir = "com.thibault.p0.sdPlugin/icon"
 
 $base_name = [System.IO.Path]::GetFileNameWithoutExtension($path)
 
-New-Item -ItemType Directory -Force -Path "$img_dir/$base_name"
+New-Item -ItemType Directory -Force -Path "$icon_dir/$base_name"
 
-$action_path =  "$img_dir/$base_name/action.png"
-$action_pathx2 =  "$img_dir/$base_name/action@2x.png"
-$state_path =  "$img_dir/$base_name/state.png"
-$state_pathx2 =  "$img_dir/$base_name/state@2x.png"
+$action_path =  "$icon_dir/$base_name/action.png"
+$action_pathx2 =  "$icon_dir/$base_name/action@2x.png"
+$state_path =  "$icon_dir/$base_name/state.png"
+$state_pathx2 =  "$icon_dir/$base_name/state@2x.png"
 
 Copy-Item $path $action_path
 Copy-Item $path $action_pathx2

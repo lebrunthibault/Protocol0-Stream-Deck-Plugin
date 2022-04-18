@@ -1,11 +1,16 @@
-class Action {
-    public readonly name: string;
-    protected readonly actionFunction: Function;
-    public context: string = '';
+import ActionDisplay from './action_display'
 
-    constructor (name: string, func: Function) {
-        this.name = name
-        this.actionFunction = func
+class Action {
+    public _context: string = '';
+    private _display: ActionDisplay;
+
+    constructor (
+        public readonly name: string,
+        private readonly actionFunction: Function,
+        private readonly icon: string,
+        private readonly title: string = ''
+    ) {
+        this._display = new ActionDisplay('', this.icon)
         $SD.on(`com.thibault.p0.${name}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
         $SD.on(`com.thibault.p0.${name}.keyUp`, (event: SDEvent) => this.onKeyUp(event))
     }
@@ -14,8 +19,17 @@ class Action {
         return `Action(name="${this.name}", context="${this.context}")`
     }
 
+    get context (): string {
+        return this._context
+    }
+
+    get display (): ActionDisplay {
+        return this._display
+    }
+
     private onWillAppear (event: SDEvent) {
-        this.context = event.context
+        this._context = event.context
+        this._display = new ActionDisplay(this.context, this.icon, this.title)
     }
 
     private onKeyUp (_: SDEvent) {

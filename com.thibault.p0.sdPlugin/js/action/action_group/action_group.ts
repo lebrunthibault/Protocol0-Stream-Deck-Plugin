@@ -6,6 +6,7 @@ import * as _ from 'lodash-es'
 import Config from '../../config'
 import SongStatePropertyUpdatedEvent from '../../script_client/song_state_property_updated_event'
 import ActionSlot from './action_slot'
+import ActionNameEnum from '../ActionNameEnum'
 
 /**
  * CLass representing handling the creation and update of list of correlated dynamic actions
@@ -15,32 +16,20 @@ import ActionSlot from './action_slot'
  * Thus allowing dynamic action generation on the stream deck, something not possible with the stock script.
  */
 class ActionGroup {
-    private readonly actionRepository: ActionRepository;
     private readonly emitGroupAppearedEvent: Function;
     private readonly isIndexGroup: boolean;
-    protected readonly groupName: string;
-    protected readonly icon: string;
-    private readonly updateEvent: typeof SongStatePropertyUpdatedEvent;
-    private readonly actionFunc: ActionSlotFunction;
-    private readonly longPressFunc: ActionSlotFunction|null;
     // noinspection JSMismatchedCollectionQueryUpdate
     private parametersItems: string[] = [];
 
     constructor (
-        actionRepository: ActionRepository,
-        groupName: string,
-        icon: string,
-        updateEvent: typeof SongStatePropertyUpdatedEvent,
-        actionFunc: ActionSlotFunction,
-        longPressFunc: ActionSlotFunction|null = null
+        private readonly actionRepository: ActionRepository,
+        private readonly groupName: ActionNameEnum,
+        private readonly icon: string,
+        private readonly updateEvent: typeof SongStatePropertyUpdatedEvent,
+        private readonly actionFunc: ActionSlotFunction,
+        private readonly longPressFunc: ActionSlotFunction|null = null
     ) {
-        this.actionRepository = actionRepository
         this.isIndexGroup = groupName === Config.INDEX_ACTION
-        this.groupName = groupName
-        this.icon = icon
-        this.updateEvent = updateEvent
-        this.actionFunc = actionFunc
-        this.longPressFunc = longPressFunc
 
         this.emitGroupAppearedEvent = _.debounce(() => EventBus.emit(new ActionGroupAppearedEvent()), 10, { leading: false })
 

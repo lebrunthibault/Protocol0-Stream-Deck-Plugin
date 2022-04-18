@@ -1,64 +1,76 @@
 {
   "Actions": [
     {
-      "Icon": "img/play_pause/action",
+      "Icon": "icon/play_pause/action",
       "Name": "Toggle drum track",
       "States": [
         {
           "Title": "",
-          "Image": "img/play_pause/state"
+          "Image": "icon/play_pause/state"
         }
       ],
       "Tooltip": "Play / pause drum track",
       "UUID": "com.thibault.p0.toggle-track"
     },
     {
-      "Icon": "img/p0_action/action",
+      "Icon": "icon/p0_action/action",
       "Name": "Load drum track",
       "States": [
         {
           "Title": "",
-          "Image": "img/p0_action/state"
+          "Image": "icon/p0_action/state"
         }
       ],
       "Tooltip": "Load drum track",
       "UUID": "com.thibault.p0.load-drum-track"
     },
     {
-      "Icon": "img/p0_action/action",
+      "Icon": "icon/p0_action/action",
+      "Name": "Drum Rack to Simpler",
+      "States": [
+        {
+          "Title": "To\nSimpler",
+          "Image": "icon/to_simpler/state"
+        }
+      ],
+      "Tooltip": "Bounce Drum Rack to Simpler",
+      "UUID": "com.thibault.p0.drum-rack-to-simpler"
+    },
+    {
+      "Icon": "icon/p0_action/action",
       "Name": "Select or add device",
       "States": [
         {
           "Title": "",
-          "Image": "img/p0_action/state"
+          "Image": "icon/p0_action/state"
         }
       ],
       "Tooltip": "Select or add a chosen device on the selected track",
       "UUID": "com.thibault.p0.device"
     },
     {
-      "Icon": "img/play_pause/action",
+      "Icon": "icon/play_pause/action",
       "Name": "Play / pause",
       "States": [
         {
           "Title": "Play",
-          "Image": "img/play_pause/state"
+          "Image": "icon/play_pause/state"
         }
       ],
       "Tooltip": "Play / pause song",
-      "UUID": "com.thibault.p0.play"
+      "UUID": "com.thibault.p0.play-pause"
     },
     {
-      "Icon": "img/play_pause/action",
+      "Icon": "icon/play_pause/action",
       "Name": "Drums",
       "States": [
         {
           "Title": "Drums",
-          "Image": "img/play_pause/state"
+          "Image": "icon/play_pause/state"
         }
       ],
       "Tooltip": "Toggle drums",
-      "UUID": "com.thibault.p0.drums"
+      "UUID": "com.thibault.p0.toggle-drums"
     }
   ],
   "SDKVersion": 2,
@@ -67,7 +79,7 @@
   "PropertyInspectorPath": "propertyinspector/index.html",
   "Description": "Protocol0 Stream Deck Plugin",
   "Name": "P0",
-  "Icon": "img/p0_action/action",
+  "Icon": "icon/p0_action/action",
   "URL": "https://github.com/lebrunthibault/Protocol-0-Surface-Script",
   "Version": "0.1",
   "OS": [
