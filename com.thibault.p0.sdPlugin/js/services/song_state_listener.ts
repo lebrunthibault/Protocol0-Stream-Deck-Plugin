@@ -2,7 +2,7 @@ import EventBus from '../event_bus'
 import DrumRackVisibleUpdatedEvent from '../script_client/drum_rack_visible_updated_event'
 import ActionRepository from '../action/action_repository'
 import { inject, injectable } from 'tsyringe'
-import ActionNameEnum from '../action/ActionNameEnum'
+import ActionNameEnum from '../action/action_name_enum'
 
 @injectable()
 class SongStateListener {

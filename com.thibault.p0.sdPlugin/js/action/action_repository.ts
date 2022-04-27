@@ -3,7 +3,7 @@ import { ActionClass } from './action_class'
 
 import { inject, injectable } from 'tsyringe'
 import ActionSlot from './action_group/action_slot'
-import ActionNameEnum from './ActionNameEnum'
+import ActionNameEnum from './action_name_enum'
 import ActionInterface from './action_interface'
 
 @injectable()

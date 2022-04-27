@@ -4,6 +4,12 @@ const API = {
     playPause () {
         fetch(`${Config.P0_API_URL}/play_pause`).then(() => null)
     },
+    openCurrentSet () {
+        fetch(`${Config.P0_API_URL}/open_current_set`).then(() => null)
+    },
+    openDefaultSet () {
+        fetch(`${Config.P0_API_URL}/open_default_set`).then(() => null)
+    },
     toggleDrums () {
         fetch(`${Config.P0_API_URL}/toggle_drums`).then(() => null)
     },

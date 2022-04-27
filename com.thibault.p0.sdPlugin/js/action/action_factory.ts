@@ -9,7 +9,7 @@ import DrumTrackNamesUpdatedEvent from '../script_client/drum_track_names_update
 import FavoriteDeviceNamesUpdatedEvent from '../script_client/favorite_device_names_updated_event'
 import Icons from '../services/icons'
 import { inject, injectable } from 'tsyringe'
-import ActionNameEnum from './ActionNameEnum'
+import ActionNameEnum from './action_name_enum'
 
 @injectable()
 class ActionFactory {
@@ -20,6 +20,14 @@ class ActionFactory {
     }
 
     createActions () {
+        this.actionRepository.save(new Action(
+            ActionNameEnum.OPEN_CURRENT_SET,
+            API.openCurrentSet
+        ))
+        this.actionRepository.save(new Action(
+            ActionNameEnum.OPEN_DEFAULT_SET,
+            API.openDefaultSet
+        ))
         this.actionRepository.save(new Action(
             ActionNameEnum.PLAY_PAYSE,
             API.playPause,

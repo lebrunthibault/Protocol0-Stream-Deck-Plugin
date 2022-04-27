@@ -8,6 +8,7 @@ class ActionSlot {
     public readonly context: string;
     private enabled: boolean = true;
     private parameter: string = 'not-set';
+    public readonly row: number
     public readonly index: number
     public readonly display: ActionDisplay
     private pressedAt: number|null = null;
@@ -26,6 +27,7 @@ class ActionSlot {
 
         this.context = event.context
         this.display = new ActionDisplay(event.context, icon)
+        this.row = event.payload.coordinates.row
         this.index = event.payload.coordinates.row * 8 + event.payload.coordinates.column
 
         $SD.on(`com.thibault.p0.${name}.keyDown`, (event: SDEvent) => this.onKeyDown(event))

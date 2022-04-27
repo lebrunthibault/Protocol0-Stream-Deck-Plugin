@@ -1,6 +1,30 @@
 {
   "Actions": [
     {
+      "Icon": "icon/ableton/action",
+      "Name": "Open current set",
+      "States": [
+        {
+          "Title": "",
+          "Image": "icon/ableton/state"
+        }
+      ],
+      "Tooltip": "Open current set",
+      "UUID": "com.thibault.p0.open-current-set"
+    },
+    {
+      "Icon": "icon/ableton/action",
+      "Name": "Open default set",
+      "States": [
+        {
+          "Title": "",
+          "Image": "icon/ableton/state"
+        }
+      ],
+      "Tooltip": "Open default set",
+      "UUID": "com.thibault.p0.open-default-set"
+    },
+    {
       "Icon": "icon/play_pause/action",
       "Name": "Toggle drum track",
       "States": [

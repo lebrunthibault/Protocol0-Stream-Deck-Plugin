@@ -6,7 +6,8 @@ import * as _ from 'lodash-es'
 import Config from '../../config'
 import SongStatePropertyUpdatedEvent from '../../script_client/song_state_property_updated_event'
 import ActionSlot from './action_slot'
-import ActionNameEnum from '../ActionNameEnum'
+import ActionNameEnum from '../action_name_enum'
+import { SontStatePropertyItems } from '../../script_client/song_state_property_items'
 
 /**
  * CLass representing handling the creation and update of list of correlated dynamic actions
@@ -18,8 +19,7 @@ import ActionNameEnum from '../ActionNameEnum'
 class ActionGroup {
     private readonly emitGroupAppearedEvent: Function;
     private readonly isIndexGroup: boolean;
-    // noinspection JSMismatchedCollectionQueryUpdate
-    private parametersItems: string[] = [];
+    private parametersItems: SontStatePropertyItems = [];
 
     constructor (
         private readonly actionRepository: ActionRepository,
@@ -81,14 +81,36 @@ class ActionGroup {
         }
 
         this.parametersItems = event.items
+
+        const activeSlots = [...this.getSlotsToEnable(this.parametersItems)]
+        // NB : we receive parameters in row form or grid form. flattening to row form for further processing.
+        const parameters = this.parametersItems.flat()
+
         // disable unused action slots
-        this.slots.slice(event.items.length, this.slots.length).forEach(a => a.disable())
+        this.slots.filter((slot: ActionSlot) => !activeSlots.includes(slot)).forEach(a => a.disable())
 
-        const parameters = event.items.slice(0, this.slots.length)
+        if (activeSlots.length < parameters.length) {
+            console.error(`Got ${parameters.length} parameters to display but only ${activeSlots.length} action slots`)
+        }
 
-        parameters.forEach((name: string, i: number) => {
-            this.slots[i].setParameter(name)
+        activeSlots.forEach((slot: ActionSlot, i: number) => {
+            slot.setParameter(parameters[i])
         })
+    }
+
+    private * getSlotsToEnable (parameters: string[]|string[][]): Generator<ActionSlot, ActionSlot[]|undefined, undefined> {
+        if (parameters.length === 0) {
+            return []
+        }
+
+        // list of strings
+        if (typeof parameters[0] === 'string') {
+            yield * this.slots.slice(0, parameters.length)
+        } else {
+            for (const [i, rowParameters] of parameters.entries()) {
+                yield * this.slots.filter((slot: ActionSlot) => slot.row === i).slice(0, rowParameters.length)
+            }
+        }
     }
 }
 

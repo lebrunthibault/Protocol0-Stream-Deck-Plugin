@@ -1,4 +1,4 @@
-import { toStreamDeckTitle } from '../services/utils'
+import { toStreamDeckTitle } from '../services/string_utils'
 import Icons from '../services/icons'
 
 class ActionDisplay {

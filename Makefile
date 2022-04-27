@@ -12,7 +12,9 @@ lint:
 	cls && npm run lint-fix
 
 icon:
-	cls && powershell ./scripts/make_icon.ps1 $(filter-out $@, $(MAKECMDGOALS))
+	cls
+	powershell ./scripts/make_icon.ps1 $(filter-out $@, $(MAKECMDGOALS))
+	"Success !"
 
 check:
 	cls

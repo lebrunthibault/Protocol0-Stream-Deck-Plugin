@@ -7,7 +7,7 @@ class Action {
     constructor (
         public readonly name: string,
         private readonly actionFunction: Function,
-        private readonly icon: string,
+        private readonly icon: string = '',
         private readonly title: string = ''
     ) {
         this._display = new ActionDisplay('', this.icon)
@@ -19,12 +19,14 @@ class Action {
         return `Action(name="${this.name}", context="${this.context}")`
     }
 
-    get context (): string {
-        return this._context
-    }
-
+    // noinspection JSUnusedGlobalSymbols
+    // needed for ActionInterface
     get display (): ActionDisplay {
         return this._display
+    }
+
+    get context (): string {
+        return this._context
     }
 
     private onWillAppear (event: SDEvent) {
