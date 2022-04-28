@@ -21,14 +21,6 @@ class ActionFactory {
 
     createActions () {
         this.actionRepository.save(new Action(
-            ActionNameEnum.OPEN_CURRENT_SET,
-            API.openCurrentSet
-        ))
-        this.actionRepository.save(new Action(
-            ActionNameEnum.OPEN_DEFAULT_SET,
-            API.openDefaultSet
-        ))
-        this.actionRepository.save(new Action(
             ActionNameEnum.PLAY_PAYSE,
             API.playPause,
             Icons.playPause
