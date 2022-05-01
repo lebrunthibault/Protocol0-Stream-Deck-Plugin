@@ -21,7 +21,6 @@ class ActionDisplay {
     }
 
     set enabled (enabled: boolean) {
-
         if (enabled) {
             if (this.title) {
                 this.setTitle(this.title)

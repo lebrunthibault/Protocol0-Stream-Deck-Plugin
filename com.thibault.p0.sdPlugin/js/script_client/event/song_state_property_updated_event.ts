@@ -5,6 +5,10 @@ abstract class SongStatePropertyUpdatedEvent {
     constructor (items: SontStatePropertyItems) {
         this.items = items
     }
+
+    toString(): string {
+        return this.constructor.name
+    }
 }
 
 export default SongStatePropertyUpdatedEvent
