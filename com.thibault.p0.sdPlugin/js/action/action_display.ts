@@ -11,6 +11,10 @@ class ActionDisplay {
     ) {
     }
 
+    toString (): string {
+        return this.constructor.name
+    }
+
     static disabled () {
         return new ActionDisplay('', '', '', '')
     }
@@ -22,6 +26,7 @@ class ActionDisplay {
 
     set enabled (enabled: boolean) {
         if (enabled) {
+            console.log(`enabling ${this}`)
             if (this.title) {
                 this.setTitle(this.title)
             }

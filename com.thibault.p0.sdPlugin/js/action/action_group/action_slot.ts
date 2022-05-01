@@ -66,7 +66,6 @@ class ActionSlot {
         if (this.context !== sdEvent.context) {
             return
         }
-        console.log(`onKeyDown: ${this}`)
         this.pressedAt = performance.now()
     }
 
@@ -113,6 +112,7 @@ class ActionSlot {
     }
 
     disable () {
+        this.parameter = ''
         this.enabled = false
         this.display.enabled = false
     }

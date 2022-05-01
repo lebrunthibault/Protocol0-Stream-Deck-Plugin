@@ -6,7 +6,7 @@ abstract class SongStatePropertyUpdatedEvent {
         this.items = items
     }
 
-    toString(): string {
+    toString (): string {
         return this.constructor.name
     }
 }
