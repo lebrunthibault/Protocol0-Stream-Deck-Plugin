@@ -1,26 +1,39 @@
-import { toStreamDeckTitle } from '../services/string_utils'
-import Icons from '../services/icons'
+import Icons from '../service/icons'
 
 class ActionDisplay {
     /* eslint-disable no-useless-constructor */
     constructor (
         private readonly context: string,
         private readonly icon: string,
-        private readonly title: string = ''
+        private readonly iconDisabled: string = Icons.disabled,
+        private readonly title: string = '',
+        private readonly titleDisabled: string = ''
     ) {
     }
 
-    enable (title: string|null = null) {
-        this.setTitle(toStreamDeckTitle(title || this.title))
-        this.setImage(this.icon)
+    static disabled () {
+        return new ActionDisplay('', '', '', '')
     }
 
-    disable () {
-        this.setTitle('')
-        this.setImage(Icons.disabled)
+    // noinspection JSUnusedGlobalSymbols
+    get enabled (): boolean {
+        return true // unused
     }
 
-    private setTitle (title: string) {
+    set enabled (enabled: boolean) {
+
+        if (enabled) {
+            if (this.title) {
+                this.setTitle(this.title)
+            }
+            this.setImage(this.icon)
+        } else {
+            this.setTitle(this.titleDisabled)
+            this.setImage(this.iconDisabled)
+        }
+    }
+
+    setTitle (title: string) {
         $SD.api.setTitle(this.context, title)
     }
 

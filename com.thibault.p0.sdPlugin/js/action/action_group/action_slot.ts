@@ -1,5 +1,6 @@
 import ActionDisplay from '../action_display'
 import Config from '../../config'
+import { toStreamDeckTitle } from '../../service/string_utils'
 
 class ActionSlot {
     public readonly name: string;
@@ -106,15 +107,14 @@ class ActionSlot {
     }
 
     protected enable () {
-        console.log(`enabling ${this}`)
         this.enabled = true
-        this.display.enable(this.parameter)
+        this.display.setTitle(toStreamDeckTitle(this.parameter))
+        this.display.enabled = true
     }
 
     disable () {
         this.enabled = false
-        this.parameter = ''
-        this.display.disable()
+        this.display.enabled = false
     }
 }
 

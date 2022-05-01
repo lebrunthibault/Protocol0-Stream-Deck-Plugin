@@ -1,4 +1,4 @@
-import DB from '../services/db'
+import DB from '../service/db'
 import { ActionClass } from './action_class'
 
 import { inject, injectable } from 'tsyringe'
@@ -20,10 +20,6 @@ class ActionRepository {
         return <A[]> this.db.actions.filter((a: ActionInterface) => a instanceof cls)
     }
 
-    getActionByName (name: ActionNameEnum): ActionInterface|undefined {
-        return this.db.actions.find((a: ActionInterface) => a.name === name)
-    }
-
     getActionSlotByName (name: ActionNameEnum): ActionSlot[] {
         return this
             .getActionsByClass<ActionSlot>(ActionSlot).filter((a: ActionSlot) => a.name === name)
@@ -32,10 +28,6 @@ class ActionRepository {
 
     getActionByContext (context: string): ActionInterface|undefined {
         return this.db.actions.find((a: ActionInterface) => a.context === context)
-    }
-
-    all () {
-        return this.db.actions
     }
 }
 

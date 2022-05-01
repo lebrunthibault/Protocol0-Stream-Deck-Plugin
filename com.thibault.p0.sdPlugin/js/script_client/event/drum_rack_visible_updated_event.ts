@@ -3,6 +3,10 @@ class DrumRackVisibleUpdatedEvent {
     constructor (visible: boolean) {
         this.visible = visible
     }
+
+    toBool (): boolean {
+        return this.visible
+    }
 }
 
 export default DrumRackVisibleUpdatedEvent

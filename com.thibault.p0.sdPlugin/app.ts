@@ -2,7 +2,6 @@ import 'reflect-metadata'
 import { container } from 'tsyringe'
 import ActionFactory from './js/action/action_factory'
 import ScriptClient from './js/script_client/script_client'
-import SongStateListener from './js/services/song_state_listener'
 
 $SD.on('connected', async (_: object) => {
     await initApplication()
@@ -10,6 +9,5 @@ $SD.on('connected', async (_: object) => {
 
 async function initApplication () {
     container.resolve(ActionFactory).createActions()
-    container.resolve(SongStateListener)
     await container.resolve(ScriptClient).connect()
 }

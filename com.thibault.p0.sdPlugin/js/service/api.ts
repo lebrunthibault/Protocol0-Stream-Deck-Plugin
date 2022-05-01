@@ -1,9 +1,6 @@
 import Config from '../config'
 
 const API = {
-    playPause () {
-        fetch(`${Config.P0_API_URL}/play_pause`).then(() => null)
-    },
     toggleDrums () {
         fetch(`${Config.P0_API_URL}/toggle_drums`).then(() => null)
     },
@@ -18,6 +15,9 @@ const API = {
     },
     drumRackToSimpler () {
         fetch(`${Config.P0_API_URL}/drum_rack_to_simpler`).then(() => null)
+    },
+    toggleRoomEq () {
+        fetch(`${Config.P0_API_URL}/toggle_room_eq`).then(() => null)
     },
     loadDevice (name: string) {
         fetch(`${Config.P0_API_URL}/load_device/${name}`).then(() => null)

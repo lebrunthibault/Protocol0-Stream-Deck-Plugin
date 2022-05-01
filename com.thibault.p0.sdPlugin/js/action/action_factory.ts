@@ -2,14 +2,17 @@
 
 import ActionRepository from './action_repository'
 import { Action } from './action'
-import API from '../services/api'
+import API from '../service/api'
 import ActionGroup from './action_group/action_group'
-import DrumCategoriesUpdatedEvent from '../script_client/drum_categories_updated_event'
-import DrumTrackNamesUpdatedEvent from '../script_client/drum_track_names_updated_event'
-import FavoriteDeviceNamesUpdatedEvent from '../script_client/favorite_device_names_updated_event'
-import Icons from '../services/icons'
+import DrumCategoriesUpdatedEvent from '../script_client/event/drum_categories_updated_event'
+import DrumTrackNamesUpdatedEvent from '../script_client/event/drum_track_names_updated_event'
+import FavoriteDeviceNamesUpdatedEvent from '../script_client/event/favorite_device_names_updated_event'
+import Icons from '../service/icons'
 import { inject, injectable } from 'tsyringe'
 import ActionNameEnum from './action_name_enum'
+import ToggleAction from './ToggleAction'
+import DrumRackVisibleUpdatedEvent from '../script_client/event/drum_rack_visible_updated_event'
+import RoomEqEnabledEvent from '../script_client/event/room_eq_enabled_event'
 
 @injectable()
 class ActionFactory {
@@ -21,20 +24,27 @@ class ActionFactory {
 
     createActions () {
         this.actionRepository.save(new Action(
-            ActionNameEnum.PLAY_PAYSE,
-            API.playPause,
-            Icons.playPause
-        ))
-        this.actionRepository.save(new Action(
             ActionNameEnum.TOGGLE_DRUMS,
             API.toggleDrums,
             Icons.playPause
         ))
-        this.actionRepository.save(new Action(
+        new ToggleAction(new Action(
             ActionNameEnum.DRUM_RACK_TO_SIMPLER,
             API.drumRackToSimpler,
             Icons.drumRackToSimpler
-        ))
+        ),
+        DrumRackVisibleUpdatedEvent
+        )
+        new ToggleAction(new Action(
+            ActionNameEnum.TOGGLE_ROOM_EQ,
+            API.toggleRoomEq,
+            Icons.toggleRoomEQEnabled,
+            Icons.toggleRoomEQDisabled,
+            'Disable\nRoom EQ',
+            'Enable\nRoom EQ'
+        ),
+        RoomEqEnabledEvent
+        )
         new ActionGroup(
             this.actionRepository,
             ActionNameEnum.TOGGLE_TRACK,

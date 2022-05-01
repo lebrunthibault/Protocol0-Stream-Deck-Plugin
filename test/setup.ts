@@ -1,4 +1,5 @@
 // noinspection JSUnusedGlobalSymbols,JSUnusedLocalSymbols
+// @ts-ignore
 global.$SD = {
     on: () => null,
     api: {

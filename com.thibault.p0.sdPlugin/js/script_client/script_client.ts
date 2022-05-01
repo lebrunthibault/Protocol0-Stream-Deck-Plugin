@@ -1,12 +1,13 @@
 import Config from '../config'
 import EventBus from '../event_bus'
 import ActionGroupAppearedEvent from '../action/action_group/action_group_appeared_event'
-import DrumTrackNamesUpdatedEvent from './drum_track_names_updated_event'
-import DrumCategoriesUpdatedEvent from './drum_categories_updated_event'
-import { SongState, SongStateSchema } from './song_state'
-import FavoriteDeviceNamesUpdatedEvent from './favorite_device_names_updated_event'
+import DrumTrackNamesUpdatedEvent from './event/drum_track_names_updated_event'
+import DrumCategoriesUpdatedEvent from './event/drum_categories_updated_event'
+import SongStateSchema, { SongState } from './song_state'
+import FavoriteDeviceNamesUpdatedEvent from './event/favorite_device_names_updated_event'
 import { injectable } from 'tsyringe'
-import DrumRackVisibleUpdatedEvent from './drum_rack_visible_updated_event'
+import DrumRackVisibleUpdatedEvent from './event/drum_rack_visible_updated_event'
+import RoomEqEnabledEvent from './event/room_eq_enabled_event'
 
 @injectable()
 class ScriptClient {
@@ -60,6 +61,7 @@ class ScriptClient {
         EventBus.emit(new DrumCategoriesUpdatedEvent(songState.drum_categories))
         EventBus.emit(new FavoriteDeviceNamesUpdatedEvent(songState.favorite_device_names))
         EventBus.emit(new DrumRackVisibleUpdatedEvent(songState.drum_rack_visible))
+        EventBus.emit(new RoomEqEnabledEvent(songState.room_eq_enabled))
     }
 }
 

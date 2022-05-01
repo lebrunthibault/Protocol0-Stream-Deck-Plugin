@@ -37,6 +37,18 @@
       "UUID": "com.thibault.p0.drum-rack-to-simpler"
     },
     {
+      "Icon": "icon/room_eq_enabled/action",
+      "Name": "Toggle room EQ",
+      "States": [
+        {
+          "Title": "",
+          "Image": "icon/room_eq_enabled/state"
+        }
+      ],
+      "Tooltip": "Toggle room EQ",
+      "UUID": "com.thibault.p0.toggle-room-eq"
+    },
+    {
       "Icon": "icon/p0_action/action",
       "Name": "Select or add device",
       "States": [
@@ -50,19 +62,7 @@
     },
     {
       "Icon": "icon/play_pause/action",
-      "Name": "Play / pause",
-      "States": [
-        {
-          "Title": "Play",
-          "Image": "icon/play_pause/state"
-        }
-      ],
-      "Tooltip": "Play / pause song",
-      "UUID": "com.thibault.p0.play-pause"
-    },
-    {
-      "Icon": "icon/play_pause/action",
-      "Name": "Drums",
+      "Name": "Toggle drums",
       "States": [
         {
           "Title": "Drums",
