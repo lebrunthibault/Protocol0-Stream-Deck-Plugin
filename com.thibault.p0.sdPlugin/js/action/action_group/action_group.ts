@@ -3,7 +3,6 @@ import EventBus from '../../event_bus'
 import ActionGroupAppearedEvent from './action_group_appeared_event'
 
 import * as _ from 'lodash-es'
-import Config from '../../config'
 import SongStatePropertyUpdatedEvent from '../../script_client/event/song_state_property_updated_event'
 import ActionSlot from './action_slot'
 import ActionNameEnum from '../action_name_enum'
@@ -18,7 +17,6 @@ import { SontStatePropertyItems } from '../../script_client/event/song_state_pro
  */
 class ActionGroup {
     private readonly emitGroupAppearedEvent: Function;
-    private readonly isIndexGroup: boolean;
     private parametersItems: SontStatePropertyItems = [];
 
     constructor (
@@ -29,8 +27,6 @@ class ActionGroup {
         private readonly actionFunc: ActionSlotFunction,
         private readonly longPressFunc: ActionSlotFunction|null = null
     ) {
-        this.isIndexGroup = groupName === Config.INDEX_ACTION
-
         this.emitGroupAppearedEvent = _.debounce(() => EventBus.emit(new ActionGroupAppearedEvent()), 10, { leading: false })
 
         $SD.on(`com.thibault.p0.${groupName}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
@@ -61,9 +57,7 @@ class ActionGroup {
             this.longPressFunc
         ))
 
-        if (!this.isIndexGroup) {
-            this.emitGroupAppearedEvent()
-        }
+        this.emitGroupAppearedEvent()
     }
 
     /**

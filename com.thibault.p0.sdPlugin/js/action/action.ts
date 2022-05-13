@@ -1,5 +1,7 @@
 import ActionDisplay from './action_display'
 import Icons from '../service/icons'
+import ActionNameEnum from "./action_name_enum";
+import ProfileNameEnum from "../profile/ProfileNameEnum";
 
 class Action {
     public _context: string = '';
@@ -44,6 +46,12 @@ class Action {
     }
 
     private onKeyUp (_: SDEvent) {
+        if (this.name === ActionNameEnum.DRUM_RACK_TO_SIMPLER) {
+            console.log("overriding")
+            console.log($SD)
+            $SD.api.switchToProfile(this.context, "CL29K1A05615", ProfileNameEnum.PROTOCOL_0)
+            return
+        }
         this.actionFunction()
     }
 }

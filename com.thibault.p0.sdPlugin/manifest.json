@@ -73,6 +73,14 @@
       "UUID": "com.thibault.p0.toggle-drums"
     }
   ],
+  "Profiles": [
+    {
+      "Name": "Protocol 0",
+      "ReadOnly": true,
+      "DeviceType": 2,
+      "DontAutoSwitchWhenInstalled": true
+    }
+  ],
   "SDKVersion": 2,
   "Author": "Thibault Lebrun",
   "CodePath": "index.html",

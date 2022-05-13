@@ -8,23 +8,18 @@ function toTitleCase (str: string) {
 }
 
 const titleMapping: { [key: string]: string; } = {
-    Compressor: 'Comp'
+    COMPRESSOR: 'Comp',
+    PRO_Q_3: 'Pro-Q 3'
 }
 
-const wordToLabel = function (word: string): string {
+const toStreamDeckTitle = (word: string) => {
     if (word in titleMapping) {
         return titleMapping[word]
-    } else {
-        return word
     }
-}
 
-const toStreamDeckTitle = (str: string) => {
-    const words = toTitleCase(snakeCaseToSpaceCase(str))
-        .split(' ')
-        .map(wordToLabel)
+    const title = toTitleCase(snakeCaseToSpaceCase(word))
 
-    return words.join('\n')
+    return title.split(' ').join('\n')
 }
 
 export { toStreamDeckTitle }

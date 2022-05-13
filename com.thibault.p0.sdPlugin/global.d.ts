@@ -3,6 +3,7 @@
 interface SD {
     api: {
         setTitle: (context: string, title: string) => void,
+        switchToProfile: (context: string, deviceId: string, profileName: string) => void,
         setImage: (context: string, image: string) => void,
         showAlert: (context: string) => void,
     },
