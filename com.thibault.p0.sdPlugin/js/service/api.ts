@@ -1,9 +1,6 @@
 import Config from '../config'
 
 const API = {
-    toggleDrums () {
-        fetch(`${Config.P0_API_URL}/toggle_drums`).then(() => null)
-    },
     toggleTrack (name: string) {
         fetch(`${Config.P0_API_URL}/toggle_track/${name}`).then(() => null)
     },

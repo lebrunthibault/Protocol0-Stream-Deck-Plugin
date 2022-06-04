@@ -59,18 +59,6 @@
       ],
       "Tooltip": "Select or add a chosen device on the selected track",
       "UUID": "com.thibault.p0.device"
-    },
-    {
-      "Icon": "icon/play_pause/action",
-      "Name": "Toggle drums",
-      "States": [
-        {
-          "Title": "Drums",
-          "Image": "icon/play_pause/state"
-        }
-      ],
-      "Tooltip": "Toggle drums",
-      "UUID": "com.thibault.p0.toggle-drums"
     }
   ],
   "Profiles": [

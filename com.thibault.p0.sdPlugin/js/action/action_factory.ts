@@ -23,11 +23,6 @@ class ActionFactory {
     }
 
     createActions () {
-        this.actionRepository.save(new Action(
-            ActionNameEnum.TOGGLE_DRUMS,
-            API.toggleDrums,
-            Icons.playPause
-        ))
         new ToggleAction(new Action(
             ActionNameEnum.DRUM_RACK_TO_SIMPLER,
             API.drumRackToSimpler,
