@@ -9,7 +9,8 @@ function toTitleCase (str: string) {
 
 const titleMapping: { [key: string]: string; } = {
     COMPRESSOR: 'Comp',
-    PRO_Q_3: 'Pro-Q 3'
+    PRO_Q_3: 'Pro-Q 3',
+    FREE_CLIP: 'Clipper',
 }
 
 const toStreamDeckTitle = (word: string) => {
