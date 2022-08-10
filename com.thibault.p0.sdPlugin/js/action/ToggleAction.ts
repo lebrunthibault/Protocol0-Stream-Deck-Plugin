@@ -9,11 +9,6 @@ class ToggleAction {
         private readonly updateEventClass: toBooleanClass
     ) {
         EventBus.subscribe(updateEventClass, (event: toBoolean) => this.onUpdateEvent(event))
-        $SD.on(`com.thibault.p0.${action.name}.keyUp`, (event: SDEvent) => this.onKeyUp(event))
-    }
-
-    get enabled (): boolean {
-        return this._enabled
     }
 
     set enabled (enabled: boolean) {
@@ -23,10 +18,6 @@ class ToggleAction {
 
     private onUpdateEvent (event: toBoolean) {
         this.enabled = event.toBool()
-    }
-
-    private onKeyUp (_: SDEvent) {
-        this.enabled = !this.enabled
     }
 }
 
