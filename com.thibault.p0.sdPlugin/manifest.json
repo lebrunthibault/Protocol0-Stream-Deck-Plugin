@@ -26,6 +26,18 @@
     },
     {
       "Icon": "icon/p0_action/action",
+      "Name": "Load vocal track",
+      "States": [
+        {
+          "Title": "",
+          "Image": "icon/p0_action/state"
+        }
+      ],
+      "Tooltip": "Load vocal track",
+      "UUID": "com.thibault.p0.load-vocal-track"
+    },
+    {
+      "Icon": "icon/p0_action/action",
       "Name": "Drum Rack to Simpler",
       "States": [
         {

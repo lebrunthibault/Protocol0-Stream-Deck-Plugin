@@ -8,7 +8,8 @@ import FavoriteDeviceNamesUpdatedEvent from './event/favorite_device_names_updat
 import { injectable } from 'tsyringe'
 import DrumRackVisibleUpdatedEvent from './event/drum_rack_visible_updated_event'
 import RoomEqEnabledEvent from './event/room_eq_enabled_event'
-import InsertFavoriteDeviceNamesUpdatedEvent from "./event/insert_favorite_device_names_updated_event";
+import InsertFavoriteDeviceNamesUpdatedEvent from './event/insert_favorite_device_names_updated_event'
+import VocalCategoriesUpdatedEvent from './event/vocal_categories_updated_event'
 
 @injectable()
 class ScriptClient {
@@ -59,7 +60,8 @@ class ScriptClient {
 
     private static emitSongState (songState: SongState) {
         EventBus.emit(new DrumTrackNamesUpdatedEvent(songState.drum_track_names))
-        EventBus.emit(new DrumCategoriesUpdatedEvent(songState.drum_categories))
+        EventBus.emit(new DrumCategoriesUpdatedEvent(songState.sample_categories.drums))
+        EventBus.emit(new VocalCategoriesUpdatedEvent(songState.sample_categories.vocals))
         EventBus.emit(new FavoriteDeviceNamesUpdatedEvent(songState.favorite_device_names))
         EventBus.emit(new InsertFavoriteDeviceNamesUpdatedEvent(songState.insert_favorite_device_names))
         EventBus.emit(new DrumRackVisibleUpdatedEvent(songState.drum_rack_visible))

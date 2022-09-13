@@ -1,0 +1,5 @@
+import SongStatePropertyUpdatedEvent from './song_state_property_updated_event'
+
+class VocalCategoriesUpdatedEvent extends SongStatePropertyUpdatedEvent {}
+
+export default VocalCategoriesUpdatedEvent

@@ -4,11 +4,11 @@ const API = {
     toggleTrack (name: string) {
         fetch(`${Config.P0_API_URL}/toggle_track/${name}`).then(() => null)
     },
-    loadDrumTrack (name: string) {
-        fetch(`${Config.P0_API_URL}/load_drum_track/${name}`).then(() => null)
+    loadDrumSamples (category: string) {
+        fetch(`${Config.P0_API_URL}/load_drum_rack/drums/${category}`).then(() => null)
     },
-    loadDrumRack (name: string) {
-        fetch(`${Config.P0_API_URL}/load_drum_rack/${name}`).then(() => null)
+    loadVocalSamples (category: string) {
+        fetch(`${Config.P0_API_URL}/load_drum_rack/vocals/${category}`).then(() => null)
     },
     drumRackToSimpler () {
         fetch(`${Config.P0_API_URL}/drum_rack_to_simpler`).then(() => null)
