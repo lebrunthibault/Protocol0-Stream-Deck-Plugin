@@ -2,6 +2,7 @@
 
 enum ActionNameEnum {
     DEVICE = 'device',
+    INSERT_DEVICE = 'insert-device',
     DRUM_RACK_TO_SIMPLER = 'drum-rack-to-simpler',
     LOAD_DRUM_TRACK = 'load-drum-track',
     TOGGLE_ROOM_EQ = 'toggle-room-eq',
