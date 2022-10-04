@@ -8,6 +8,7 @@ function toTitleCase (str: string) {
 }
 
 const titleMapping: { [key: string]: string; } = {
+    AUTO_FILTER_HIGH_PASS: 'HPF',
     AUTO_FILTER_LOW_PASS: 'LPF',
     COMPRESSOR: 'Comp',
     FREE_CLIP: 'Clipper',
