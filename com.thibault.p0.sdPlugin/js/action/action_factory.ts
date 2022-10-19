@@ -5,16 +5,16 @@ import { Action } from './action'
 import API from '../service/api'
 import ActionGroup from './action_group/action_group'
 import DrumCategoriesUpdatedEvent from '../script_client/event/drum_categories_updated_event'
-import DrumTrackNamesUpdatedEvent from '../script_client/event/drum_track_names_updated_event'
 import FavoriteDeviceNamesUpdatedEvent from '../script_client/event/favorite_device_names_updated_event'
 import InsertFavoriteDeviceNamesUpdatedEvent from '../script_client/event/insert_favorite_device_names_updated_event'
 import Icons from '../service/icons'
 import { inject, injectable } from 'tsyringe'
 import ActionNameEnum from './action_name_enum'
-import ToggleAction from './ToggleAction'
+import ToggleAction from './toggle_action'
 import DrumRackVisibleUpdatedEvent from '../script_client/event/drum_rack_visible_updated_event'
 import RoomEqEnabledEvent from '../script_client/event/room_eq_enabled_event'
 import VocalCategoriesUpdatedEvent from '../script_client/event/vocal_categories_updated_event'
+import { AbletonSetsUpdatedEvent } from '../script_client/event/ableton_sets_updated_event'
 
 @injectable()
 class ActionFactory {
@@ -44,10 +44,12 @@ class ActionFactory {
         )
         new ActionGroup(
             this.actionRepository,
-            ActionNameEnum.TOGGLE_TRACK,
-            Icons.playPause,
-            DrumTrackNamesUpdatedEvent,
-            API.toggleTrack
+            ActionNameEnum.MUTE_SET,
+            Icons.set,
+            AbletonSetsUpdatedEvent,
+            API.muteSet,
+            null,
+            Icons.muted
         )
         new ActionGroup(
             this.actionRepository,

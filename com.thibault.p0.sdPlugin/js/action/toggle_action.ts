@@ -11,6 +11,11 @@ class ToggleAction {
         EventBus.subscribe(updateEventClass, (event: toBoolean) => this.onUpdateEvent(event))
     }
 
+    // noinspection JSUnusedGlobalSymbols
+    get enabled () {
+        return this._enabled
+    }
+
     set enabled (enabled: boolean) {
         this._enabled = enabled
         this.action.display.enabled = enabled

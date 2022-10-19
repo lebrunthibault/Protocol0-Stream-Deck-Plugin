@@ -26,7 +26,7 @@ class ActionDisplay {
 
     set enabled (enabled: boolean) {
         if (enabled) {
-            console.log(`enabling ${this}`)
+            console.info(`enabling ${this}`)
             if (this.title) {
                 this.setTitle(this.title)
             }
@@ -41,7 +41,7 @@ class ActionDisplay {
         $SD.api.setTitle(this.context, title)
     }
 
-    private setImage (image: string) {
+    setImage (image: string) {
         $SD.api.setImage(this.context, image)
     }
 }

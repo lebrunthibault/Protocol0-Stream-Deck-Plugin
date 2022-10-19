@@ -3,10 +3,13 @@ import EventBus from '../../event_bus'
 import ActionGroupAppearedEvent from './action_group_appeared_event'
 
 import * as _ from 'lodash-es'
-import SongStatePropertyUpdatedEvent from '../../script_client/event/song_state_property_updated_event'
+import {
+    ActionSlotItem, ActionSlotItems,
+    SongStateUpdatedEvent
+} from '../../script_client/event/song_state_updated_event'
 import ActionSlot from './action_slot'
 import ActionNameEnum from '../action_name_enum'
-import { SontStatePropertyItems } from '../../script_client/event/song_state_property_items'
+import Icons from '../../service/icons'
 
 /**
  * CLass representing handling the creation and update of list of correlated dynamic actions
@@ -17,21 +20,22 @@ import { SontStatePropertyItems } from '../../script_client/event/song_state_pro
  */
 class ActionGroup {
     private readonly emitGroupAppearedEvent: Function;
-    private parametersItems: SontStatePropertyItems = [];
+    private actionSlotItems: ActionSlotItems = [];
 
     constructor (
         private readonly actionRepository: ActionRepository,
         private readonly groupName: ActionNameEnum,
         private readonly icon: string,
-        private readonly updateEvent: typeof SongStatePropertyUpdatedEvent,
+        private readonly updateEvent: typeof SongStateUpdatedEvent,
         private readonly actionFunc: ActionSlotFunction,
-        private readonly longPressFunc: ActionSlotFunction|null = null
+        private readonly longPressFunc: ActionSlotFunction | null = null,
+        private readonly icon_disabled: string = Icons.disabled
     ) {
         this.emitGroupAppearedEvent = _.debounce(() => EventBus.emit(new ActionGroupAppearedEvent()), 10, { leading: false })
 
         $SD.on(`com.thibault.p0.${groupName}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
 
-        EventBus.subscribe(updateEvent, (event: SongStatePropertyUpdatedEvent) => this.onUpdateEvent(event))
+        EventBus.subscribe(updateEvent, (event: SongStateUpdatedEvent) => this.onUpdateEvent(event))
     }
 
     private get slots (): ActionSlot[] {
@@ -53,6 +57,7 @@ class ActionGroup {
             event,
             this.groupName,
             this.icon,
+            this.icon_disabled,
             this.actionFunc,
             this.longPressFunc
         ))
@@ -65,20 +70,23 @@ class ActionGroup {
      * Each time we receive it, we update all actions
      * Action will be enabled or disabled depending on the size of the "event.items" array
      */
-    private onUpdateEvent (event: SongStatePropertyUpdatedEvent) {
+    private onUpdateEvent (event: SongStateUpdatedEvent) {
         if (this.slots.length === 0) {
             return
         }
-        console.log(`on update : ${event}`)
-        if (_.isEqual(this.parametersItems, event.items)) {
+        console.info(`on update : ${event}`)
+        console.log(this.actionSlotItems)
+        console.log(event.items)
+        if (_.isEqual(this.actionSlotItems, event.items)) {
             return
         }
+        console.log('updating')
 
-        this.parametersItems = event.items
+        this.actionSlotItems = event.items
 
-        const activeSlots = [...this.getSlotsToEnable(this.parametersItems)]
+        const activeSlots = [...this.getSlotsToEnable(this.actionSlotItems)]
         // NB : we receive parameters in row form or grid form. flattening to row form for further processing.
-        const parameters = this.parametersItems.flat()
+        const parameters = this.actionSlotItems.flat()
 
         // disable unused action slots
         this.slots.filter((slot: ActionSlot) => !activeSlots.includes(slot)).forEach(a => a.disable())
@@ -92,18 +100,18 @@ class ActionGroup {
         })
     }
 
-    private * getSlotsToEnable (parameters: string[]|string[][]): Generator<ActionSlot, ActionSlot[]|undefined, undefined> {
+    private * getSlotsToEnable (parameters: ActionSlotItems): Generator<ActionSlot, ActionSlot[] | undefined, undefined> {
         if (parameters.length === 0) {
             return []
         }
 
-        // list of strings
-        if (typeof parameters[0] === 'string') {
-            yield * this.slots.slice(0, parameters.length)
-        } else {
+        // grid or list shape
+        if (parameters[0] instanceof Array) {
             for (const [i, rowParameters] of parameters.entries()) {
-                yield * this.slots.filter((slot: ActionSlot) => slot.row === i).slice(0, rowParameters.length)
+                yield * this.slots.filter((slot: ActionSlot) => slot.row === i).slice(0, (rowParameters as unknown as ActionSlotItem[]).length)
             }
+        } else {
+            yield * this.slots.slice(0, parameters.length)
         }
     }
 }

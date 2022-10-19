@@ -1,16 +1,40 @@
 {
   "Actions": [
     {
-      "Icon": "icon/play_pause/action",
-      "Name": "Toggle drum track",
+      "Icon": "icon/p0_action/action",
+      "Name": "Select or add device",
       "States": [
         {
           "Title": "",
-          "Image": "icon/play_pause/state"
+          "Image": "icon/p0_action/state"
         }
       ],
-      "Tooltip": "Play / pause drum track",
-      "UUID": "com.thibault.p0.toggle-track"
+      "Tooltip": "Select or add a chosen device on the selected track",
+      "UUID": "com.thibault.p0.device"
+    },
+    {
+      "Icon": "icon/p0_action/action",
+      "Name": "Drum Rack to Simpler",
+      "States": [
+        {
+          "Title": "To\nSimpler",
+          "Image": "icon/to_simpler/state"
+        }
+      ],
+      "Tooltip": "Bounce Drum Rack to Simpler",
+      "UUID": "com.thibault.p0.drum-rack-to-simpler"
+    },
+    {
+      "Icon": "icon/p0_action/action",
+      "Name": "Select or add an insert device",
+      "States": [
+        {
+          "Title": "",
+          "Image": "icon/p0_action/state"
+        }
+      ],
+      "Tooltip": "Select or add a chosen insert device on the selected track",
+      "UUID": "com.thibault.p0.insert-device"
     },
     {
       "Icon": "icon/p0_action/action",
@@ -38,15 +62,15 @@
     },
     {
       "Icon": "icon/p0_action/action",
-      "Name": "Drum Rack to Simpler",
+      "Name": "Mute set",
       "States": [
         {
-          "Title": "To\nSimpler",
-          "Image": "icon/to_simpler/state"
+          "Title": "",
+          "Image": "icon/p0_action/state"
         }
       ],
-      "Tooltip": "Bounce Drum Rack to Simpler",
-      "UUID": "com.thibault.p0.drum-rack-to-simpler"
+      "Tooltip": "Mute set",
+      "UUID": "com.thibault.p0.mute-set"
     },
     {
       "Icon": "icon/room_eq_enabled/action",
@@ -59,30 +83,6 @@
       ],
       "Tooltip": "Toggle room EQ",
       "UUID": "com.thibault.p0.toggle-room-eq"
-    },
-    {
-      "Icon": "icon/p0_action/action",
-      "Name": "Select or add device",
-      "States": [
-        {
-          "Title": "",
-          "Image": "icon/p0_action/state"
-        }
-      ],
-      "Tooltip": "Select or add a chosen device on the selected track",
-      "UUID": "com.thibault.p0.device"
-    },
-    {
-      "Icon": "icon/p0_action/action",
-      "Name": "Select or add an insert device",
-      "States": [
-        {
-          "Title": "",
-          "Image": "icon/p0_action/state"
-        }
-      ],
-      "Tooltip": "Select or add a chosen insert device on the selected track",
-      "UUID": "com.thibault.p0.insert-device"
     }
   ],
   "Profiles": [

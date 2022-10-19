@@ -21,9 +21,12 @@ const toStreamDeckTitle = (word: string) => {
         return titleMapping[word]
     }
 
-    const title = toTitleCase(snakeCaseToSpaceCase(word))
+    let words = word.split(/[\s-]+/).map(w => w.trim())
+    const excludedWords = ['-']
+    words = words.filter(w => !excludedWords.includes(w))
 
-    return title.split(' ').join('\n')
+    const title = words.join('\n')
+    return toTitleCase(snakeCaseToSpaceCase(title))
 }
 
 export { toStreamDeckTitle }

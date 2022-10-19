@@ -17,6 +17,9 @@ module.exports = {
   ignorePatterns: [],
   rules: {
     "indent": ["error", 4],
-    "no-undef": "off"
+    "no-undef": "off",
+    "no-case-declarations": "off",
+    "no-useless-constructor": "off",
+    "new-cap": "off",
   }
 }
