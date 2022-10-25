@@ -1,5 +1,5 @@
-import { SongStateUpdatedEvent } from './song_state_updated_event'
+import { SetStateUpdatedEvent } from './set_state_updated_event'
 
-class DrumCategoriesUpdatedEvent extends SongStateUpdatedEvent {}
+class DrumCategoriesUpdatedEvent extends SetStateUpdatedEvent {}
 
 export default DrumCategoriesUpdatedEvent

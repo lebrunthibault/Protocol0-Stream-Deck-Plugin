@@ -1,7 +1,7 @@
 // noinspection TypeScriptValidateJSTypes
 
 import { z } from 'zod'
-import SongStateSchema from './song_state'
+import AbletonSetSchema from './set_state'
 
 const SampleCategoriesSchema = z.object({
     drums: z.array(z.string()),
@@ -9,7 +9,7 @@ const SampleCategoriesSchema = z.object({
 })
 
 const ServerStateSchema = z.object({
-    song_states: z.array(SongStateSchema),
+    set_states: z.array(AbletonSetSchema),
     sample_categories: SampleCategoriesSchema,
     favorite_device_names: z.array(z.array(z.string())),
     insert_favorite_device_names: z.array(z.string())

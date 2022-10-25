@@ -1,5 +1,5 @@
-import { SongStateUpdatedEvent } from './song_state_updated_event'
+import { SetStateUpdatedEvent } from './set_state_updated_event'
 
-class VocalCategoriesUpdatedEvent extends SongStateUpdatedEvent {}
+class VocalCategoriesUpdatedEvent extends SetStateUpdatedEvent {}
 
 export default VocalCategoriesUpdatedEvent

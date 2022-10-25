@@ -5,16 +5,16 @@ import ActionGroupAppearedEvent from './action_group_appeared_event'
 import * as _ from 'lodash-es'
 import {
     ActionSlotItem, ActionSlotItems,
-    SongStateUpdatedEvent
-} from '../../script_client/event/song_state_updated_event'
+    SetStateUpdatedEvent
+} from '../../script_client/event/set_state_updated_event'
 import ActionSlot from './action_slot'
 import ActionNameEnum from '../action_name_enum'
 import Icons from '../../service/icons'
 
 /**
  * CLass representing handling the creation and update of list of correlated dynamic actions
- * The class instance is bound to a specific SongState property and will update its action list
- * on each SongState update.
+ * The class instance is bound to a specific SetState property and will update its action list
+ * on each SetState update.
  *
  * Thus allowing dynamic action generation on the stream deck, something not possible with the stock script.
  */
@@ -26,7 +26,7 @@ class ActionGroup {
         private readonly actionRepository: ActionRepository,
         private readonly groupName: ActionNameEnum,
         private readonly icon: string,
-        private readonly updateEvent: typeof SongStateUpdatedEvent,
+        private readonly updateEvent: typeof SetStateUpdatedEvent,
         private readonly actionFunc: ActionSlotFunction,
         private readonly longPressFunc: ActionSlotFunction | null = null,
         private readonly icon_disabled: string = Icons.disabled
@@ -35,7 +35,7 @@ class ActionGroup {
 
         $SD.on(`com.thibault.p0.${groupName}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
 
-        EventBus.subscribe(updateEvent, (event: SongStateUpdatedEvent) => this.onUpdateEvent(event))
+        EventBus.subscribe(updateEvent, (event: SetStateUpdatedEvent) => this.onUpdateEvent(event))
     }
 
     private get slots (): ActionSlot[] {
@@ -66,11 +66,11 @@ class ActionGroup {
     }
 
     /**
-     * The updateEvent is the specific songState update event configured
+     * The updateEvent is the specific setState update event configured
      * Each time we receive it, we update all actions
      * Action will be enabled or disabled depending on the size of the "event.items" array
      */
-    private onUpdateEvent (event: SongStateUpdatedEvent) {
+    private onUpdateEvent (event: SetStateUpdatedEvent) {
         if (this.slots.length === 0) {
             return
         }

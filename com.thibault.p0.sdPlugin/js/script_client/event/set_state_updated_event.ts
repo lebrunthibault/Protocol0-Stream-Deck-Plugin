@@ -20,7 +20,7 @@ class ActionSlotItem {
 
 type ActionSlotItems = ActionSlotItem[] | ActionSlotItem[][]
 
-abstract class SongStateUpdatedEvent {
+abstract class SetStateUpdatedEvent {
     public readonly items: ActionSlotItems = []
 
     constructor (
@@ -44,4 +44,4 @@ abstract class SongStateUpdatedEvent {
 }
 
 export type { ActionSlotItems }
-export { SongStateUpdatedEvent, ActionSlotItem }
+export { SetStateUpdatedEvent, ActionSlotItem }

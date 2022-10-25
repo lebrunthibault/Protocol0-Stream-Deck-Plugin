@@ -1,24 +1,24 @@
-import { ActionSlotItem, SongStateUpdatedEvent } from './song_state_updated_event'
-import { SongState } from '../song_state'
+import { ActionSlotItem, SetStateUpdatedEvent } from './set_state_updated_event'
+import { AbletonSet } from '../set_state'
 
-class SongStateItem extends ActionSlotItem {
+class SetStateItem extends ActionSlotItem {
     get value (): string {
-        return (this._item as unknown as SongState).id
+        return (this._item as unknown as AbletonSet).id
     }
 
     get label (): string {
-        return (this._item as unknown as SongState).title
+        return (this._item as unknown as AbletonSet).title
     }
 
     get active (): boolean {
-        return !(this._item as unknown as SongState).muted
+        return !(this._item as unknown as AbletonSet).muted
     }
 }
 
-class AbletonSetsUpdatedEvent extends SongStateUpdatedEvent {
+class AbletonSetsUpdatedEvent extends SetStateUpdatedEvent {
     constructor (items: any[]) {
-        super(items, SongStateItem)
+        super(items, SetStateItem)
     }
 }
 
-export { AbletonSetsUpdatedEvent, SongStateItem }
+export { AbletonSetsUpdatedEvent, SetStateItem }

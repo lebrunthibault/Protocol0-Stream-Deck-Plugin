@@ -1,7 +1,7 @@
 import ActionDisplay from '../action_display'
 import Config from '../../config'
 import { toStreamDeckTitle } from '../../service/string_utils'
-import { ActionSlotItem } from '../../script_client/event/song_state_updated_event'
+import { ActionSlotItem } from '../../script_client/event/set_state_updated_event'
 
 class ActionSlot {
     public readonly name: string;

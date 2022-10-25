@@ -2,7 +2,7 @@ import Config from '../config'
 import EventBus from '../event_bus'
 import ActionGroupAppearedEvent from '../action/action_group/action_group_appeared_event'
 import DrumCategoriesUpdatedEvent from './event/drum_categories_updated_event'
-import SongStateSchema, { SongState } from './song_state'
+import AbletonSetSchema, { AbletonSet } from './set_state'
 import FavoriteDeviceNamesUpdatedEvent from './event/favorite_device_names_updated_event'
 import { injectable } from 'tsyringe'
 import DrumRackVisibleUpdatedEvent from './event/drum_rack_visible_updated_event'
@@ -19,7 +19,7 @@ interface WebSocketPayload {
 
 @injectable()
 class ScriptClient {
-    private songState: SongState | null = null
+    private activeSet: AbletonSet | null = null
     private serverState: ServerState | null = null
 
     constructor () {
@@ -51,9 +51,9 @@ class ScriptClient {
         console.log(data.type)
         console.log(data.data)
         switch (data.type) {
-        case 'SONG_STATE':
-            this.songState = SongStateSchema.parse(data.data)
-            ScriptClient.emitSongState(this.songState)
+        case 'SET_STATE':
+            this.activeSet = AbletonSetSchema.parse(data.data)
+            ScriptClient.emitSetState(this.activeSet)
             break
         case 'SERVER_STATE':
             this.serverState = ServerStateSchema.parse(data.data)
@@ -65,25 +65,25 @@ class ScriptClient {
     }
 
     private onActionGroupAppearedEvent () {
-        if (!this.songState) {
-            console.warn('songState has not been received')
+        if (!this.activeSet) {
+            console.warn('active set has not been received')
             return
         }
         if (!this.serverState) {
-            console.warn('serverState has not been received')
+            console.warn('server state has not been received')
             return
         }
-        ScriptClient.emitSongState(this.songState)
+        ScriptClient.emitSetState(this.activeSet)
         ScriptClient.emitServerState(this.serverState)
     }
 
-    private static emitSongState (songState: SongState) {
-        EventBus.emit(new DrumRackVisibleUpdatedEvent(songState.drum_rack_visible))
-        EventBus.emit(new RoomEqEnabledEvent(songState.room_eq_enabled))
+    private static emitSetState (setState: AbletonSet) {
+        EventBus.emit(new DrumRackVisibleUpdatedEvent(setState.drum_rack_visible))
+        EventBus.emit(new RoomEqEnabledEvent(setState.room_eq_enabled))
     }
 
     private static emitServerState (serverState: ServerState) {
-        EventBus.emit(new AbletonSetsUpdatedEvent(serverState.song_states))
+        EventBus.emit(new AbletonSetsUpdatedEvent(serverState.set_states))
         EventBus.emit(new DrumCategoriesUpdatedEvent(serverState.sample_categories.drums))
         EventBus.emit(new VocalCategoriesUpdatedEvent(serverState.sample_categories.vocals))
         EventBus.emit(new FavoriteDeviceNamesUpdatedEvent(serverState.favorite_device_names))

@@ -2,16 +2,17 @@
 
 import { z } from 'zod'
 
-const SongStateSchema = z.object({
+const AbletonSetSchema = z.object({
     id: z.string(),
     title: z.string(),
+    active: z.boolean(),
     muted: z.boolean(),
     drum_rack_visible: z.boolean(),
     room_eq_enabled: z.boolean()
 })
 
 // extract the inferred type
-type SongState = z.infer<typeof SongStateSchema>;
+type AbletonSet = z.infer<typeof AbletonSetSchema>;
 
-export type { SongState }
-export default SongStateSchema
+export type { AbletonSet }
+export default AbletonSetSchema
