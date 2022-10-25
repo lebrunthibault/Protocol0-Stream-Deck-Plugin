@@ -1,7 +1,7 @@
 import { ActionSlotItem, SetStateUpdatedEvent } from './set_state_updated_event'
 import { AbletonSet } from '../set_state'
 
-class SetStateItem extends ActionSlotItem {
+class AbletonSetItem extends ActionSlotItem {
     get value (): string {
         return (this._item as unknown as AbletonSet).id
     }
@@ -17,8 +17,8 @@ class SetStateItem extends ActionSlotItem {
 
 class AbletonSetsUpdatedEvent extends SetStateUpdatedEvent {
     constructor (items: any[]) {
-        super(items, SetStateItem)
+        super(items, AbletonSetItem)
     }
 }
 
-export { AbletonSetsUpdatedEvent, SetStateItem }
+export { AbletonSetsUpdatedEvent, AbletonSetItem }

@@ -9,7 +9,7 @@ const SampleCategoriesSchema = z.object({
 })
 
 const ServerStateSchema = z.object({
-    set_states: z.array(AbletonSetSchema),
+    sets: z.array(AbletonSetSchema),
     sample_categories: SampleCategoriesSchema,
     favorite_device_names: z.array(z.array(z.string())),
     insert_favorite_device_names: z.array(z.string())

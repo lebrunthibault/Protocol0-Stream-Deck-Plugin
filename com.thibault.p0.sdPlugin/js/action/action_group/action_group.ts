@@ -13,8 +13,8 @@ import Icons from '../../service/icons'
 
 /**
  * CLass representing handling the creation and update of list of correlated dynamic actions
- * The class instance is bound to a specific SetState property and will update its action list
- * on each SetState update.
+ * The class instance is bound to a specific property and will update its action list
+ * on each event update.
  *
  * Thus allowing dynamic action generation on the stream deck, something not possible with the stock script.
  */
@@ -66,7 +66,7 @@ class ActionGroup {
     }
 
     /**
-     * The updateEvent is the specific setState update event configured
+     * The updateEvent is the specific update event configured
      * Each time we receive it, we update all actions
      * Action will be enabled or disabled depending on the size of the "event.items" array
      */

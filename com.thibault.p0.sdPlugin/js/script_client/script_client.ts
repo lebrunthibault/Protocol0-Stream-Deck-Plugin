@@ -53,7 +53,7 @@ class ScriptClient {
         switch (data.type) {
         case 'SET_STATE':
             this.activeSet = AbletonSetSchema.parse(data.data)
-            ScriptClient.emitSetState(this.activeSet)
+            ScriptClient.emitSet(this.activeSet)
             break
         case 'SERVER_STATE':
             this.serverState = ServerStateSchema.parse(data.data)
@@ -73,17 +73,17 @@ class ScriptClient {
             console.warn('server state has not been received')
             return
         }
-        ScriptClient.emitSetState(this.activeSet)
+        ScriptClient.emitSet(this.activeSet)
         ScriptClient.emitServerState(this.serverState)
     }
 
-    private static emitSetState (setState: AbletonSet) {
-        EventBus.emit(new DrumRackVisibleUpdatedEvent(setState.drum_rack_visible))
-        EventBus.emit(new RoomEqEnabledEvent(setState.room_eq_enabled))
+    private static emitSet (set: AbletonSet) {
+        EventBus.emit(new DrumRackVisibleUpdatedEvent(set.drum_rack_visible))
+        EventBus.emit(new RoomEqEnabledEvent(set.room_eq_enabled))
     }
 
     private static emitServerState (serverState: ServerState) {
-        EventBus.emit(new AbletonSetsUpdatedEvent(serverState.set_states))
+        EventBus.emit(new AbletonSetsUpdatedEvent(serverState.sets))
         EventBus.emit(new DrumCategoriesUpdatedEvent(serverState.sample_categories.drums))
         EventBus.emit(new VocalCategoriesUpdatedEvent(serverState.sample_categories.vocals))
         EventBus.emit(new FavoriteDeviceNamesUpdatedEvent(serverState.favorite_device_names))
