@@ -2,7 +2,6 @@ import Config from '../config'
 import EventBus from '../event_bus'
 import ActionGroupAppearedEvent from '../action/action_group/action_group_appeared_event'
 import DrumCategoriesUpdatedEvent from './event/drum_categories_updated_event'
-import AbletonSetSchema, { AbletonSet } from './set_state'
 import FavoriteDeviceNamesUpdatedEvent from './event/favorite_device_names_updated_event'
 import { injectable } from 'tsyringe'
 import DrumRackVisibleUpdatedEvent from './event/drum_rack_visible_updated_event'
@@ -11,6 +10,7 @@ import InsertFavoriteDeviceNamesUpdatedEvent from './event/insert_favorite_devic
 import VocalCategoriesUpdatedEvent from './event/vocal_categories_updated_event'
 import ServerStateSchema, { ServerState } from './server_state'
 import { AbletonSetsUpdatedEvent } from './event/ableton_sets_updated_event'
+import { AbletonSet } from './set_state'
 
 interface WebSocketPayload {
     type: string
@@ -19,7 +19,6 @@ interface WebSocketPayload {
 
 @injectable()
 class ScriptClient {
-    private activeSet: AbletonSet | null = null
     private serverState: ServerState | null = null
 
     constructor () {
@@ -48,13 +47,8 @@ class ScriptClient {
     private onWebSocketMessage (message: any) {
         const data: WebSocketPayload = JSON.parse(message.data)
 
-        console.log(data.type)
         console.log(data.data)
         switch (data.type) {
-        case 'SET_STATE':
-            this.activeSet = AbletonSetSchema.parse(data.data)
-            ScriptClient.emitSet(this.activeSet)
-            break
         case 'SERVER_STATE':
             this.serverState = ServerStateSchema.parse(data.data)
             ScriptClient.emitServerState(this.serverState)
@@ -65,15 +59,10 @@ class ScriptClient {
     }
 
     private onActionGroupAppearedEvent () {
-        if (!this.activeSet) {
-            console.warn('active set has not been received')
-            return
-        }
         if (!this.serverState) {
             console.warn('server state has not been received')
             return
         }
-        ScriptClient.emitSet(this.activeSet)
         ScriptClient.emitServerState(this.serverState)
     }
 
@@ -83,11 +72,25 @@ class ScriptClient {
     }
 
     private static emitServerState (serverState: ServerState) {
+        // deep copy
+        serverState = JSON.parse(JSON.stringify(serverState))
+        console.log(serverState.sets)
+        const activeSet = serverState.sets.find(s => s.active) || null
+        if (activeSet) {
+            activeSet.title = `*${activeSet.title}`
+        }
+
         EventBus.emit(new AbletonSetsUpdatedEvent(serverState.sets))
         EventBus.emit(new DrumCategoriesUpdatedEvent(serverState.sample_categories.drums))
         EventBus.emit(new VocalCategoriesUpdatedEvent(serverState.sample_categories.vocals))
         EventBus.emit(new FavoriteDeviceNamesUpdatedEvent(serverState.favorite_device_names))
         EventBus.emit(new InsertFavoriteDeviceNamesUpdatedEvent(serverState.insert_favorite_device_names))
+
+        if (activeSet) {
+            ScriptClient.emitSet(activeSet)
+        } else {
+            console.error('No active set')
+        }
     }
 }
 

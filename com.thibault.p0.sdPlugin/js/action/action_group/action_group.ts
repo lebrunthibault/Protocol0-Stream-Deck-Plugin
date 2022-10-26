@@ -74,13 +74,9 @@ class ActionGroup {
         if (this.slots.length === 0) {
             return
         }
-        console.info(`on update : ${event}`)
-        console.log(this.actionSlotItems)
-        console.log(event.items)
         if (_.isEqual(this.actionSlotItems, event.items)) {
             return
         }
-        console.log('updating')
 
         this.actionSlotItems = event.items
 

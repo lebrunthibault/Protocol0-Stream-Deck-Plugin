@@ -13,7 +13,6 @@ class ActionRepository {
 
     save (action: ActionInterface) {
         this.db.actions.push(action)
-        console.info(`saved ${action}`)
     }
 
     getActionsByClass<A extends ActionInterface> (cls: ActionClass<ActionInterface>): A[] {

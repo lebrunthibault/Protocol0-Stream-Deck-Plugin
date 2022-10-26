@@ -1,40 +1,34 @@
 import ActionDisplay from '../action_display'
-import Config from '../../config'
 import { toStreamDeckTitle } from '../../service/string_utils'
 import { ActionSlotItem } from '../../script_client/event/set_state_updated_event'
+import PressState from '../press_state'
 
 class ActionSlot {
     public readonly name: string;
-    protected readonly actionFunc: ActionSlotFunction;
-    protected readonly longPressFunc: ActionSlotFunction | null;
     public readonly context: string;
     private shown: boolean = true;
     private parameter: ActionSlotItem | null = null;
     public readonly row: number
     public readonly index: number
     public readonly display: ActionDisplay
-    private pressedAt: number | null = null;
+    private pressState: PressState;
 
     constructor (
         event: SDEvent,
         name: string,
         icon: string,
         private iconInactive: string,
-        actionFunc: ActionSlotFunction,
-        longPressFunc: ActionSlotFunction | null = null
+        private pressFunc: ActionSlotFunction,
+        private longPressFunc: ActionSlotFunction | null = null
     ) {
         this.name = name
 
-        this.actionFunc = actionFunc
-        this.longPressFunc = longPressFunc
-
         this.context = event.context
+        this.pressState = new PressState(name, this.onPress.bind(this), this.onLongPress.bind(this), event.context)
         this.display = new ActionDisplay(event.context, icon)
         this.row = event.payload.coordinates.row
         this.index = event.payload.coordinates.row * 8 + event.payload.coordinates.column
 
-        $SD.on(`com.thibault.p0.${name}.keyDown`, (event: SDEvent) => this.onKeyDown(event))
-        $SD.on(`com.thibault.p0.${name}.keyUp`, (event: SDEvent) => this.onKeyUp(event))
         $SD.on(`com.thibault.p0.${name}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
 
         this.disable()
@@ -64,48 +58,19 @@ class ActionSlot {
         }
     }
 
-    private onKeyDown (sdEvent: SDEvent) {
-        if (this.context !== sdEvent.context) {
-            return
-        }
-        this.pressedAt = performance.now()
-    }
-
-    private onKeyUp (sdEvent: SDEvent) {
-        if (this.context !== sdEvent.context) {
-            return
-        }
-        if (!this.shown) {
-            console.warn(`action inactive: ${this}`)
-            return
-        }
-
-        if (!this.pressedAt) {
-            console.error('Got Key up without key down')
-            return
-        }
-
-        const longPress = (performance.now() - this.pressedAt) > Config.LONG_PRESS_THRESHOLD
-        this.pressedAt = null
-
-        if (longPress) {
-            this.onLongPress()
-        } else {
-            this.onPress()
-        }
-    }
-
     protected onPress () {
-        // @ts-ignore
-        this.actionFunc(this.parameter.value)
+        console.log(this)
+        if (this.shown) {
+            // @ts-ignore
+            this.pressFunc(this.parameter.value)
+        }
     }
 
     protected onLongPress () {
-        if (this.longPressFunc) {
+        const func = this.longPressFunc || this.pressFunc
+        if (this.shown) {
             // @ts-ignore
-            this.longPressFunc(this.parameter.value)
-        } else {
-            this.onPress()
+            func(this.parameter.value)
         }
     }
 

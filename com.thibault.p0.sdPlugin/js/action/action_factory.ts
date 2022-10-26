@@ -28,6 +28,7 @@ class ActionFactory {
         new ToggleAction(new Action(
             ActionNameEnum.DRUM_RACK_TO_SIMPLER,
             API.drumRackToSimpler,
+            null,
             Icons.drumRackToSimpler
         ),
         DrumRackVisibleUpdatedEvent
@@ -35,6 +36,7 @@ class ActionFactory {
         new ToggleAction(new Action(
             ActionNameEnum.TOGGLE_ROOM_EQ,
             API.toggleRoomEq,
+            null,
             Icons.toggleRoomEQEnabled,
             Icons.toggleRoomEQDisabled,
             'Disable\nRoom EQ',
@@ -80,6 +82,11 @@ class ActionFactory {
             InsertFavoriteDeviceNamesUpdatedEvent,
             API.selectOrLoadDevice,
             API.loadDevice
+        )
+        new Action(
+            ActionNameEnum.SYNC_SETS,
+            API.syncSets,
+            API.refreshSets
         )
     }
 }

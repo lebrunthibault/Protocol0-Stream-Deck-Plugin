@@ -73,6 +73,18 @@
       "UUID": "com.thibault.p0.mute-set"
     },
     {
+      "Icon": "icon/p0_action/action",
+      "Name": "Sync sets",
+      "States": [
+        {
+          "Title": "",
+          "Image": "icon/p0_action/state"
+        }
+      ],
+      "Tooltip": "Sync sets",
+      "UUID": "com.thibault.p0.sync-sets"
+    },
+    {
       "Icon": "icon/room_eq_enabled/action",
       "Name": "Toggle room EQ",
       "States": [

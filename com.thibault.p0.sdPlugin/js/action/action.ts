@@ -1,21 +1,25 @@
 import ActionDisplay from './action_display'
 import Icons from '../service/icons'
+import PressState from './press_state'
 
 class Action {
     public _context: string = '';
     private _display: ActionDisplay;
+    private pressState: PressState;
 
     constructor (
         public readonly name: string,
-        private readonly actionFunction: Function,
+        private readonly pressFunc: Function,
+        private readonly longPressFunc: Function|null = null,
         private readonly icon: string = '',
         private readonly icon_disabled: string = Icons.disabled,
         private readonly title: string = '',
         private readonly title_disabled: string = ''
     ) {
+        this.pressState = new PressState(name, pressFunc, longPressFunc)
+
         this._display = ActionDisplay.disabled()
         $SD.on(`com.thibault.p0.${name}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
-        $SD.on(`com.thibault.p0.${name}.keyUp`, (event: SDEvent) => this.onKeyUp(event))
     }
 
     toString () {
@@ -23,7 +27,6 @@ class Action {
     }
 
     // needed for ActionInterface
-    // noinspection JSUnusedGlobalSymbols
     get display (): ActionDisplay {
         return this._display
     }
@@ -41,10 +44,6 @@ class Action {
             this.title,
             this.title_disabled
         )
-    }
-
-    private onKeyUp (_: SDEvent) {
-        this.actionFunction()
     }
 }
 

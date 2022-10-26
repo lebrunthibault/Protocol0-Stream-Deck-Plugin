@@ -799,12 +799,7 @@ function connectElgatoStreamDeckSocket (
     inApplicationInfo,
     inActionInfo
 ) {
-    console.log(inPort)
-    console.log(inUUID)
-    console.log(inMessageType)
-    console.log(inApplicationInfo)
     window.$SD.deviceId = JSON.parse(inApplicationInfo).devices[0].id
-    console.log(window.$SD.deviceId)
     StreamDeck.getInstance().connect(arguments);
     window.$SD.api = Object.assign({ send: SDApi.send }, SDApi.common, SDApi[inMessageType]);
 }

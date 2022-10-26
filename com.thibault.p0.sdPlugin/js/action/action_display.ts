@@ -26,7 +26,6 @@ class ActionDisplay {
 
     set enabled (enabled: boolean) {
         if (enabled) {
-            console.info(`enabling ${this}`)
             if (this.title) {
                 this.setTitle(this.title)
             }
