@@ -79,6 +79,7 @@ class ScriptClient {
         if (activeSet) {
             activeSet.title = `*${activeSet.title}`
         }
+        serverState.sets.sort((s1, _) => s1.active ? -1 : 1)
 
         EventBus.emit(new AbletonSetsUpdatedEvent(serverState.sets))
         EventBus.emit(new DrumCategoriesUpdatedEvent(serverState.sample_categories.drums))
