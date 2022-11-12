@@ -1,11 +1,13 @@
 import ActionDisplay from './action_display'
 import Icons from '../service/icons'
-import PressState from './press_state'
+import ActionPressState from './action_press_state'
+import ActionContext from "./action_context";
+import Action_context from "./action_context";
 
 class Action {
-    public _context: string = '';
+    private _context: ActionContext;
     private _display: ActionDisplay;
-    private pressState: PressState;
+    private pressState: ActionPressState;
 
     constructor (
         public readonly name: string,
@@ -16,7 +18,15 @@ class Action {
         private readonly title: string = '',
         private readonly title_disabled: string = ''
     ) {
-        this.pressState = new PressState(name, pressFunc, longPressFunc)
+        this._context = new ActionContext(name)
+        this.pressState = new ActionPressState(this._context, pressFunc, longPressFunc)
+        this._display = new ActionDisplay(
+            this._context,
+            this.icon,
+            this.icon_disabled,
+            this.title,
+            this.title_disabled
+        )
 
         this._display = ActionDisplay.disabled()
         $SD.on(`com.thibault.p0.${name}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
@@ -32,18 +42,11 @@ class Action {
     }
 
     get context (): string {
-        return this._context
+        return this._context.context
     }
 
     private onWillAppear (event: SDEvent) {
-        this._context = event.context
-        this._display = new ActionDisplay(
-            this.context,
-            this.icon,
-            this.icon_disabled,
-            this.title,
-            this.title_disabled
-        )
+        this._context.context = event.context
     }
 }
 

@@ -1,16 +1,19 @@
 import Config from '../config'
+import EventBus from "../event_bus";
+import ActionPressedEvent from "./action_pressed_event";
+import ActionContext from "./action_context";
 
-class PressState {
+class ActionPressState {
     private pressedAt: number | null = null;
 
     constructor (
-        private name: string,
+        private actionContext: ActionContext,
         private pressFunc: Function,
         private longPressFunc: Function | null = null,
         private context: string| null = null
     ) {
-        $SD.on(`com.thibault.p0.${name}.keyDown`, (event: SDEvent) => this.onKeyDown(event))
-        $SD.on(`com.thibault.p0.${name}.keyUp`, (event: SDEvent) => this.onKeyUp(event))
+        $SD.on(`com.thibault.p0.${actionContext.name}.keyDown`, (event: SDEvent) => this.onKeyDown(event))
+        $SD.on(`com.thibault.p0.${actionContext.name}.keyUp`, (event: SDEvent) => this.onKeyUp(event))
     }
 
     private onKeyDown (sdEvent: SDEvent) {
@@ -32,6 +35,8 @@ class PressState {
 
         const longPress = (performance.now() - this.pressedAt) > Config.LONG_PRESS_THRESHOLD
         this.pressedAt = null
+        EventBus.emit(new ActionPressedEvent(self.name))
+        $SD.api.switchToProfile(this.actionContext.context, "", "Devices")
 
         if (longPress) {
             (this.longPressFunc || this.pressFunc)()
@@ -41,4 +46,4 @@ class PressState {
     }
 }
 
-export default PressState
+export default ActionPressState

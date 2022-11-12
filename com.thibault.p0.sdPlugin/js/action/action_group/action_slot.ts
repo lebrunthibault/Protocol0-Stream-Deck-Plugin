@@ -1,7 +1,7 @@
 import ActionDisplay from '../action_display'
 import { toStreamDeckTitle } from '../../service/string_utils'
 import { ActionSlotItem } from '../../script_client/event/set_state_updated_event'
-import PressState from '../press_state'
+import ActionPressState from '../action_press_state'
 
 class ActionSlot {
     public readonly name: string;
@@ -11,7 +11,7 @@ class ActionSlot {
     public readonly row: number
     public readonly index: number
     public readonly display: ActionDisplay
-    private pressState: PressState;
+    private pressState: ActionPressState;
 
     constructor (
         event: SDEvent,
@@ -24,7 +24,7 @@ class ActionSlot {
         this.name = name
 
         this.context = event.context
-        this.pressState = new PressState(name, this.onPress.bind(this), this.onLongPress.bind(this), event.context)
+        this.pressState = new ActionPressState(name, this.onPress.bind(this), this.onLongPress.bind(this), event.context)
         this.display = new ActionDisplay(event.context, icon)
         this.row = event.payload.coordinates.row
         this.index = event.payload.coordinates.row * 8 + event.payload.coordinates.column

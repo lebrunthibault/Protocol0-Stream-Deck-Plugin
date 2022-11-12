@@ -1,9 +1,10 @@
 import Icons from '../service/icons'
+import ActionContext from "./action_context";
 
 class ActionDisplay {
     /* eslint-disable no-useless-constructor */
     constructor (
-        private readonly context: string,
+        private readonly actionContext: ActionContext,
         private readonly icon: string,
         private readonly iconDisabled: string = Icons.disabled,
         private readonly title: string = '',
@@ -16,7 +17,7 @@ class ActionDisplay {
     }
 
     static disabled () {
-        return new ActionDisplay('', '', '', '')
+        return new ActionDisplay(new ActionContext(''), '', '', '')
     }
 
     // noinspection JSUnusedGlobalSymbols
@@ -37,11 +38,11 @@ class ActionDisplay {
     }
 
     setTitle (title: string) {
-        $SD.api.setTitle(this.context, title)
+        $SD.api.setTitle(this.actionContext.context, title)
     }
 
     setImage (image: string) {
-        $SD.api.setImage(this.context, image)
+        $SD.api.setImage(this.actionContext.context, image)
     }
 }
 
