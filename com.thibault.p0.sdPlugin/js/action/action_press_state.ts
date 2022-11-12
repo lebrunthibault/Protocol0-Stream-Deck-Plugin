@@ -1,7 +1,7 @@
 import Config from '../config'
-import EventBus from "../event_bus";
-import ActionPressedEvent from "./action_pressed_event";
-import ActionContext from "./action_context";
+import EventBus from '../event_bus'
+import ActionPressedEvent from './action_pressed_event'
+import ActionContext from './action_context'
 
 class ActionPressState {
     private pressedAt: number | null = null;
@@ -35,8 +35,7 @@ class ActionPressState {
 
         const longPress = (performance.now() - this.pressedAt) > Config.LONG_PRESS_THRESHOLD
         this.pressedAt = null
-        EventBus.emit(new ActionPressedEvent(self.name))
-        $SD.api.switchToProfile(this.actionContext.context, "", "Devices")
+        EventBus.emit(new ActionPressedEvent(this.actionContext))
 
         if (longPress) {
             (this.longPressFunc || this.pressFunc)()

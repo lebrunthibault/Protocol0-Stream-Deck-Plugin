@@ -1,12 +1,11 @@
 import ActionDisplay from './action_display'
 import Icons from '../service/icons'
 import ActionPressState from './action_press_state'
-import ActionContext from "./action_context";
-import Action_context from "./action_context";
+import ActionContext from './action_context'
 
 class Action {
-    private _context: ActionContext;
-    private _display: ActionDisplay;
+    private readonly _context: ActionContext;
+    private readonly _display: ActionDisplay;
     private pressState: ActionPressState;
 
     constructor (

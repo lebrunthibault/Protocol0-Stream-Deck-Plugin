@@ -1,5 +1,5 @@
 import Icons from '../service/icons'
-import ActionContext from "./action_context";
+import ActionContext from './action_context'
 
 class ActionDisplay {
     /* eslint-disable no-useless-constructor */

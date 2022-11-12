@@ -2,10 +2,11 @@ import ActionDisplay from '../action_display'
 import { toStreamDeckTitle } from '../../service/string_utils'
 import { ActionSlotItem } from '../../script_client/event/set_state_updated_event'
 import ActionPressState from '../action_press_state'
+import ActionContext from '../action_context'
 
 class ActionSlot {
     public readonly name: string;
-    public readonly context: string;
+    private readonly _context: ActionContext;
     private shown: boolean = true;
     private parameter: ActionSlotItem | null = null;
     public readonly row: number
@@ -23,9 +24,9 @@ class ActionSlot {
     ) {
         this.name = name
 
-        this.context = event.context
-        this.pressState = new ActionPressState(name, this.onPress.bind(this), this.onLongPress.bind(this), event.context)
-        this.display = new ActionDisplay(event.context, icon)
+        this._context = new ActionContext(name, event.context)
+        this.pressState = new ActionPressState(this._context, this.onPress.bind(this), this.onLongPress.bind(this), event.context)
+        this.display = new ActionDisplay(this._context, icon)
         this.row = event.payload.coordinates.row
         this.index = event.payload.coordinates.row * 8 + event.payload.coordinates.column
 
@@ -35,11 +36,11 @@ class ActionSlot {
     }
 
     toString () {
-        return `ActionSlot(name="${this.name}", context=${this.context}, index=${this.index}, parameter="${this.parameter}")`
+        return `ActionSlot(name="${this.name}", context=${this._context}, index=${this.index}, parameter="${this.parameter}")`
     }
 
     private onWillAppear (event: SDEvent) {
-        if (this.context !== event.context) {
+        if (this._context.context !== event.context) {
             return
         }
 
@@ -48,6 +49,10 @@ class ActionSlot {
         if (this.shown) {
             this.enable()
         }
+    }
+
+    get context (): string {
+        return this._context.context
     }
 
     setParameter (parameter: ActionSlotItem) {
@@ -59,7 +64,6 @@ class ActionSlot {
     }
 
     protected onPress () {
-        console.log(this)
         if (this.shown) {
             // @ts-ignore
             this.pressFunc(this.parameter.value)

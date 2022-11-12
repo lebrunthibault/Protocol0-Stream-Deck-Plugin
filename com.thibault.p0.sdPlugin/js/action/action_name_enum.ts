@@ -7,6 +7,7 @@ enum ActionNameEnum {
     LOAD_DRUM_TRACK = 'load-drum-track',
     LOAD_VOCAL_TRACK = 'load-vocal-track',
     MUTE_SET = 'mute-set',
+    OPEN_SET = 'open-set',
     SYNC_SETS = 'sync-sets',
     TOGGLE_ROOM_EQ = 'toggle-room-eq',
 }

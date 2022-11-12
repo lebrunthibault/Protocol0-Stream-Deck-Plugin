@@ -15,6 +15,7 @@ import DrumRackVisibleUpdatedEvent from '../script_client/event/drum_rack_visibl
 import RoomEqEnabledEvent from '../script_client/event/room_eq_enabled_event'
 import VocalCategoriesUpdatedEvent from '../script_client/event/vocal_categories_updated_event'
 import { AbletonSetsUpdatedEvent } from '../script_client/event/ableton_sets_updated_event'
+import AbletonSetShortcutsUpdatedEvent from '../script_client/event/ableton_favorite_sets_updated_event'
 
 @injectable()
 class ActionFactory {
@@ -50,6 +51,15 @@ class ActionFactory {
             Icons.set,
             AbletonSetsUpdatedEvent,
             API.muteSet,
+            null,
+            Icons.muted
+        )
+        new ActionGroup(
+            this.actionRepository,
+            ActionNameEnum.OPEN_SET,
+            Icons.set,
+            AbletonSetShortcutsUpdatedEvent,
+            API.openSet,
             null,
             Icons.muted
         )

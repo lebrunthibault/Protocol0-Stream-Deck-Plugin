@@ -11,6 +11,7 @@ import VocalCategoriesUpdatedEvent from './event/vocal_categories_updated_event'
 import ServerStateSchema, { ServerState } from './server_state'
 import { AbletonSetsUpdatedEvent } from './event/ableton_sets_updated_event'
 import { AbletonSet } from './set_state'
+import AbletonFavoriteSetsUpdatedEvent from './event/ableton_favorite_sets_updated_event'
 
 interface WebSocketPayload {
     type: string
@@ -47,7 +48,7 @@ class ScriptClient {
     private onWebSocketMessage (message: any) {
         const data: WebSocketPayload = JSON.parse(message.data)
 
-        console.log(data.data)
+        console.info(data.data)
         switch (data.type) {
         case 'SERVER_STATE':
             this.serverState = ServerStateSchema.parse(data.data)
@@ -74,7 +75,7 @@ class ScriptClient {
     private static emitServerState (serverState: ServerState) {
         // deep copy
         serverState = JSON.parse(JSON.stringify(serverState))
-        console.log(serverState.sets)
+
         const activeSet = serverState.sets.find(s => s.active) || null
         if (activeSet) {
             activeSet.title = `*${activeSet.title}`
@@ -82,6 +83,7 @@ class ScriptClient {
         serverState.sets.sort((s1, _) => s1.active ? -1 : 1)
 
         EventBus.emit(new AbletonSetsUpdatedEvent(serverState.sets))
+        EventBus.emit(new AbletonFavoriteSetsUpdatedEvent(serverState.set_shortcuts))
         EventBus.emit(new DrumCategoriesUpdatedEvent(serverState.sample_categories.drums))
         EventBus.emit(new VocalCategoriesUpdatedEvent(serverState.sample_categories.vocals))
         EventBus.emit(new FavoriteDeviceNamesUpdatedEvent(serverState.favorite_device_names))
@@ -90,7 +92,7 @@ class ScriptClient {
         if (activeSet) {
             ScriptClient.emitSet(activeSet)
         } else {
-            console.error('No active set')
+            console.warn('No active set')
         }
     }
 }

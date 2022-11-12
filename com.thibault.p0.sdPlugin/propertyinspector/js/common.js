@@ -1200,16 +1200,12 @@ const SDApi = {
                 const context = inContext ? inContext : $SD.uuid;
                 const device = inDeviceID;
                 const event = 'switchToProfile';
-                console.log("device id length ok")
                 if(inProfileName && inProfileName.length !== 0) {
                     const payload = {
                         profile: inProfileName
                     };
-                    console.log(payload)
-                    const pl = Object.assign({}, {event, context, device}, payload);
-                    console.log(pl)
+                    const pl = {event, context, device, payload};
                     $SD.connection && $SD.connection.sendJSON(pl);
-                    console.log("sent")
                 }
             }
         },

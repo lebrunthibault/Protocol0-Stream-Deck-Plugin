@@ -74,6 +74,18 @@
     },
     {
       "Icon": "icon/p0_action/action",
+      "Name": "Open set",
+      "States": [
+        {
+          "Title": "",
+          "Image": "icon/p0_action/state"
+        }
+      ],
+      "Tooltip": "Open set",
+      "UUID": "com.thibault.p0.open-set"
+    },
+    {
+      "Icon": "icon/p0_action/action",
       "Name": "Sync sets",
       "States": [
         {
@@ -99,7 +111,7 @@
   ],
   "Profiles": [
     {
-      "Name": "Protocol 0",
+      "Name": "profiles/Devices",
       "ReadOnly": true,
       "DeviceType": 2,
       "DontAutoSwitchWhenInstalled": true

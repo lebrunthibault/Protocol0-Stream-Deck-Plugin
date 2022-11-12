@@ -1,5 +1,7 @@
+import ActionContext from './action_context'
+
 class ActionPressedEvent {
-    constructor(public action_name: string) {
+    constructor (public context: ActionContext) {
     }
 }
 

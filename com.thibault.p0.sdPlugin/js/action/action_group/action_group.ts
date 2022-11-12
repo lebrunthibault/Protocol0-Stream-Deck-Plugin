@@ -88,7 +88,7 @@ class ActionGroup {
         this.slots.filter((slot: ActionSlot) => !activeSlots.includes(slot)).forEach(a => a.disable())
 
         if (activeSlots.length < parameters.length) {
-            console.error(`Got ${parameters.length} parameters to display but only ${activeSlots.length} action slots`)
+            console.warn(`Got ${parameters.length} parameters to display but only ${activeSlots.length} action slots`)
         }
 
         activeSlots.forEach((slot: ActionSlot, i: number) => {
