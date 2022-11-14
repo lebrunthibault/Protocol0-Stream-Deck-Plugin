@@ -79,7 +79,7 @@ class ActionFactory {
         )
         new ActionGroup(
             this.actionRepository,
-            ActionNameEnum.DEVICE,
+            ActionNameEnum.LOAD_DEVICE,
             Icons.device,
             FavoriteDeviceNamesUpdatedEvent,
             API.selectOrLoadDevice,
@@ -87,7 +87,7 @@ class ActionFactory {
         )
         new ActionGroup(
             this.actionRepository,
-            ActionNameEnum.INSERT_DEVICE,
+            ActionNameEnum.LOAD_INSERT_DEVICE,
             Icons.device,
             InsertFavoriteDeviceNamesUpdatedEvent,
             API.selectOrLoadDevice,

@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 
 enum ActionNameEnum {
-    DEVICE = 'device',
     DRUM_RACK_TO_SIMPLER = 'drum-rack-to-simpler',
-    INSERT_DEVICE = 'insert-device',
+    LOAD_DEVICE = 'load-device',
     LOAD_DRUM_TRACK = 'load-drum-track',
+    LOAD_INSERT_DEVICE = 'load-insert-device',
     LOAD_VOCAL_TRACK = 'load-vocal-track',
     MUTE_SET = 'mute-set',
     OPEN_SET = 'open-set',

@@ -15,7 +15,7 @@ class ActionListeners {
     }
 
     private onActionPressedEvent (event: ActionPressedEvent) {
-        if (event.context.name === ActionNameEnum.OPEN_SET) {
+        if ([ActionNameEnum.OPEN_SET.toString(), ActionNameEnum.LOAD_INSERT_DEVICE.toString()].includes(event.context.name)) {
             $SD.api.switchToProfile('', this.db.deviceId, ProfileNameEnum.DEVICES)
         }
     }
