@@ -13,7 +13,10 @@ const titleMapping: { [key: string]: string; } = {
     COMPRESSOR: 'Comp',
     FREE_CLIP: 'Clipper',
     PRO_Q_3: 'Pro-Q 3',
-    VALHALLA_VINTAGE_VERB: 'Reverb'
+    VALHALLA_VINTAGE_VERB: 'Reverb',
+    INSERT_DELAY: 'Delay',
+    INSERT_REVERB: 'Reverb',
+    INSERT_DRY_WET: 'Dry / Wet',
 }
 
 const toStreamDeckTitle = (word: string) => {
