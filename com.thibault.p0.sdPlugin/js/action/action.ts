@@ -2,6 +2,7 @@ import ActionDisplay from './action_display'
 import Icons from '../service/icons'
 import ActionPressState from './action_press_state'
 import ActionContext from './action_context'
+import { ActionType } from './action_type'
 
 class Action {
     private readonly _context: ActionContext;
@@ -9,30 +10,30 @@ class Action {
     private pressState: ActionPressState;
 
     constructor (
-        public readonly name: string,
+        public readonly actionType: ActionType,
         private readonly pressFunc: Function,
         private readonly longPressFunc: Function|null = null,
         private readonly icon: string = '',
-        private readonly icon_disabled: string = Icons.disabled,
+        private readonly iconDisabled: string = Icons.disabled,
         private readonly title: string = '',
-        private readonly title_disabled: string = ''
+        private readonly titleDisabled: string = ''
     ) {
-        this._context = new ActionContext(name)
+        this._context = new ActionContext(actionType.name)
         this.pressState = new ActionPressState(this._context, pressFunc, longPressFunc)
         this._display = new ActionDisplay(
             this._context,
             this.icon,
-            this.icon_disabled,
+            this.iconDisabled,
             this.title,
-            this.title_disabled
+            this.titleDisabled
         )
 
         this._display = ActionDisplay.disabled()
-        $SD.on(`com.thibault.p0.${name}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
+        $SD.on(`com.thibault.p0.${actionType.name}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
     }
 
     toString () {
-        return `Action(name="${this.name}", context="${this.context}")`
+        return `Action(name="${this.actionType.name}", context="${this.context}")`
     }
 
     // needed for ActionInterface

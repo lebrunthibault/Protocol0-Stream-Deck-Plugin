@@ -9,13 +9,12 @@ import FavoriteDeviceNamesUpdatedEvent from '../script_client/event/favorite_dev
 import InsertFavoriteDeviceNamesUpdatedEvent from '../script_client/event/insert_favorite_device_names_updated_event'
 import Icons from '../service/icons'
 import { inject, injectable } from 'tsyringe'
-import ActionNameEnum from './action_name_enum'
 import ToggleAction from './toggle_action'
 import DrumRackVisibleUpdatedEvent from '../script_client/event/drum_rack_visible_updated_event'
 import RoomEqEnabledEvent from '../script_client/event/room_eq_enabled_event'
 import VocalCategoriesUpdatedEvent from '../script_client/event/vocal_categories_updated_event'
-import { AbletonSetsUpdatedEvent } from '../script_client/event/ableton_sets_updated_event'
 import AbletonSetShortcutsUpdatedEvent from '../script_client/event/ableton_favorite_sets_updated_event'
+import { actionTypes } from './action_type'
 
 @injectable()
 class ActionFactory {
@@ -26,16 +25,64 @@ class ActionFactory {
     }
 
     createActions () {
+        new Action(
+            actionTypes.BACK_TO_PREVIOUS_PROFILE,
+            API.toggleRoomEq,
+            null,
+            Icons.toggleRoomEQEnabled,
+            Icons.toggleRoomEQDisabled,
+            'Disable\nRoom EQ',
+            'Enable\nRoom EQ'
+        )
         new ToggleAction(new Action(
-            ActionNameEnum.DRUM_RACK_TO_SIMPLER,
+            actionTypes.DRUM_RACK_TO_SIMPLER,
             API.drumRackToSimpler,
             null,
             Icons.drumRackToSimpler
         ),
         DrumRackVisibleUpdatedEvent
         )
+        new ActionGroup(
+            this.actionRepository,
+            actionTypes.LOAD_DEVICE,
+            Icons.device,
+            FavoriteDeviceNamesUpdatedEvent,
+            API.selectOrLoadDevice,
+            API.loadDevice
+        )
+        new ActionGroup(
+            this.actionRepository,
+            actionTypes.LOAD_DRUM_TRACK,
+            Icons.newTrack,
+            DrumCategoriesUpdatedEvent,
+            API.loadDrumSamples
+        )
+        new ActionGroup(
+            this.actionRepository,
+            actionTypes.LOAD_INSERT_DEVICE,
+            Icons.device,
+            InsertFavoriteDeviceNamesUpdatedEvent,
+            API.selectOrLoadDevice,
+            API.loadDevice
+        )
+        new ActionGroup(
+            this.actionRepository,
+            actionTypes.LOAD_VOCAL_TRACK,
+            Icons.newTrack,
+            VocalCategoriesUpdatedEvent,
+            API.loadVocalSamples
+        )
+        new ActionGroup(
+            this.actionRepository,
+            actionTypes.OPEN_SET,
+            Icons.set,
+            AbletonSetShortcutsUpdatedEvent,
+            API.openSet,
+            null,
+            Icons.muted
+        )
         new ToggleAction(new Action(
-            ActionNameEnum.TOGGLE_ROOM_EQ,
+            actionTypes.TOGGLE_ROOM_EQ,
             API.toggleRoomEq,
             null,
             Icons.toggleRoomEQEnabled,
@@ -44,59 +91,6 @@ class ActionFactory {
             'Enable\nRoom EQ'
         ),
         RoomEqEnabledEvent
-        )
-        new ActionGroup(
-            this.actionRepository,
-            ActionNameEnum.MUTE_SET,
-            Icons.set,
-            AbletonSetsUpdatedEvent,
-            API.muteSet,
-            null,
-            Icons.muted
-        )
-        new ActionGroup(
-            this.actionRepository,
-            ActionNameEnum.OPEN_SET,
-            Icons.set,
-            AbletonSetShortcutsUpdatedEvent,
-            API.openSet,
-            null,
-            Icons.muted
-        )
-        new ActionGroup(
-            this.actionRepository,
-            ActionNameEnum.LOAD_DRUM_TRACK,
-            Icons.newTrack,
-            DrumCategoriesUpdatedEvent,
-            API.loadDrumSamples
-        )
-        new ActionGroup(
-            this.actionRepository,
-            ActionNameEnum.LOAD_VOCAL_TRACK,
-            Icons.newTrack,
-            VocalCategoriesUpdatedEvent,
-            API.loadVocalSamples
-        )
-        new ActionGroup(
-            this.actionRepository,
-            ActionNameEnum.LOAD_DEVICE,
-            Icons.device,
-            FavoriteDeviceNamesUpdatedEvent,
-            API.selectOrLoadDevice,
-            API.loadDevice
-        )
-        new ActionGroup(
-            this.actionRepository,
-            ActionNameEnum.LOAD_INSERT_DEVICE,
-            Icons.device,
-            InsertFavoriteDeviceNamesUpdatedEvent,
-            API.selectOrLoadDevice,
-            API.loadDevice
-        )
-        new Action(
-            ActionNameEnum.SYNC_SETS,
-            API.syncSets,
-            API.refreshSets
         )
     }
 }

@@ -3,13 +3,10 @@ import EventBus from '../../event_bus'
 import ActionGroupAppearedEvent from './action_group_appeared_event'
 
 import * as _ from 'lodash-es'
-import {
-    ActionSlotItem, ActionSlotItems,
-    SetStateUpdatedEvent
-} from '../../script_client/event/set_state_updated_event'
+import { ActionSlotItem, ActionSlotItems, SetStateUpdatedEvent } from '../../script_client/event/set_state_updated_event'
 import ActionSlot from './action_slot'
-import ActionNameEnum from '../action_name_enum'
 import Icons from '../../service/icons'
+import { ActionType } from '../action_type'
 
 /**
  * CLass representing handling the creation and update of list of correlated dynamic actions
@@ -24,22 +21,22 @@ class ActionGroup {
 
     constructor (
         private readonly actionRepository: ActionRepository,
-        private readonly groupName: ActionNameEnum,
+        private readonly actionType: ActionType,
         private readonly icon: string,
         private readonly updateEvent: typeof SetStateUpdatedEvent,
         private readonly actionFunc: ActionSlotFunction,
         private readonly longPressFunc: ActionSlotFunction | null = null,
         private readonly icon_disabled: string = Icons.disabled
     ) {
-        this.emitGroupAppearedEvent = _.debounce(() => EventBus.emit(new ActionGroupAppearedEvent()), 10, { leading: false })
+        this.emitGroupAppearedEvent = _.debounce(() => EventBus.emit(new ActionGroupAppearedEvent(actionType)), 10, { leading: false })
 
-        $SD.on(`com.thibault.p0.${groupName}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
+        $SD.on(`com.thibault.p0.${actionType.name}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
 
         EventBus.subscribe(updateEvent, (event: SetStateUpdatedEvent) => this.onUpdateEvent(event))
     }
 
     private get slots (): ActionSlot[] {
-        return this.actionRepository.getActionSlotByName(this.groupName)
+        return this.actionRepository.getActionSlotByName(this.actionType.name)
     }
 
     /**
@@ -49,20 +46,20 @@ class ActionGroup {
      */
     private onWillAppear (event: SDEvent) {
         // there are duplicate calls to this ..
+        this.emitGroupAppearedEvent()
+
         if (this.actionRepository.getActionByContext(event.context)) {
             return
         }
 
         this.actionRepository.save(new ActionSlot(
             event,
-            this.groupName,
+            this.actionType.name,
             this.icon,
             this.icon_disabled,
             this.actionFunc,
             this.longPressFunc
         ))
-
-        this.emitGroupAppearedEvent()
     }
 
     /**

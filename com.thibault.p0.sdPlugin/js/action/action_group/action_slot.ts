@@ -57,7 +57,7 @@ class ActionSlot {
 
     setParameter (parameter: ActionSlotItem) {
         if (parameter !== this.parameter) {
-            console.info(`setting parameter "${parameter.label}" for ${this}`)
+            console.debug(`setting parameter "${parameter.label}" for ${this}`)
             this.parameter = parameter
             this.enable()
         }

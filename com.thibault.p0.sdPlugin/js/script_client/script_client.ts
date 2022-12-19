@@ -9,7 +9,6 @@ import RoomEqEnabledEvent from './event/room_eq_enabled_event'
 import InsertFavoriteDeviceNamesUpdatedEvent from './event/insert_favorite_device_names_updated_event'
 import VocalCategoriesUpdatedEvent from './event/vocal_categories_updated_event'
 import ServerStateSchema, { ServerState } from './server_state'
-import { AbletonSetsUpdatedEvent } from './event/ableton_sets_updated_event'
 import { AbletonSet } from './set_state'
 import AbletonFavoriteSetsUpdatedEvent from './event/ableton_favorite_sets_updated_event'
 
@@ -48,7 +47,6 @@ class ScriptClient {
     private onWebSocketMessage (message: any) {
         const data: WebSocketPayload = JSON.parse(message.data)
 
-        console.info(data.data)
         switch (data.type) {
         case 'SERVER_STATE':
             this.serverState = ServerStateSchema.parse(data.data)
@@ -82,7 +80,6 @@ class ScriptClient {
         }
         serverState.sets.sort((s1, _) => s1.active ? -1 : 1)
 
-        EventBus.emit(new AbletonSetsUpdatedEvent(serverState.sets))
         EventBus.emit(new AbletonFavoriteSetsUpdatedEvent(serverState.set_shortcuts))
         EventBus.emit(new DrumCategoriesUpdatedEvent(serverState.sample_categories.drums))
         EventBus.emit(new VocalCategoriesUpdatedEvent(serverState.sample_categories.vocals))

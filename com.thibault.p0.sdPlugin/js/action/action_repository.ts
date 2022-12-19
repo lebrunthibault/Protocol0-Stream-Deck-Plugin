@@ -3,7 +3,6 @@ import { ActionClass } from './action_class'
 
 import { inject, injectable } from 'tsyringe'
 import ActionSlot from './action_group/action_slot'
-import ActionNameEnum from './action_name_enum'
 import ActionInterface from './action_interface'
 
 @injectable()
@@ -19,7 +18,7 @@ class ActionRepository {
         return <A[]> this.db.actions.filter((a: ActionInterface) => a instanceof cls)
     }
 
-    getActionSlotByName (name: ActionNameEnum): ActionSlot[] {
+    getActionSlotByName (name: string): ActionSlot[] {
         return this
             .getActionsByClass<ActionSlot>(ActionSlot).filter((a: ActionSlot) => a.name === name)
             .sort((a: ActionSlot, b: ActionSlot) => a.index - b.index)

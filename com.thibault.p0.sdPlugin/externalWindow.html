@@ -92,7 +92,6 @@
 	<script>
 
 		window.addEventListener('message',function(ev) {
-			console.log('External window received message:  ', ev.data, typeof ev.data);
 			doSomething(ev.data);
 		},false);
 
