@@ -16,7 +16,8 @@ const titleMapping: { [key: string]: string; } = {
     VALHALLA_VINTAGE_VERB: 'Reverb',
     INSERT_DELAY: 'Delay',
     INSERT_REVERB: 'Reverb',
-    INSERT_DRY_WET: 'Dry / Wet'
+    INSERT_DRY_WET: 'Dry / Wet',
+    SUPER_TAP_2: 'Delay'
 }
 
 const toStreamDeckTitle = (word: string) => {
