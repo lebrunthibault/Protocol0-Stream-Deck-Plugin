@@ -74,11 +74,7 @@ class ScriptClient {
         // deep copy
         serverState = JSON.parse(JSON.stringify(serverState))
 
-        const activeSet = serverState.sets.find(s => s.active) || null
-        if (activeSet) {
-            activeSet.title = `*${activeSet.title}`
-        }
-        serverState.sets.sort((s1, _) => s1.active ? -1 : 1)
+        const activeSet = serverState.sets.length ? serverState.sets[0] : null
 
         EventBus.emit(new AbletonFavoriteSetsUpdatedEvent(serverState.set_shortcuts))
         EventBus.emit(new DrumCategoriesUpdatedEvent(serverState.sample_categories.drums))

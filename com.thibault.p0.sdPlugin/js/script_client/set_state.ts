@@ -5,7 +5,6 @@ import { z } from 'zod'
 const AbletonSetSchema = z.object({
     id: z.string(),
     title: z.string(),
-    active: z.boolean(),
     muted: z.boolean(),
     drum_rack_visible: z.boolean(),
     room_eq_enabled: z.boolean()

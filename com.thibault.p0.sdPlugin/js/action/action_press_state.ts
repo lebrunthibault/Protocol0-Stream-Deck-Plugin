@@ -35,6 +35,8 @@ class ActionPressState {
 
         const longPress = (performance.now() - this.pressedAt) > Config.LONG_PRESS_THRESHOLD
         this.pressedAt = null
+        console.log(this)
+        console.log(this.actionContext)
         EventBus.emit(new ActionPressedEvent(this.actionContext))
 
         if (longPress) {

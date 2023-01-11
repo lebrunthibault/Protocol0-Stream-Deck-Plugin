@@ -27,7 +27,7 @@ class ActionFactory {
     createActions () {
         new Action(
             actionTypes.BACK_TO_PREVIOUS_PROFILE,
-            API.toggleRoomEq,
+            () => {},
             null,
             Icons.toggleRoomEQEnabled,
             Icons.toggleRoomEQDisabled,

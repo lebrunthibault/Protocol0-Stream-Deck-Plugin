@@ -32,6 +32,7 @@ class ProfileListeners {
 
         if (actionType.name === BACK_TO_PREVIOUS_PROFILE) {
             const previousProfile = this.db.profileHistory.getPrevious() || ProfileNameEnum.HOME
+            console.log(previousProfile)
 
             $SD.api.switchToProfile('', this.db.deviceId, previousProfile)
             this.db.profileHistory.clear()
