@@ -2,7 +2,7 @@
 
 import { singleton } from 'tsyringe'
 import ActionInterface from '../action/action_interface'
-import ProfileNameEnum from '../profile/ProfileNameEnum'
+import ProfileNameEnum from '../domain/profile/ProfileNameEnum'
 
 class ProfileHistory {
     private history : ProfileNameEnum[] = []

@@ -3,7 +3,7 @@ import { container } from 'tsyringe'
 import ActionFactory from './js/action/action_factory'
 import ScriptClient from './js/script_client/script_client'
 import DB from './js/service/db'
-import ProfileListeners from './js/profile/profile_listeners'
+import ProfileListeners from './js/domain/profile/profile_listeners'
 
 $SD.on('connected', async (event: object) => {
     await initApplication(event)

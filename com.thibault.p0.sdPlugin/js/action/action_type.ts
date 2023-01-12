@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import ProfileNameEnum from '../profile/ProfileNameEnum'
+import ProfileNameEnum from '../domain/profile/ProfileNameEnum'
 
 class ActionType {
     constructor (
@@ -15,6 +15,7 @@ const actionTypes = {
     BACK_TO_PREVIOUS_PROFILE: new ActionType(BACK_TO_PREVIOUS_PROFILE, null),
     DRUM_RACK_TO_SIMPLER: new ActionType('drum-rack-to-simpler', ProfileNameEnum.DRUMS),
     LOAD_DEVICE: new ActionType('load-device', ProfileNameEnum.DEVICES),
+    LOAD_GROUPED_DEVICE: new ActionType('load-grouped-device', ProfileNameEnum.DEVICE_GROUP, ProfileNameEnum.DEVICES),
     LOAD_DRUM_TRACK: new ActionType('load-drum-track', ProfileNameEnum.DRUMS),
     LOAD_INSERT_DEVICE: new ActionType('load-insert-device', ProfileNameEnum.INSERT_DEVICES, ProfileNameEnum.DEVICES),
     LOAD_VOCAL_TRACK: new ActionType('load-vocal-track', ProfileNameEnum.VOCALS),

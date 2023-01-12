@@ -5,16 +5,18 @@ import { Action } from './action'
 import API from '../service/api'
 import ActionGroup from './action_group/action_group'
 import DrumCategoriesUpdatedEvent from '../script_client/event/drum_categories_updated_event'
-import FavoriteDeviceNamesUpdatedEvent from '../script_client/event/favorite_device_names_updated_event'
-import InsertFavoriteDeviceNamesUpdatedEvent from '../script_client/event/insert_favorite_device_names_updated_event'
+import FavoriteDeviceNamesUpdatedEvent from '../domain/device/favorite_device_names_updated_event'
+import InsertFavoriteDeviceNamesUpdatedEvent from '../domain/device/insert_favorite_device_names_updated_event'
 import Icons from '../service/icons'
 import { inject, injectable } from 'tsyringe'
 import ToggleAction from './toggle_action'
 import DrumRackVisibleUpdatedEvent from '../script_client/event/drum_rack_visible_updated_event'
-import RoomEqEnabledEvent from '../script_client/event/room_eq_enabled_event'
+import RoomEqEnabledEvent from '../domain/device/room_eq_enabled_event'
 import VocalCategoriesUpdatedEvent from '../script_client/event/vocal_categories_updated_event'
 import AbletonSetShortcutsUpdatedEvent from '../script_client/event/ableton_favorite_sets_updated_event'
 import { actionTypes } from './action_type'
+import { loadDevice, selectOrLoadDevice } from '../domain/device/load_device'
+import SelectedGroupedDevicesUpdatedEvent from '../domain/device/selected_grouped_devices_updated_event'
 
 @injectable()
 class ActionFactory {
@@ -47,8 +49,16 @@ class ActionFactory {
             actionTypes.LOAD_DEVICE,
             Icons.device,
             FavoriteDeviceNamesUpdatedEvent,
-            API.selectOrLoadDevice,
-            API.loadDevice
+            selectOrLoadDevice,
+            loadDevice
+        )
+        new ActionGroup(
+            this.actionRepository,
+            actionTypes.LOAD_GROUPED_DEVICE,
+            Icons.device,
+            SelectedGroupedDevicesUpdatedEvent,
+            selectOrLoadDevice,
+            loadDevice
         )
         new ActionGroup(
             this.actionRepository,

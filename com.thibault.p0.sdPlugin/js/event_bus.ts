@@ -44,7 +44,6 @@ const registry = new Registry()
 
 class EventBus {
     static subscribe (eventClass: Class, func: Function) {
-        console.debug(`subscribing ${eventClass.name}: func: ${func}`)
         registry.register(eventClass, func)
     }
 

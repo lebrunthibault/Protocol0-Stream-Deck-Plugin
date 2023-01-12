@@ -11,13 +11,15 @@ const titleMapping: { [key: string]: string; } = {
     AUTO_FILTER_HIGH_PASS: 'HPF',
     AUTO_FILTER_LOW_PASS: 'LPF',
     COMPRESSOR: 'Comp',
+    EQ: 'EQ',
     FREE_CLIP: 'Clipper',
-    PRO_Q_3: 'Pro-Q 3',
-    VALHALLA_VINTAGE_VERB: 'Reverb',
     INSERT_DELAY: 'Delay',
     INSERT_REVERB: 'Reverb',
     INSERT_DRY_WET: 'Dry / Wet',
-    SUPER_TAP_2: 'Delay'
+    PRO_Q_3: 'Pro-Q 3',
+    SUPER_TAP_2: 'ST2',
+    SUPER_TAP_6: 'ST6',
+    VALHALLA_VINTAGE_VERB: 'Reverb',
 }
 
 const toStreamDeckTitle = (word: string) => {
@@ -25,7 +27,7 @@ const toStreamDeckTitle = (word: string) => {
         return titleMapping[word]
     }
 
-    let words = word.split(/[\s-]+/).map(w => w.trim())
+    let words = word.split(/[\s_-]+/).map(w => w.trim())
     const excludedWords = ['-']
     words = words.filter(w => !excludedWords.includes(w))
 

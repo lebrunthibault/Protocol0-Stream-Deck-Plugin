@@ -16,8 +16,8 @@ import { ActionType } from '../action_type'
  * Thus allowing dynamic action generation on the stream deck, something not possible with the stock script.
  */
 class ActionGroup {
-    private readonly emitGroupAppearedEvent: Function;
-    private actionSlotItems: ActionSlotItems = [];
+    private readonly emitGroupAppearedEventDebounced: Function;
+    private lastUpdatedEvent: SetStateUpdatedEvent | null = null;
 
     constructor (
         private readonly actionRepository: ActionRepository,
@@ -28,7 +28,7 @@ class ActionGroup {
         private readonly longPressFunc: ActionSlotFunction | null = null,
         private readonly icon_disabled: string = Icons.disabled
     ) {
-        this.emitGroupAppearedEvent = _.debounce(() => EventBus.emit(new ActionGroupAppearedEvent(actionType)), 10, { leading: false })
+        this.emitGroupAppearedEventDebounced = _.debounce(() => this.emitGroupAppearedEvent(), 10, { leading: false })
 
         $SD.on(`com.thibault.p0.${actionType.name}.willAppear`, (event: SDEvent) => this.onWillAppear(event))
 
@@ -39,6 +39,15 @@ class ActionGroup {
         return this.actionRepository.getActionSlotByName(this.actionType.name)
     }
 
+    private emitGroupAppearedEvent () {
+        EventBus.emit(new ActionGroupAppearedEvent(this.actionType))
+
+        // use the cached version to hydrate the group
+        if (this.lastUpdatedEvent) {
+            this.onUpdateEvent(this.lastUpdatedEvent)
+        }
+    }
+
     /**
      * Each time the action appears, create a dynamic action object
      * Then emit a group appeared event (debounced) so that the song state
@@ -46,7 +55,7 @@ class ActionGroup {
      */
     private onWillAppear (event: SDEvent) {
         // there are duplicate calls to this ..
-        this.emitGroupAppearedEvent()
+        this.emitGroupAppearedEventDebounced()
 
         if (this.actionRepository.getActionByContext(event.context)) {
             return
@@ -68,18 +77,23 @@ class ActionGroup {
      * Action will be enabled or disabled depending on the size of the "event.items" array
      */
     private onUpdateEvent (event: SetStateUpdatedEvent) {
+        if (
+            this.lastUpdatedEvent &&
+            _.isEqual(this.lastUpdatedEvent.items, event.items) &&
+            this.slots.length === event.items.length
+        ) {
+            return
+        }
+
+        this.lastUpdatedEvent = event
+
         if (this.slots.length === 0) {
             return
         }
-        if (_.isEqual(this.actionSlotItems, event.items)) {
-            return
-        }
 
-        this.actionSlotItems = event.items
-
-        const activeSlots = [...this.getSlotsToEnable(this.actionSlotItems)]
+        const activeSlots = [...this.getSlotsToEnable(this.lastUpdatedEvent.items)]
         // NB : we receive parameters in row form or grid form. flattening to row form for further processing.
-        const parameters = this.actionSlotItems.flat()
+        const parameters = this.lastUpdatedEvent.items.flat()
 
         // disable unused action slots
         this.slots.filter((slot: ActionSlot) => !activeSlots.includes(slot)).forEach(a => a.disable())

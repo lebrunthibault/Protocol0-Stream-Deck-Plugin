@@ -1,12 +1,11 @@
 import Config from '../config'
 import EventBus from '../event_bus'
-import ActionGroupAppearedEvent from '../action/action_group/action_group_appeared_event'
 import DrumCategoriesUpdatedEvent from './event/drum_categories_updated_event'
-import FavoriteDeviceNamesUpdatedEvent from './event/favorite_device_names_updated_event'
+import FavoriteDeviceNamesUpdatedEvent from '../domain/device/favorite_device_names_updated_event'
 import { injectable } from 'tsyringe'
 import DrumRackVisibleUpdatedEvent from './event/drum_rack_visible_updated_event'
-import RoomEqEnabledEvent from './event/room_eq_enabled_event'
-import InsertFavoriteDeviceNamesUpdatedEvent from './event/insert_favorite_device_names_updated_event'
+import RoomEqEnabledEvent from '../domain/device/room_eq_enabled_event'
+import InsertFavoriteDeviceNamesUpdatedEvent from '../domain/device/insert_favorite_device_names_updated_event'
 import VocalCategoriesUpdatedEvent from './event/vocal_categories_updated_event'
 import ServerStateSchema, { ServerState } from './server_state'
 import { AbletonSet } from './set_state'
@@ -20,10 +19,6 @@ interface WebSocketPayload {
 @injectable()
 class ScriptClient {
     private serverState: ServerState | null = null
-
-    constructor () {
-        EventBus.subscribe(ActionGroupAppearedEvent, (_: ActionGroupAppearedEvent) => this.onActionGroupAppearedEvent())
-    }
 
     async connect () {
         try {
@@ -55,14 +50,6 @@ class ScriptClient {
         default:
             console.error(`Got unknown web socket payload type: ${data.type}`)
         }
-    }
-
-    private onActionGroupAppearedEvent () {
-        if (!this.serverState) {
-            console.warn('server state has not been received')
-            return
-        }
-        ScriptClient.emitServerState(this.serverState)
     }
 
     private static emitSet (set: AbletonSet) {

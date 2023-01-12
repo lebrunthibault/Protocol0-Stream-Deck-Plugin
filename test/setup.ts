@@ -4,15 +4,15 @@ global.$SD = {
     on: () => null,
     api: {
         setTitle(context: string, title: string) {
-            console.log(`SD ${context} set title '${title}'`)
+            console.info(`SD ${context} set title '${title}'`)
         },
 
         setImage(context: string, image: string) {
-            console.log(`SD ${context} set image`)
+            console.info(`SD ${context} set image`)
         },
 
         showAlert(context: string) {
-            console.log(`SD ${context}`)
+            console.info(`SD ${context}`)
         },
     }
 }

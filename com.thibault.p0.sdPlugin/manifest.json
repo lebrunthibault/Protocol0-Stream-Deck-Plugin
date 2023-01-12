@@ -38,6 +38,18 @@
     },
     {
       "Icon": "icon/p0_action/action",
+      "Name": "Load grouped device",
+      "States": [
+        {
+          "Title": "",
+          "Image": "icon/p0_action/state"
+        }
+      ],
+      "Tooltip": "Load a grouped device",
+      "UUID": "com.thibault.p0.load-grouped-device"
+    },
+    {
+      "Icon": "icon/p0_action/action",
       "Name": "Load drum track",
       "States": [
         {
@@ -100,6 +112,12 @@
   "Profiles": [
     {
       "Name": "profiles/Devices",
+      "ReadOnly": false,
+      "DeviceType": 2,
+      "DontAutoSwitchWhenInstalled": true
+    },
+    {
+      "Name": "profiles/DeviceGroup",
       "ReadOnly": false,
       "DeviceType": 2,
       "DontAutoSwitchWhenInstalled": true
