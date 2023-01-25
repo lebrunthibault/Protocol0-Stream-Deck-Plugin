@@ -7,7 +7,7 @@ import ActionContext from '../action_context'
 class ActionSlot {
     public readonly name: string;
     private readonly _context: ActionContext;
-    private shown: boolean = true;
+    public shown: boolean = true;
     private parameter: ActionSlotItem | null = null;
     public readonly row: number
     public readonly index: number

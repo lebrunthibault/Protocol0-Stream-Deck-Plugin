@@ -56,7 +56,6 @@ class ActionGroup {
     private onWillAppear (event: SDEvent) {
         // there are duplicate calls to this ..
         this.emitGroupAppearedEventDebounced()
-
         if (this.actionRepository.getActionByContext(event.context)) {
             return
         }
@@ -80,7 +79,7 @@ class ActionGroup {
         if (
             this.lastUpdatedEvent &&
             _.isEqual(this.lastUpdatedEvent.items, event.items) &&
-            this.slots.length === event.items.length
+            this.slots.length === event.items.length && this.slots.every(slot => slot.shown)
         ) {
             return
         }
