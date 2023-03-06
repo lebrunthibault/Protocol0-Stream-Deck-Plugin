@@ -61,16 +61,14 @@ class ScriptClient {
         // deep copy
         serverState = JSON.parse(JSON.stringify(serverState))
 
-        const activeSet = serverState.sets.length ? serverState.sets[0] : null
-
         EventBus.emit(new AbletonFavoriteSetsUpdatedEvent(serverState.set_shortcuts))
         EventBus.emit(new DrumCategoriesUpdatedEvent(serverState.sample_categories.drums))
         EventBus.emit(new VocalCategoriesUpdatedEvent(serverState.sample_categories.vocals))
         EventBus.emit(new FavoriteDeviceNamesUpdatedEvent(serverState.favorite_device_names))
         EventBus.emit(new InsertFavoriteDeviceNamesUpdatedEvent(serverState.insert_favorite_device_names))
 
-        if (activeSet) {
-            ScriptClient.emitSet(activeSet)
+        if (serverState.set) {
+            ScriptClient.emitSet(serverState.set)
         } else {
             console.warn('No active set')
         }
