@@ -4,7 +4,6 @@ import DrumCategoriesUpdatedEvent from './event/drum_categories_updated_event'
 import FavoriteDeviceNamesUpdatedEvent from '../domain/device/favorite_device_names_updated_event'
 import { injectable } from 'tsyringe'
 import DrumRackVisibleUpdatedEvent from './event/drum_rack_visible_updated_event'
-import RoomEqEnabledEvent from '../domain/device/room_eq_enabled_event'
 import InsertFavoriteDeviceNamesUpdatedEvent from '../domain/device/insert_favorite_device_names_updated_event'
 import VocalCategoriesUpdatedEvent from './event/vocal_categories_updated_event'
 import ServerStateSchema, { ServerState } from './server_state'
@@ -54,7 +53,6 @@ class ScriptClient {
 
     private static emitSet (set: AbletonSet) {
         EventBus.emit(new DrumRackVisibleUpdatedEvent(set.drum_rack_visible))
-        EventBus.emit(new RoomEqEnabledEvent(set.room_eq_enabled))
     }
 
     private static emitServerState (serverState: ServerState) {

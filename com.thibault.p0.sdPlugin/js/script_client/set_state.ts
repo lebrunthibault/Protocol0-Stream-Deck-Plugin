@@ -6,8 +6,7 @@ const AbletonSetSchema = z.object({
     id: z.string(),
     title: z.string(),
     muted: z.boolean(),
-    drum_rack_visible: z.boolean(),
-    room_eq_enabled: z.boolean()
+    drum_rack_visible: z.boolean()
 })
 
 // extract the inferred type

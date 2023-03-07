@@ -18,9 +18,6 @@ const API = {
     },
     selectOrLoadDevice (name: string) {
         fetch(`${Config.P0_API_URL}/select_or_load_device/${name}`).then(() => null)
-    },
-    toggleRoomEq () {
-        fetch(`${Config.P0_API_URL}/toggle_room_eq`).then(() => null)
     }
 }
 

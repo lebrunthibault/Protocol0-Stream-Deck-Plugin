@@ -19,7 +19,7 @@ const titleMapping: { [key: string]: string; } = {
     PRO_Q_3: 'Pro-Q 3',
     SUPER_TAP_2: 'ST2',
     SUPER_TAP_6: 'ST6',
-    VALHALLA_VINTAGE_VERB: 'Reverb',
+    VALHALLA_VINTAGE_VERB: 'Reverb'
 }
 
 const toStreamDeckTitle = (word: string) => {

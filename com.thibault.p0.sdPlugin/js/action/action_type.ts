@@ -20,7 +20,6 @@ const actionTypes = {
     LOAD_INSERT_DEVICE: new ActionType('load-insert-device', ProfileNameEnum.INSERT_DEVICES, ProfileNameEnum.DEVICES),
     LOAD_VOCAL_TRACK: new ActionType('load-vocal-track', ProfileNameEnum.VOCALS),
     OPEN_SET: new ActionType('open-set', ProfileNameEnum.HOME, ProfileNameEnum.DEVICES),
-    TOGGLE_ROOM_EQ: new ActionType('toggle-room-eq', ProfileNameEnum.HOME),
 
     fromName (name: string): ActionType {
         for (const key in this) {

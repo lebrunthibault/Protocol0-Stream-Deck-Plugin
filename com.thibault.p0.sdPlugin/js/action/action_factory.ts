@@ -11,7 +11,6 @@ import Icons from '../service/icons'
 import { inject, injectable } from 'tsyringe'
 import ToggleAction from './toggle_action'
 import DrumRackVisibleUpdatedEvent from '../script_client/event/drum_rack_visible_updated_event'
-import RoomEqEnabledEvent from '../domain/device/room_eq_enabled_event'
 import VocalCategoriesUpdatedEvent from '../script_client/event/vocal_categories_updated_event'
 import AbletonSetShortcutsUpdatedEvent from '../script_client/event/ableton_favorite_sets_updated_event'
 import { actionTypes } from './action_type'
@@ -29,12 +28,9 @@ class ActionFactory {
     createActions () {
         new Action(
             actionTypes.BACK_TO_PREVIOUS_PROFILE,
-            () => {},
-            null,
-            Icons.toggleRoomEQEnabled,
-            Icons.toggleRoomEQDisabled,
-            'Disable\nRoom EQ',
-            'Enable\nRoom EQ'
+            () => {
+            },
+            null
         )
         new ToggleAction(new Action(
             actionTypes.DRUM_RACK_TO_SIMPLER,
@@ -90,17 +86,6 @@ class ActionFactory {
             API.openSet,
             null,
             Icons.muted
-        )
-        new ToggleAction(new Action(
-            actionTypes.TOGGLE_ROOM_EQ,
-            API.toggleRoomEq,
-            null,
-            Icons.toggleRoomEQEnabled,
-            Icons.toggleRoomEQDisabled,
-            'Disable\nRoom EQ',
-            'Enable\nRoom EQ'
-        ),
-        RoomEqEnabledEvent
         )
     }
 }

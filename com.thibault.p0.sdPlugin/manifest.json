@@ -95,18 +95,6 @@
       ],
       "Tooltip": "Open set",
       "UUID": "com.thibault.p0.open-set"
-    },
-    {
-      "Icon": "icon/room_eq_enabled/action",
-      "Name": "Toggle room EQ",
-      "States": [
-        {
-          "Title": "",
-          "Image": "icon/room_eq_enabled/state"
-        }
-      ],
-      "Tooltip": "Toggle room EQ",
-      "UUID": "com.thibault.p0.toggle-room-eq"
     }
   ],
   "Profiles": [
