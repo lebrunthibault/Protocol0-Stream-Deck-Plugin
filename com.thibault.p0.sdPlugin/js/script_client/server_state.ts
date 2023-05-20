@@ -18,7 +18,6 @@ const ServerStateSchema = z.object({
     set_shortcuts: z.array(z.string()),
     sample_categories: SampleCategoriesSchema,
     favorite_device_names: z.array(z.array(z.union([z.string(), DeviceGroupSchema]))),
-    insert_favorite_device_names: z.array(z.string())
 })
 
 // extract the inferred type

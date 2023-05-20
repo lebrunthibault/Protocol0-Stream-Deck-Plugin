@@ -6,7 +6,6 @@ import API from '../service/api'
 import ActionGroup from './action_group/action_group'
 import DrumCategoriesUpdatedEvent from '../script_client/event/drum_categories_updated_event'
 import FavoriteDeviceNamesUpdatedEvent from '../domain/device/favorite_device_names_updated_event'
-import InsertFavoriteDeviceNamesUpdatedEvent from '../domain/device/insert_favorite_device_names_updated_event'
 import Icons from '../service/icons'
 import { inject, injectable } from 'tsyringe'
 import ToggleAction from './toggle_action'
@@ -62,14 +61,6 @@ class ActionFactory {
             Icons.newTrack,
             DrumCategoriesUpdatedEvent,
             API.loadDrumSamples
-        )
-        new ActionGroup(
-            this.actionRepository,
-            actionTypes.LOAD_INSERT_DEVICE,
-            Icons.device,
-            InsertFavoriteDeviceNamesUpdatedEvent,
-            API.selectOrLoadDevice,
-            API.loadDevice
         )
         new ActionGroup(
             this.actionRepository,

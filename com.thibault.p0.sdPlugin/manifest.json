@@ -62,18 +62,6 @@
     },
     {
       "Icon": "icon/p0_action/action",
-      "Name": "Select or add an insert device",
-      "States": [
-        {
-          "Title": "",
-          "Image": "icon/p0_action/state"
-        }
-      ],
-      "Tooltip": "Select or add a chosen insert device on the selected track",
-      "UUID": "com.thibault.p0.load-insert-device"
-    },
-    {
-      "Icon": "icon/p0_action/action",
       "Name": "Load vocal track",
       "States": [
         {

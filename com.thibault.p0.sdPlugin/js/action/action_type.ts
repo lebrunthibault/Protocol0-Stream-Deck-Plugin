@@ -17,7 +17,6 @@ const actionTypes = {
     LOAD_DEVICE: new ActionType('load-device', ProfileNameEnum.DEVICES),
     LOAD_GROUPED_DEVICE: new ActionType('load-grouped-device', ProfileNameEnum.DEVICE_GROUP, ProfileNameEnum.DEVICES),
     LOAD_DRUM_TRACK: new ActionType('load-drum-track', ProfileNameEnum.DRUMS),
-    LOAD_INSERT_DEVICE: new ActionType('load-insert-device', ProfileNameEnum.INSERT_DEVICES, ProfileNameEnum.DEVICES),
     LOAD_VOCAL_TRACK: new ActionType('load-vocal-track', ProfileNameEnum.VOCALS),
     OPEN_SET: new ActionType('open-set', ProfileNameEnum.HOME, ProfileNameEnum.DEVICES),
 

@@ -4,7 +4,6 @@ import DrumCategoriesUpdatedEvent from './event/drum_categories_updated_event'
 import FavoriteDeviceNamesUpdatedEvent from '../domain/device/favorite_device_names_updated_event'
 import { injectable } from 'tsyringe'
 import DrumRackVisibleUpdatedEvent from './event/drum_rack_visible_updated_event'
-import InsertFavoriteDeviceNamesUpdatedEvent from '../domain/device/insert_favorite_device_names_updated_event'
 import VocalCategoriesUpdatedEvent from './event/vocal_categories_updated_event'
 import ServerStateSchema, { ServerState } from './server_state'
 import { AbletonSet } from './set_state'
@@ -63,7 +62,6 @@ class ScriptClient {
         EventBus.emit(new DrumCategoriesUpdatedEvent(serverState.sample_categories.drums))
         EventBus.emit(new VocalCategoriesUpdatedEvent(serverState.sample_categories.vocals))
         EventBus.emit(new FavoriteDeviceNamesUpdatedEvent(serverState.favorite_device_names))
-        EventBus.emit(new InsertFavoriteDeviceNamesUpdatedEvent(serverState.insert_favorite_device_names))
 
         if (serverState.set) {
             ScriptClient.emitSet(serverState.set)
