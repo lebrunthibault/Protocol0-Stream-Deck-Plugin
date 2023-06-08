@@ -1,3 +1,5 @@
+# Disclaimer : this project moved to the [protocol0](https://github.com/lebrunthibault/protocol0/tree/main/p0_stream_deck) monorepo
+
 # Stream Deck Plugin for [Ableton Protocol0 Surface Script](https://github.com/lebrunthibault/Protocol0-Ableton-Surface-Script)
 
 - A stream deck plugin that interfaces with my python control surface script for Ableton
